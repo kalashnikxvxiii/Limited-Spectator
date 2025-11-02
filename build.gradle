@@ -1,0 +1,36 @@
+plugins {
+    id 'net.neoforged.gradle.userdev' version '7.0.167'
+}
+
+base {
+    archivesName = 'LimitedSpectator'
+}
+
+group = 'com.karashi'
+version = '1.21.1-1.0.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    maven { url = "https://maven.neoforged.net/releases" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation "net.neoforged:neoforge:21.1.209"
+}
+
+runs {
+    client {
+        workingDirectory = project.file("run")
+        programArguments.addAll("--username", "DevClient")
+    }
+    server {
+        workingDirectory = project.file("runServer")
+        programArguments.addAll("--nogui")
+    }
+}

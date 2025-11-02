@@ -1,0 +1,25 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+modId="limitedspectator"
+version="1.21-1.0.0"
+displayName="Limited Spectator"
+description="Alternate spectator mode with flight, collisions and invulnerability"
+authors="Karashi"
+side="BOTH"
+
+[[dependencies.limitedspectator]]
+modId="neoforge"
+type="required"
+versionRange="[21.1,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.limitedspectator]]
+modId="minecraft"
+type="required"
+versionRange="[1.21.1,)"
+ordering="NONE"
+side="BOTH"

@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "limited-spectator",
+  "version": "1.0.0",
+  "name": "Limited Spectator",
+  "description": "A mod that allows limited spectator mode, while retaining some features like the HUD and interaction with doors and gates. It blocks dimensions changes and PvP. It has a maximum allowed movement radius in spectator of 75 blocks.",
+  "authors": [
+    "Kala"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/limited-spectator",
+    "issues": "https://github.com/kalashnikxvxiii-collab/Limited-Spectator/issues",
+    "sources": "https://github.com/kalashnikxvxiii-collab/Limited-Spectator"
+  },
+  "license": "MIT",
+  "environment": "both",
+  "depends": {
+    "minecraft": "1.21.1",
+    "neoforge": ">=21.1.0"
+  },
+  "optionalDependencies": {},
+  "icon": "icon.png"
+}
