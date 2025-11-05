@@ -1,6 +1,8 @@
 package com.karashi.limitedspectator.network;
 
 import com.karashi.limitedspectator.SpectatorMod;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,12 +20,13 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class NetworkHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(NetworkHandler.class);
     public static final ResourceLocation HUD_PACKET_ID =
             ResourceLocation.fromNamespaceAndPath(SpectatorMod.MODID, "hud_toggle");
 
     // Packet Registration
     public static void register(RegisterPayloadHandlersEvent event) {
-        System.out.println("[LimitedSpectator] Network packet logging...");
+        LOGGER.info("Registering network packets...");
 
         // Correct method (modid only)
         PayloadRegistrar registrar = event.registrar(SpectatorMod.MODID);
@@ -34,7 +37,7 @@ public class NetworkHandler {
                 SpectatorHudPacket::handle
         );
 
-        System.out.println("[LimitedSpectator] SpectatorHudPacket packet successfully registered.");
+        LOGGER.info("SpectatorHudPacket registered successfully.");
     }
 
     // Customized packet
@@ -70,7 +73,7 @@ public class NetworkHandler {
             ctx.enqueueWork(() -> applyHudHidden(msg.hideHud));
 
             // FOR DEBUGGING
-            // System.out.println("[LimitedSpectator][Client] HUD packet received → HUD " + (msg.hideHud ? "hidden" : "visible"));
+            // LOGGER.debug("HUD packet received → HUD {}", msg.hideHud ? "hidden" : "visible");
         }
 
         @OnlyIn(Dist.CLIENT)

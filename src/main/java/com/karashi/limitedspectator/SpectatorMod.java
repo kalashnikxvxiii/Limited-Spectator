@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import com.karashi.limitedspectator.network.NetworkHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,6 +21,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.chat.Component;
 import net.minecraft.commands.Commands;
 
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -28,30 +31,30 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
 import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 
 @Mod("limitedspectator")
 public class SpectatorMod {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpectatorMod.class);
     private static final double SPECTATOR_MAX_DISTANCE = 75.0; // block limit
     private static final HashMap<UUID, Vec3> spectatorStartPositions = new HashMap<>();
     private static final HashMap<UUID, Boolean> inSpectatorMode = new HashMap<>();
     public static final String MODID = "limitedspectator";
 
-    public SpectatorMod() {
-        System.out.println("[LimitedSpectator] Mod initialized successfully.");
+    public SpectatorMod(IEventBus modBus) {
+        LOGGER.info("Mod initialized successfully.");
         NeoForge.EVENT_BUS.register(this);
+
+        // Register MOD bus events (non-deprecated way for NeoForge 1.21.1+)
+        modBus.addListener(this::onRegisterPayloads);
     }
 
-    @EventBusSubscriber(modid = SpectatorMod.MODID, bus = EventBusSubscriber.Bus.MOD)
-    public class ModEvents {
-        @SubscribeEvent
-        public static void onRegisterPayloads(RegisterPayloadHandlersEvent event) {
-            NetworkHandler.register(event);
-        }
+    private void onRegisterPayloads(RegisterPayloadHandlersEvent event) {
+        NetworkHandler.register(event);
     }
 
+    @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
     public void onCommandRegister(RegisterCommandsEvent event) {
         var dispatcher = event.getDispatcher();
@@ -63,16 +66,12 @@ public class SpectatorMod {
                 try {
                     ServerPlayer player = ctx.getSource().getPlayerOrException();
 
-                    if (player == null) {
-                        ctx.getSource().sendFailure(Component.literal("§cThis command can only be executed by players."));
-                        return 0;
-                    }
-
                     // Debug or control — needed to understand who and where
-                    System.out.println("[LimitedSpectator] Running /spectator command for " + player.getName().getString() 
-                        + " at these coordinates [" 
-                        + String.format("%.1f, %.1f, %.1f", player.getX(), player.getY(), player.getZ()) 
-                        + "]");
+                    LOGGER.info("Running /spectator command for {} at coordinates [{}, {}, {}]",
+                        player.getName().getString(),
+                        String.format("%.1f", player.getX()),
+                        String.format("%.1f", player.getY()),
+                        String.format("%.1f", player.getZ()));
 
                     // Limited spectator mode
                     player.setGameMode(GameType.ADVENTURE);
@@ -84,20 +83,15 @@ public class SpectatorMod {
                     spectatorStartPositions.put(player.getUUID(), player.position());
                     inSpectatorMode.put(player.getUUID(), true);
 
-                    // Hide HUD (added control)
-                    if (player.connection != null && player.server != null) {
-                        NetworkHandler.sendHudState(player, true);
-                    } else {
-                        System.err.println("[LimitedSpectator] ERROR: Null connection or server for " + player.getName().getString());
-                        ctx.getSource().sendFailure(Component.literal("§cUnable to send packet to client at this time."));
-                    }
+                    // Hide HUD
+                    NetworkHandler.sendHudState(player, true);
 
                     ctx.getSource().sendSuccess(() ->
                         Component.literal("§bSPECTATOR §7mode (with collisions) §7activated. Maximum radius: " + SPECTATOR_MAX_DISTANCE + " blocks."), true);
 
                     return 1;
                 } catch (Exception e) {
-                    e.printStackTrace(); // force full log in console
+                    LOGGER.error("Error executing /spectator command", e);
                     ctx.getSource().sendFailure(Component.literal("§cInternal error: " + e));
                     return 0;
                 }
@@ -110,10 +104,6 @@ public class SpectatorMod {
             .executes(ctx -> {
                 try {
                     ServerPlayer player = ctx.getSource().getPlayerOrException();
-                    if (player == null) {
-                        ctx.getSource().sendFailure(Component.literal("§cThis command can only be executed by one player."));
-                        return 0;
-                    }
 
                     // Retrieve saved location if it exists
                     Vec3 startPos = spectatorStartPositions.remove(player.getUUID());
@@ -130,25 +120,21 @@ public class SpectatorMod {
                     player.onUpdateAbilities();
 
                     // Show HUD again
-                    if (player.connection != null && player.server != null) {
-                        NetworkHandler.sendHudState(player, false); // false = show HUD
-                    } else {
-                        System.err.println("[LimitedSpectator] ERROR: Null connection or server for " + player.getName().getString());
-                        ctx.getSource().sendFailure(Component.literal("§cUnable to send packet to client at this time."));
-                    }
+                    NetworkHandler.sendHudState(player, false); // false = show HUD
 
                     player.displayClientMessage(Component.literal("§aSURVIVAL mode activated."), true);
                     return 1;
 
                 } catch (Exception e) {
-                    e.printStackTrace(); // print full error in console
-                    ctx.getSource().sendFailure(Component.literal("§cIInternal error: " + e.getMessage()));
+                    LOGGER.error("Error executing /survival command", e);
+                    ctx.getSource().sendFailure(Component.literal("§cInternal error: " + e.getMessage()));
                     return 0;
                 }
             })
         );
     }
 
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public void onServerTick(ServerTickEvent.Post event) {
         for (ServerLevel level : event.getServer().getAllLevels()) {
@@ -169,6 +155,7 @@ public class SpectatorMod {
     }
 
     // When changing game mode → update skills
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public void onGameModeChange(PlayerEvent.PlayerChangeGameModeEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
@@ -177,11 +164,12 @@ public class SpectatorMod {
         player.onUpdateAbilities();
 
         // FOR DEBUGGING
-        // System.out.println("[LimitedSpectator] Game mode change detected for " + player.getName().getString() +
-        //    ": " + player.gameMode.getGameModeForPlayer());
+        // LOGGER.debug("Game mode change detected for {}: {}", player.getName().getString(),
+        //    player.gameMode.getGameModeForPlayer());
     }
 
     // Block right click on blocks
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (event.getEntity() instanceof ServerPlayer player && player.isSpectator()) {
@@ -190,6 +178,7 @@ public class SpectatorMod {
     }
 
     // Block right click in the air (use items)
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (event.getEntity() instanceof ServerPlayer player && player.isSpectator()) {
@@ -198,6 +187,7 @@ public class SpectatorMod {
     }
 
     // Block left click (attack or break blocks)
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public void onLeftClick(PlayerInteractEvent.LeftClickBlock event) {
         if (event.getEntity() instanceof ServerPlayer player && player.isSpectator()) {
@@ -206,6 +196,7 @@ public class SpectatorMod {
     }
 
     // Returns to survival when you log out
+    @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
     public void onPlayerLogout(net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
@@ -227,10 +218,11 @@ public class SpectatorMod {
             player.onUpdateAbilities();
 
             // FOR DEBUGGING AND CONTROL
-            System.out.println("[LimitedSpectator] " + player.getName().getString() + " left the server. Spectator mode automatically disabled.");
+            LOGGER.info("{} left the server. Spectator mode automatically disabled.", player.getName().getString());
         }
     }
 
+    @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
     public void onPlayerChangeDimension(EntityTravelToDimensionEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
@@ -248,10 +240,11 @@ public class SpectatorMod {
         }
 
         // FOR DEBUGGING
-        // System.out.println("[LimitedSpectator] Player " + player.getName().getString() + " attempted to change dimension while in limited spectator mode.");
+        // LOGGER.debug("Player {} attempted to change dimension while in limited spectator mode", player.getName().getString());
     }
 
     // Handle interactions in limited spectator mode
+    @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
     public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
@@ -266,8 +259,6 @@ public class SpectatorMod {
 
         // Get clicked block
         BlockState state = event.getLevel().getBlockState(event.getPos());
-        if (state == null) return;
-
         Block block = state.getBlock();
 
         // Allow doors, trapdoors and fence gates
@@ -279,11 +270,12 @@ public class SpectatorMod {
         event.setCanceled(true);
 
         // FOR DEBUGGING
-        // System.out.println("[LimitedSpectator] Interaction blocked by " + player.getName().getString() +
-        // " with block " + event.getLevel().getBlockState(event.getPos()).getBlock().getName().getString());
+        // LOGGER.debug("Interaction blocked by {} with block {}", player.getName().getString(),
+        //    event.getLevel().getBlockState(event.getPos()).getBlock().getName().getString());
     }
 
-    // 🔹 Disable PvP and attacks in limited spectator mode
+    // Disable PvP and attacks in limited spectator mode
+    @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
     public void onPlayerAttackEntity(AttackEntityEvent event) {
         Player player = event.getEntity();
@@ -300,11 +292,11 @@ public class SpectatorMod {
             event.setCanceled(true);
 
             // Optional: feedback message for the player (kept in Italian)
-            // serverPlayer.displayClientMessage(Component.literal("§cNon puoi attaccare in modalità spettatore!"), true);
+            // serverPlayer.displayClientMessage(Component.literal("§cYou cannot attack in spectator mode!"), true);
         }
 
         // FOR DEBUG AND CONTROL
-        // System.out.println("[LimitedSpectator] Attack attempted by " + player.getName().getString() +
-        // " in limited spectator mode on " + event.getTarget().getName().getString());
+        // LOGGER.debug("Attack attempted by {} in limited spectator mode on {}", player.getName().getString(),
+        //    event.getTarget().getName().getString());
     }
 }

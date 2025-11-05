@@ -1,6 +1,8 @@
 package com.karashi.limitedspectator.client;
 
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
@@ -23,6 +25,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 @EventBusSubscriber(modid = "limitedspectator", value = Dist.CLIENT)
 public class ClientEventHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClientEventHandler.class);
     private static final Minecraft MC = Minecraft.getInstance();
 
     // Local toggle to temporarily display the HUD with F1
@@ -49,6 +52,7 @@ public class ClientEventHandler {
     }
 
     // Block right click on blocks
+    @SuppressWarnings("deprecation")
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (MC.player == null) return;
@@ -82,6 +86,7 @@ public class ClientEventHandler {
     }
 
     // Block right click in air (use items)
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (MC.player == null) return;
@@ -89,6 +94,7 @@ public class ClientEventHandler {
     }
 
     // Left click block (attack or destroy blocks)
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public static void onMouseClick(InputEvent.InteractionKeyMappingTriggered event) {
         if (MC.player == null) return;
@@ -96,12 +102,13 @@ public class ClientEventHandler {
 
         if (MC.player != null && MC.player.isSpectator()) {
             // FOR DEBUGGING
-            // System.out.println("[LimitedSpectator][Click] Mouse input cancelled for spectator.");
+            // LOGGER.debug("Mouse input cancelled for spectator.");
             event.setCanceled(true);
         }
     }
 
     // Blocks vanilla HUD rendering, but leaves chat and overlay
+    @SuppressWarnings("unused")
     @SubscribeEvent
     public static void onRenderHud(RenderGuiEvent.Pre event) {
         Minecraft mc = Minecraft.getInstance();
@@ -114,10 +121,11 @@ public class ClientEventHandler {
             }
         }
 
-        System.out.println("[LimitedSpectator][Render] Conditional HUD rendering. Status: " + (hudHidden ? "hidden" : "active"));
+        LOGGER.debug("Conditional HUD rendering. Status: {}", hudHidden ? "hidden" : "active");
     }
 
-    // Automatically update HUD when entering/exiting the “fake spectator”
+    // Automatically update HUD when entering/exiting the "fake spectator"
+    @SuppressWarnings("deprecation")
     @SubscribeEvent
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
@@ -162,9 +170,9 @@ public class ClientEventHandler {
 
         // FOR DEBUGGING
         /* if (hudHidden) {
-            System.out.println("[LimitedSpectator][HUD] Hidden HUD in limited spectator mode.");
+            LOGGER.debug("Hidden HUD in limited spectator mode.");
         } else {
-            System.out.println("[LimitedSpectator][HUD] HUD visible or normal mode.");
+            LOGGER.debug("HUD visible or normal mode.");
         } */
     }
 }
