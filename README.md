@@ -12,7 +12,7 @@ Unlike the vanilla spectator mode, this version allows to press F1 to show HUD a
 
 Perfect for:
 
-• SMP servers;
+• SMP;
 
 • Builders who want visual observation without full spectator privileges.
 
