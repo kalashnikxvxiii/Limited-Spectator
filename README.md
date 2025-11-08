@@ -104,7 +104,7 @@ All restrictions are handled server-side for secure multiplayer behavior.
 
 • Install NeoForge 21.1.0+
 
-• Place limitedspectator-1.21.1-1.0.0.jar into your mods/ folder
+• Place limitedspectator-1.21.1-1.0.2.jar into your mods/ folder
 
 • Launch Minecraft normally
 

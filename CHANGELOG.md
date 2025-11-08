@@ -5,41 +5,26 @@ All notable changes to the Limited Spectator mod will be documented in this file
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.1] - 2025-11-05
 
-### Changed
-- Updated mod initialization to use `IEventBus` parameter in constructor instead of deprecated `@EventBusSubscriber(bus = ...)` annotation
-- Modernized event registration for NeoForge 1.21.1+ compatibility
-- Replaced all `System.out.println()` and `System.err.println()` calls with proper SLF4J logging
-- Replaced `printStackTrace()` calls with `LOGGER.error()` with exception parameter for better error tracking
-- **Updated NeoForge from 21.1.209 to 21.1.213** for bug fixes and security improvements
+
+## [1.0.2] - 2025-11-08
 
 ### Fixed
-- Suppressed IDE warnings for event handler methods that are called via reflection
-- Suppressed deprecation warnings for `mayfly` ability field (awaiting NeoForge API replacement)
-- Removed redundant null check in `/survival` command after `getPlayerOrException()` call
-- Removed always-true condition checking `player.connection != null && player.server != null` in `/survival` command
-- Removed always-false null check for `BlockState` in `onPlayerRightClickBlock` event handler
+- Fixed critical bug where items would disappear from inventory when attempting to drop them in spectator mode
+  - Items are now properly returned to the player's inventory when drop is blocked
+  - Resolved issue with `ItemTossEvent` that removed items before the event could be cancelled
+- Improved item handling to prevent item duplication or loss
 
-### Security
-- **Resolved CVE-2025-24970** (Netty vulnerability, Score 7.5) by forcing Netty upgrade to 4.1.118.Final
-- Added dependency resolution strategy in build.gradle to force Netty 4.1.118.Final (from transitive 4.1.97.Final)
-- Netty handler vulnerability that could cause native crash with malformed SSL packets has been fully patched
-- **Resolved CVE-2025-48924** (Apache Commons Lang3 vulnerability, Score 5.3) by forcing upgrade to 3.18.0
-- Fixed uncontrolled recursion vulnerability in ClassUtils.getClass() that could cause StackOverflowError with very long inputs
-- Upgraded from Commons Lang3 3.14.0 to 3.18.0 (from transitive dependency)
+### Added
+- Server-side event handler for blocking item pickup (`ItemEntityPickupEvent.Pre`)
+- Server-side event handler for blocking item dropping with proper inventory restoration (`ItemTossEvent`)
+- Enhanced inventory protection in limited spectator mode
 
-### Technical
-- Removed deprecated `@EventBusSubscriber` with `bus` parameter
-- Replaced inner `ModEvents` class with direct `IEventBus.addListener()` registration
-- Added `@SuppressWarnings("unused")` to all event handler methods in `SpectatorMod` and `ClientEventHandler`
-- Added `@SuppressWarnings("deprecation")` to methods using deprecated `mayfly` ability field
-- Added SLF4J `Logger` instances to `SpectatorMod`, `NetworkHandler`, and `ClientEventHandler` classes
-- Converted console output to proper log levels: `LOGGER.info()`, `LOGGER.error()`, and `LOGGER.debug()`
-- Updated commented debug statements to use SLF4J logger with parameterized messages
-- Added Gradle dependency resolution strategy to force specific dependency versions:
-  - Netty 4.1.118.Final (handler, common, buffer, transport, codec)
-  - Apache Commons Lang3 3.18.0
+### Changed
+- Item drop blocking now uses smart inventory restoration to prevent item loss
+- Item pickup blocking uses `TriState.FALSE` for proper NeoForge 1.21.1+ compatibility
+- Updated `build.gradle` to use `configurations.configureEach` instead of deprecated `configurations.all` for better performance
+- Replaced deprecated `programArguments` with `getArguments()` in run configurations (NeoGradle 7.0+ compatibility)
 
 ## [1.0.0] - 2025-11-02
 
@@ -65,6 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - All restrictions enforced server-side for multiplayer security
 - Compatible with Minecraft 1.21.1 and NeoForge 21.1.0+
 
-[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.1...HEAD
+[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/releases/tag/v1.0.0

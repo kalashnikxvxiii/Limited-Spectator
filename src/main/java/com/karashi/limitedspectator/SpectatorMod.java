@@ -24,11 +24,14 @@ import net.minecraft.commands.Commands;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.common.util.TriState;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.entity.player.AttackEntityEvent;
+import net.neoforged.neoforge.event.entity.player.ItemEntityPickupEvent;
+import net.neoforged.neoforge.event.entity.item.ItemTossEvent;
 import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.fml.common.Mod;
@@ -298,5 +301,59 @@ public class SpectatorMod {
         // FOR DEBUG AND CONTROL
         // LOGGER.debug("Attack attempted by {} in limited spectator mode on {}", player.getName().getString(),
         //    event.getTarget().getName().getString());
+    }
+
+    // Block item dropping in limited spectator mode
+    @SuppressWarnings({"unused", "deprecation"})
+    @SubscribeEvent
+    public void onItemToss(ItemTossEvent event) {
+        Player player = event.getPlayer();
+        if (!(player instanceof ServerPlayer serverPlayer)) return;
+
+        // Check if player is in limited spectator mode
+        boolean isLimitedSpectator =
+                serverPlayer.gameMode.getGameModeForPlayer() == GameType.ADVENTURE &&
+                serverPlayer.getAbilities().mayfly &&
+                !serverPlayer.isCreative();
+
+        if (isLimitedSpectator) {
+            // Cancel the event to prevent item from entering the world
+            event.setCanceled(true);
+
+            // Return the item to the player's inventory
+            // (The item was already removed from inventory before this event fires)
+            serverPlayer.addItem(event.getEntity().getItem().copy());
+
+            // Optional: feedback message for the player
+            // serverPlayer.displayClientMessage(Component.literal("§cYou cannot drop items in spectator mode!"), true);
+        }
+
+        // FOR DEBUG AND CONTROL
+        // LOGGER.debug("Item drop attempted by {} in limited spectator mode", player.getName().getString());
+    }
+
+    // Block item pickup in limited spectator mode
+    @SuppressWarnings({"unused", "deprecation"})
+    @SubscribeEvent
+    public void onItemPickup(ItemEntityPickupEvent.Pre event) {
+        Player player = event.getPlayer();
+        if (!(player instanceof ServerPlayer serverPlayer)) return;
+
+        // Check if player is in limited spectator mode
+        boolean isLimitedSpectator =
+                serverPlayer.gameMode.getGameModeForPlayer() == GameType.ADVENTURE &&
+                serverPlayer.getAbilities().mayfly &&
+                !serverPlayer.isCreative();
+
+        if (isLimitedSpectator) {
+            // Completely block item pickup
+            event.setCanPickup(TriState.FALSE);
+
+            // Optional: feedback message for the player
+            // serverPlayer.displayClientMessage(Component.literal("§cYou cannot pick up items in spectator mode!"), true);
+        }
+
+        // FOR DEBUG AND CONTROL
+        // LOGGER.debug("Item pickup attempted by {} in limited spectator mode", player.getName().getString());
     }
 }

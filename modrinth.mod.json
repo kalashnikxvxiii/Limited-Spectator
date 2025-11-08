@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "limited-spectator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "name": "Limited Spectator",
   "description": "A mod that allows limited spectator mode, while retaining some features like the HUD and interaction with doors and gates. It blocks dimensions changes and PvP. It has a maximum allowed movement radius in spectator of 75 blocks.",
   "authors": [
