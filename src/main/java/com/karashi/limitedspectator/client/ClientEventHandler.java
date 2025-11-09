@@ -9,9 +9,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 import net.minecraft.world.level.GameType;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.FenceGateBlock;
-import net.minecraft.world.level.block.TrapDoorBlock;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -46,8 +43,12 @@ public class ClientEventHandler {
         prevHideGuiDown = false;
 
         if (MC != null && MC.options != null) {
-            // We set hideGui based on the actual state (default hidden when hidden=true)
-            MC.options.hideGui = hidden && !hudForceVisible;
+            // Only set hideGui if auto_hide_hud is enabled in config
+            if (com.karashi.limitedspectator.ModConfig.autoHideHud) {
+                // We set hideGui based on the actual state (default hidden when hidden=true)
+                MC.options.hideGui = hidden && !hudForceVisible;
+            }
+            // If auto_hide_hud is false, don't touch hideGui - let vanilla F1 control it
         }
     }
 
@@ -74,11 +75,13 @@ public class ClientEventHandler {
 
         // Block type
         var block = state.getBlock();
-        var blockName = block.getDescriptionId();
 
-        // Allow doors, trapdoors and gates
-        if (block instanceof DoorBlock || block instanceof TrapDoorBlock || block instanceof FenceGateBlock) {
-            return;
+        // Get block ID for comparison with config list
+        String blockId = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block).toString();
+
+        // Check if block is in the interactable list from config
+        if (com.karashi.limitedspectator.ModConfig.interactableBlocks.contains(blockId)) {
+            return; // Allow interaction
         }
 
         // Everything else is blocked
@@ -138,35 +141,54 @@ public class ClientEventHandler {
                 mc.player.getAbilities().mayfly &&
                 !mc.player.isCreative();
 
-        // --- F1 Toggle Management (Hide GUI) ---
-        boolean currentlyDown = InputConstants.isKeyDown(
-                Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F1
-        );
+        // --- HUD Management Logic ---
+        // Only manage HUD if auto_hide_hud is enabled
+        if (com.karashi.limitedspectator.ModConfig.autoHideHud) {
+            // --- F1 Toggle Management (Hide GUI) ---
+            if (com.karashi.limitedspectator.ModConfig.allowF1HudToggle && isFakeSpectator) {
+                boolean currentlyDown = InputConstants.isKeyDown(
+                        Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F1
+                );
 
-        if (currentlyDown && !prevHideGuiDown) {
-            hudForceVisible = !hudForceVisible;
-        }
-        prevHideGuiDown = currentlyDown;
-        // --- Fine toggle F1 ---
+                if (currentlyDown && !prevHideGuiDown) {
+                    hudForceVisible = !hudForceVisible;
+                }
+                prevHideGuiDown = currentlyDown;
+            } else {
+                // If F1 toggle is not allowed, reset the force visible flag
+                if (!com.karashi.limitedspectator.ModConfig.allowF1HudToggle) {
+                    hudForceVisible = false;
+                    prevHideGuiDown = false;
+                }
+            }
+            // --- End F1 Toggle ---
 
-        // Local auto-sync (in case of packet loss or client reload)
-        if (isFakeSpectator && !hudHidden) {
-            hudHidden = true;
-        } else if (!isFakeSpectator && hudHidden) {
-            // when you exit fake spectator mode, it also resets the forced toggle
-            hudForceVisible = false;
-            mc.options.hideGui = false;
-            hudHidden = false;
-        }
+            // Local auto-sync (in case of packet loss or client reload)
+            if (isFakeSpectator && !hudHidden) {
+                hudHidden = true;
+            } else if (!isFakeSpectator && hudHidden) {
+                // when you exit fake spectator mode, reset everything
+                hudForceVisible = false;
+                mc.options.hideGui = false;
+                hudHidden = false;
+            }
 
-        // --- Apply Actual Status ---
-        // Only in limited spectator mode do we force HUD visibility
-        if (isFakeSpectator) {
-            boolean effectiveHidden = hudHidden && !hudForceVisible;
-            mc.options.hideGui = effectiveHidden;
+            // --- Apply Actual Status ---
+            // Only in limited spectator mode do we force HUD visibility
+            if (isFakeSpectator) {
+                boolean effectiveHidden = hudHidden && !hudForceVisible;
+                mc.options.hideGui = effectiveHidden;
+            }
+        } else {
+            // auto_hide_hud is FALSE - don't manage HUD at all, let vanilla F1 work
+            // Reset our tracking variables
+            if (hudHidden) {
+                hudHidden = false;
+                hudForceVisible = false;
+                prevHideGuiDown = false;
+            }
+            // Don't touch mc.options.hideGui - let vanilla behavior control it
         }
-        // In other modes let F1 (vanilla) control the HUD normally
-        // We don't touch hideGui: the player can use F1 freely
 
         // FOR DEBUGGING
         /* if (hudHidden) {
