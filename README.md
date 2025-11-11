@@ -150,6 +150,7 @@ You may use, modify, and distribute this mod freely, provided that attribution i
 | Platform     | Link                                                                                             |
 | ------------ | ------------------------------------------------------------------------------------------------ |
 | **Modrinth** | [Limited Spectator on Modrinth](https://modrinth.com/mod/limited-spectator)                      |
+| **CurseForge** | [Limited Spectator on CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/limited-spectator)                      |
 | **GitHub**   | [GitHub Repository](https://github.com/kalashnikxvxiii-collab/Limited-Spectator)                 |
 | **Issues**   | [Report Bugs / Suggestions](https://github.com/kalashnikxvxiii-collab/Limited-Spectator/issues)  |
 
