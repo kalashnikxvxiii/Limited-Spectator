@@ -49,6 +49,15 @@ public class SpectatorMod {
     private static final HashMap<UUID, Boolean> inSpectatorMode = new HashMap<>();
     public static final String MODID = "limitedspectator";
 
+    /**
+     * Public API method for Mixins to check if a player is in limited spectator mode.
+     * @param playerUUID The player's UUID
+     * @return true if the player is in limited spectator mode
+     */
+    public static boolean isInLimitedSpectatorMode(UUID playerUUID) {
+        return inSpectatorMode.getOrDefault(playerUUID, false);
+    }
+
     public SpectatorMod(IEventBus modBus, ModContainer modContainer) {
         LOGGER.info("Mod initialized successfully.");
         NeoForge.EVENT_BUS.register(this);
@@ -101,36 +110,18 @@ public class SpectatorMod {
                     // Set abilities based on config
                     if (com.karashi.limitedspectator.ModConfig.enableFlight) {
                         player.getAbilities().mayfly = true;
-                        if (com.karashi.limitedspectator.ModConfig.autoStartFlying) {
-                            player.getAbilities().flying = true;
-                        }
                     }
                     player.getAbilities().invulnerable = com.karashi.limitedspectator.ModConfig.enableInvulnerability;
 
-                    // Enable building if block breaking or placing is allowed
-                    // ADVENTURE mode sets mayBuild=false by default, which blocks all building
-                    if (targetMode == GameType.ADVENTURE) {
-                        player.getAbilities().mayBuild = com.karashi.limitedspectator.ModConfig.allowBlockBreaking
-                            || com.karashi.limitedspectator.ModConfig.allowBlockPlacing;
-                    }
-
                     player.onUpdateAbilities();
-
-                    // Force sync abilities packet to client to ensure flying state is applied immediately
-                    if (com.karashi.limitedspectator.ModConfig.autoStartFlying && com.karashi.limitedspectator.ModConfig.enableFlight) {
-                        // Send abilities update packet to ensure client sees flying=true
-                        player.connection.send(new net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket(player.getAbilities()));
-                    }
 
                     // Save start position and dimension
                     spectatorStartPositions.put(player.getUUID(), player.position());
                     spectatorStartDimensions.put(player.getUUID(), player.level().dimension());
                     inSpectatorMode.put(player.getUUID(), true);
 
-                    // Hide HUD if configured
-                    if (com.karashi.limitedspectator.ModConfig.autoHideHud) {
-                        NetworkHandler.sendHudState(player, true);
-                    }
+                    // Hide HUD (always enabled, F1 can toggle temporarily)
+                    NetworkHandler.sendHudState(player, true);
 
                     // Build and send message
                     String distanceInfo = com.karashi.limitedspectator.ModConfig.maxDistance > 0
@@ -271,49 +262,33 @@ public class SpectatorMod {
         //    player.gameMode.getGameModeForPlayer());
     }
 
-    // Block left click (break blocks) - handled with config
-    @SuppressWarnings("unused")
+    // Block breaking and placing are always disabled in ADVENTURE mode
+    // No event handlers needed - ADVENTURE mode blocks these actions natively
+
+    // Handle right-click for block interactions
+    @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
-    public void onLeftClick(PlayerInteractEvent.LeftClickBlock event) {
+    public void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
         // Check if player is in limited spectator mode
-        if (inSpectatorMode.getOrDefault(player.getUUID(), false)) {
-            // Check config - if block breaking is not allowed, cancel event
-            if (!com.karashi.limitedspectator.ModConfig.allowBlockBreaking) {
-                event.setCanceled(true);
-            }
+        if (!inSpectatorMode.getOrDefault(player.getUUID(), false)) return;
+
+        // Get clicked block
+        BlockState state = event.getLevel().getBlockState(event.getPos());
+        Block block = state.getBlock();
+        String blockId = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block).toString();
+
+        // Check if block is in the interactable whitelist
+        if (com.karashi.limitedspectator.ModConfig.interactableBlocks.contains(blockId)) {
+            return; // Allow interaction with whitelisted blocks
         }
-    }
 
-    // Block placing in spectator mode
-    @SuppressWarnings("unused")
-    @SubscribeEvent
-    public void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
+        // Block all other interactions
+        event.setCanceled(true);
 
-        // Check if player is in limited spectator mode
-        if (inSpectatorMode.getOrDefault(player.getUUID(), false)) {
-            // Check config - if block placing is not allowed, cancel event
-            if (!com.karashi.limitedspectator.ModConfig.allowBlockPlacing) {
-                event.setCanceled(true);
-            }
-        }
-    }
-
-    // Block breaking in spectator mode
-    @SuppressWarnings("unused")
-    @SubscribeEvent
-    public void onBlockBreak(BlockEvent.BreakEvent event) {
-        if (!(event.getPlayer() instanceof ServerPlayer player)) return;
-
-        // Check if player is in limited spectator mode
-        if (inSpectatorMode.getOrDefault(player.getUUID(), false)) {
-            // Check config - if block breaking is not allowed, cancel event
-            if (!com.karashi.limitedspectator.ModConfig.allowBlockBreaking) {
-                event.setCanceled(true);
-            }
-        }
+        // FOR DEBUGGING
+        // LOGGER.debug("Interaction blocked by {} with block {}", player.getName().getString(), blockId);
     }
 
     // Returns to survival when you log out
@@ -370,35 +345,8 @@ public class SpectatorMod {
         // LOGGER.debug("Player {} attempted to change dimension while in limited spectator mode", player.getName().getString());
     }
 
-    // Handle interactions in limited spectator mode
-    @SuppressWarnings({"unused", "deprecation"})
-    @SubscribeEvent
-    public void onPlayerRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
-        if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
-        // Check if the player is in limited spectator mode using tracking map
-        if (!inSpectatorMode.getOrDefault(player.getUUID(), false)) return;
-
-        // Get clicked block
-        BlockState state = event.getLevel().getBlockState(event.getPos());
-        Block block = state.getBlock();
-
-        // Get block ID for comparison with config list
-        String blockId = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block).toString();
-
-        // Check if block is in the interactable list
-        if (com.karashi.limitedspectator.ModConfig.interactableBlocks.contains(blockId)) {
-            return; // Allow interaction
-        }
-
-        // Everything else blocked
-        event.setCanceled(true);
-
-        // FOR DEBUGGING
-        // LOGGER.debug("Interaction blocked by {} with block {}", player.getName().getString(), blockId);
-    }
-
-    // Disable PvP and attacks in limited spectator mode
+    // Disable attacks in limited spectator mode (except PvP if configured)
     @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
     public void onPlayerAttackEntity(AttackEntityEvent event) {
@@ -408,23 +356,17 @@ public class SpectatorMod {
         // Check if player is in limited spectator mode using tracking map
         if (!inSpectatorMode.getOrDefault(serverPlayer.getUUID(), false)) return;
 
-        // Check if target is a player (PvP) or mob
+        // Check if target is a player (PvP)
         boolean isTargetPlayer = event.getTarget() instanceof Player;
 
         if (isTargetPlayer) {
             // PvP attack - check config
             if (!com.karashi.limitedspectator.ModConfig.allowPvp) {
                 event.setCanceled(true);
-                // Optional: feedback message
-                // serverPlayer.displayClientMessage(Component.literal("§cYou cannot attack players in spectator mode!"), true);
             }
         } else {
-            // Mob attack - check config
-            if (!com.karashi.limitedspectator.ModConfig.allowMobAttacks) {
-                event.setCanceled(true);
-                // Optional: feedback message
-                // serverPlayer.displayClientMessage(Component.literal("§cYou cannot attack mobs in spectator mode!"), true);
-            }
+            // Mob/entity attack - always blocked (mobs don't counterattack due to mayfly=true)
+            event.setCanceled(true);
         }
 
         // FOR DEBUG AND CONTROL
@@ -482,24 +424,70 @@ public class SpectatorMod {
         // LOGGER.debug("Item pickup attempted by {} in limited spectator mode", player.getName().getString());
     }
 
-    // Handle damage when invulnerability is disabled
-    @SuppressWarnings("unused")
+    // Block inventory crafting in limited spectator mode
+    @SuppressWarnings({"unused", "deprecation"})
     @SubscribeEvent
-    public void onLivingDamage(LivingIncomingDamageEvent event) {
+    public void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
 
-        // Check if player is in limited spectator mode
+        // Check if player is in limited spectator mode using tracking map
         if (!inSpectatorMode.getOrDefault(player.getUUID(), false)) return;
 
-        // If invulnerability is enabled in config, keep the default behavior (no damage)
-        // If invulnerability is disabled, we need to allow damage through
-        if (!com.karashi.limitedspectator.ModConfig.enableInvulnerability) {
-            // Remove invulnerability flag temporarily to allow damage
-            // The abilities.invulnerable flag prevents damage, but we want to allow it
-            // Note: abilities.invulnerable is already set to false in /spectator command when config is false
-            // This handler ensures damage is processed correctly
-            return; // Allow the damage event to proceed
+        // Check config
+        if (!com.karashi.limitedspectator.ModConfig.allowInventoryCrafting) {
+            // ItemCraftedEvent is not cancellable, so we need to:
+            // 1. Save the ingredients from the crafting slots (before they're cleared)
+            // 2. Remove the crafted item
+            // 3. Restore the ingredients to the player
+
+            net.minecraft.world.item.ItemStack craftedItem = event.getCrafting().copy();
+            net.minecraft.world.Container craftingInventory = event.getInventory();
+
+            // Save all ingredients from the crafting container
+            // The event fires before ingredients are consumed, so we save them as-is
+            java.util.List<net.minecraft.world.item.ItemStack> ingredients = new java.util.ArrayList<>();
+
+            for (int i = 0; i < craftingInventory.getContainerSize(); i++) {
+                net.minecraft.world.item.ItemStack stack = craftingInventory.getItem(i);
+                if (!stack.isEmpty()) {
+                    // Copy the ingredient exactly as it is (no need to grow)
+                    net.minecraft.world.item.ItemStack ingredient = stack.copy();
+                    ingredients.add(ingredient);
+                }
+            }
+
+            // Remove the crafted item from player's cursor immediately
+            player.containerMenu.setCarried(net.minecraft.world.item.ItemStack.EMPTY);
+
+            // CRITICAL: Clear the crafting container to prevent duplication
+            // This removes any remaining items from the crafting grid
+            for (int i = 0; i < craftingInventory.getContainerSize(); i++) {
+                craftingInventory.setItem(i, net.minecraft.world.item.ItemStack.EMPTY);
+            }
+
+            // Restore ingredients to player's inventory
+            for (net.minecraft.world.item.ItemStack ingredient : ingredients) {
+                if (!ingredient.isEmpty()) {
+                    // addItem returns true if the item was fully added, false otherwise
+                    boolean added = player.addItem(ingredient);
+                    if (!added) {
+                        // If inventory is full, drop the item on the ground
+                        player.drop(ingredient, false);
+                    }
+                }
+            }
+
+            // Sync inventory to client
+            player.containerMenu.broadcastChanges();
+
+            // Feedback message for the player
+            player.displayClientMessage(
+                Component.literal("You cannot craft items in spectator mode!").withStyle(ChatFormatting.RED),
+                com.karashi.limitedspectator.ModConfig.useActionBarMessages
+            );
         }
-        // If invulnerability is enabled, the abilities.invulnerable=true will handle blocking damage
+
+        // FOR DEBUG AND CONTROL
+        // LOGGER.debug("Crafting attempted by {} in limited spectator mode", player.getName().getString());
     }
 }

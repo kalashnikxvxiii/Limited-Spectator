@@ -177,9 +177,9 @@ Before submitting a PR, test the following scenarios:
 Test with various config combinations:
 - [ ] `max_distance = -1` (disabled)
 - [ ] `allow_dimension_travel = true`
-- [ ] `auto_hide_hud = false`
-- [ ] `allow_f1_hud_toggle = false`
+- [ ] `enable_invulnerability = false` (other damage types only, fall damage always prevented)
 - [ ] Custom `interactable_blocks` list
+- [ ] `allow_inventory_crafting = true`
 
 ### Testing Checklist
 
@@ -274,26 +274,26 @@ fix(teleport): Correctly restore dimension on /survival
 docs(readme): Update installation instructions
 ```
 
-## 🐛 Known Issues
+## 🐛 Known Limitations (Resolved)
 
-Contributors are welcome to help solve these known limitations:
+The following were initially considered "issues" but are now documented as **Minecraft engine limitations** (not bugs):
 
-### High Priority
-1. **Fall damage with invulnerability=false**: Players with `mayfly=true` in ADVENTURE mode don't receive fall damage even when `enable_invulnerability=false`. This appears to be a Minecraft core behavior.
+### Minecraft Core Behavior (Cannot Be Changed)
+1. **Fall Damage**: Always prevented when `mayfly=true` - Minecraft engine behavior. Config option `enable_invulnerability` retained for other damage types (mobs, lava, fire, etc.).
 
-2. **Auto-start flying**: Setting `auto_start_flying=true` doesn't immediately put the player in flying mode; they must double-tap space. May require client-side packet handling or tick delay.
+2. **Auto-Start Flying**: Players must double-tap spacebar - ADVENTURE mode limitation. Config option removed.
 
-3. **Block breaking/placing in ADVENTURE mode**: Even with `mayBuild=true`, block interactions may not work as expected due to ADVENTURE mode restrictions. May require custom event handling or switching to SPECTATOR mode.
+3. **Block Breaking/Placing**: Always blocked in ADVENTURE mode at GameMode level. Config options removed.
 
-### Medium Priority
-4. **HUD edge cases**:
-   - `auto_hide_hud=false` + `allow_f1_hud_toggle=false`: F1 still works (vanilla behavior)
-   - `auto_hide_hud=true` + `allow_f1_hud_toggle=false`: Brief HUD flash on mode entry
+4. **HUD Behavior**: Hard-coded to auto-hide with F1 toggle for consistent UX. Config options removed.
 
-### Investigation Needed
-- Cross-dimension spectator state persistence
-- Integration with third-party permission plugins
-- Client-server desync scenarios
+5. **Mob Attacks**: Always blocked (mobs don't target `mayfly` players anyway). Config option removed.
+
+### Areas for Contribution
+- Cross-dimension spectator state persistence across server restarts
+- Integration with third-party permission plugins (LuckPerms, FTB Chunks)
+- Spectator time limits (max duration in spectator mode)
+- Particle effects or visual boundaries for distance limits
 
 ## 📚 Resources
 

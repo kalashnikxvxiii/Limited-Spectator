@@ -18,26 +18,19 @@ public class ModConfig {
     // ========== PLAYER ABILITIES ==========
     public static final ModConfigSpec.BooleanValue ENABLE_INVULNERABILITY;
     public static final ModConfigSpec.BooleanValue ENABLE_FLIGHT;
-    public static final ModConfigSpec.BooleanValue AUTO_START_FLYING;
     public static final ModConfigSpec.ConfigValue<String> SPECTATOR_GAMEMODE;
 
     // ========== INTERACTIONS ==========
     public static final ModConfigSpec.BooleanValue ALLOW_PVP;
-    public static final ModConfigSpec.BooleanValue ALLOW_MOB_ATTACKS;
     public static final ModConfigSpec.BooleanValue ALLOW_ITEM_DROP;
     public static final ModConfigSpec.BooleanValue ALLOW_ITEM_PICKUP;
-    public static final ModConfigSpec.BooleanValue ALLOW_BLOCK_BREAKING;
-    public static final ModConfigSpec.BooleanValue ALLOW_BLOCK_PLACING;
+    public static final ModConfigSpec.BooleanValue ALLOW_INVENTORY_CRAFTING;
     public static final ModConfigSpec.ConfigValue<List<? extends String>> INTERACTABLE_BLOCKS;
 
     // ========== PERMISSIONS ==========
     public static final ModConfigSpec.IntValue SPECTATOR_COMMAND_PERMISSION_LEVEL;
     public static final ModConfigSpec.IntValue SURVIVAL_COMMAND_PERMISSION_LEVEL;
     public static final ModConfigSpec.BooleanValue REQUIRE_OP_FOR_SPECTATOR;
-
-    // ========== CLIENT/HUD SETTINGS ==========
-    public static final ModConfigSpec.BooleanValue AUTO_HIDE_HUD;
-    public static final ModConfigSpec.BooleanValue ALLOW_F1_HUD_TOGGLE;
 
     // ========== MESSAGES ==========
     public static final ModConfigSpec.BooleanValue USE_ACTION_BAR_MESSAGES;
@@ -78,17 +71,15 @@ public class ModConfig {
                 .push("player_abilities");
 
         ENABLE_INVULNERABILITY = BUILDER
-                .comment("Make players invulnerable while in spectator mode")
+                .comment("Make players invulnerable in spectator mode")
+                .comment("Protects against mob attacks and environmental damage (lava, cacti, etc.)")
+                .comment("Note: Fall damage is prevented by Minecraft when mayfly=true, regardless of this setting")
                 .define("enable_invulnerability", true);
 
         ENABLE_FLIGHT = BUILDER
                 .comment("Allow players to fly in spectator mode")
+                .comment("Players must double-press spacebar to start flying")
                 .define("enable_flight", true);
-
-        AUTO_START_FLYING = BUILDER
-                .comment("Automatically start flying when entering spectator mode")
-                .comment("Requires 'enable_flight' to be true")
-                .define("auto_start_flying", true);
 
         SPECTATOR_GAMEMODE = BUILDER
                 .comment("GameMode to use for spectator mode")
@@ -108,10 +99,6 @@ public class ModConfig {
                 .comment("Allow players to attack other players while in spectator mode")
                 .define("allow_pvp", false);
 
-        ALLOW_MOB_ATTACKS = BUILDER
-                .comment("Allow players to attack mobs while in spectator mode")
-                .define("allow_mob_attacks", false);
-
         ALLOW_ITEM_DROP = BUILDER
                 .comment("Allow players to drop items while in spectator mode")
                 .define("allow_item_drop", false);
@@ -120,13 +107,9 @@ public class ModConfig {
                 .comment("Allow players to pick up items while in spectator mode")
                 .define("allow_item_pickup", false);
 
-        ALLOW_BLOCK_BREAKING = BUILDER
-                .comment("Allow players to break blocks while in spectator mode")
-                .define("allow_block_breaking", false);
-
-        ALLOW_BLOCK_PLACING = BUILDER
-                .comment("Allow players to place blocks while in spectator mode")
-                .define("allow_block_placing", false);
+        ALLOW_INVENTORY_CRAFTING = BUILDER
+                .comment("Allow players to use inventory crafting (2x2 grid) while in spectator mode")
+                .define("allow_inventory_crafting", false);
 
         INTERACTABLE_BLOCKS = BUILDER
                 .comment("List of blocks that players CAN interact with in spectator mode")
@@ -196,22 +179,6 @@ public class ModConfig {
 
         BUILDER.pop();
 
-        // ========== CLIENT/HUD SETTINGS ==========
-        BUILDER.comment("==============================================")
-                .comment("  Client & HUD Settings")
-                .comment("==============================================")
-                .push("client_hud");
-
-        AUTO_HIDE_HUD = BUILDER
-                .comment("Automatically hide the HUD when entering spectator mode")
-                .define("auto_hide_hud", true);
-
-        ALLOW_F1_HUD_TOGGLE = BUILDER
-                .comment("Allow players to temporarily show HUD with F1 key")
-                .define("allow_f1_hud_toggle", true);
-
-        BUILDER.pop();
-
         // ========== MESSAGES ==========
         BUILDER.comment("==============================================")
                 .comment("  Message Settings")
@@ -238,20 +205,15 @@ public class ModConfig {
     public static boolean resetPositionOnLogout;
     public static boolean enableInvulnerability;
     public static boolean enableFlight;
-    public static boolean autoStartFlying;
     public static String spectatorGamemode;
     public static boolean allowPvp;
-    public static boolean allowMobAttacks;
     public static boolean allowItemDrop;
     public static boolean allowItemPickup;
-    public static boolean allowBlockBreaking;
-    public static boolean allowBlockPlacing;
+    public static boolean allowInventoryCrafting;
     public static List<? extends String> interactableBlocks;
     public static int spectatorCommandPermissionLevel;
     public static int survivalCommandPermissionLevel;
     public static boolean requireOpForSpectator;
-    public static boolean autoHideHud;
-    public static boolean allowF1HudToggle;
     public static boolean useActionBarMessages;
     public static boolean showDistanceWarnings;
 
@@ -263,20 +225,15 @@ public class ModConfig {
         resetPositionOnLogout = RESET_POSITION_ON_LOGOUT.get();
         enableInvulnerability = ENABLE_INVULNERABILITY.get();
         enableFlight = ENABLE_FLIGHT.get();
-        autoStartFlying = AUTO_START_FLYING.get();
         spectatorGamemode = SPECTATOR_GAMEMODE.get();
         allowPvp = ALLOW_PVP.get();
-        allowMobAttacks = ALLOW_MOB_ATTACKS.get();
         allowItemDrop = ALLOW_ITEM_DROP.get();
         allowItemPickup = ALLOW_ITEM_PICKUP.get();
-        allowBlockBreaking = ALLOW_BLOCK_BREAKING.get();
-        allowBlockPlacing = ALLOW_BLOCK_PLACING.get();
+        allowInventoryCrafting = ALLOW_INVENTORY_CRAFTING.get();
         interactableBlocks = INTERACTABLE_BLOCKS.get();
         spectatorCommandPermissionLevel = SPECTATOR_COMMAND_PERMISSION_LEVEL.get();
         survivalCommandPermissionLevel = SURVIVAL_COMMAND_PERMISSION_LEVEL.get();
         requireOpForSpectator = REQUIRE_OP_FOR_SPECTATOR.get();
-        autoHideHud = AUTO_HIDE_HUD.get();
-        allowF1HudToggle = ALLOW_F1_HUD_TOGGLE.get();
         useActionBarMessages = USE_ACTION_BAR_MESSAGES.get();
         showDistanceWarnings = SHOW_DISTANCE_WARNINGS.get();
     }

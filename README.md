@@ -45,10 +45,10 @@ Configure whether players can switch dimensions (Nether, End, etc.) while in spe
 Automatic position reset when exceeding distance limits or executing `/survival` command.
 
 ✅ **Flight Capability**
-Players in spectator mode can fly by double-pressing the space bar (configurable auto-start).
+Players in spectator mode can fly by double-pressing the space bar.
 
 ✅ **Combat & Interaction Restrictions**
-Individually toggle PvP, mob attacks, item drop/pickup, and block breaking/placing.
+Individually toggle PvP, mob attacks, item drop/pickup, and inventory crafting.
 
 ✅ **Hot-Reloadable Configuration**
 All settings can be changed in `config/limitedspectator-common.toml` and reloaded with `/reload` command.
@@ -99,28 +99,27 @@ Limited Spectator features a comprehensive configuration system. On first launch
 - `reset_position_on_logout` - Reset position on logout to prevent abuse (default: true)
 
 #### 🎮 Player Abilities
-- `enable_invulnerability` - Make players invulnerable in spectator mode (default: true)
+- `enable_invulnerability` - Make players invulnerable (protects from mobs and environmental damage, not fall damage) (default: true)
 - `enable_flight` - Allow flight in spectator mode (default: true)
-- `auto_start_flying` - Automatically start flying when entering spectator (default: true)
 - `spectator_gamemode` - GameMode to use: "ADVENTURE" or "SPECTATOR" (default: "ADVENTURE")
 
 #### 🔧 Interaction Restrictions
 - `allow_pvp` - Allow attacking other players (default: false)
-- `allow_mob_attacks` - Allow attacking mobs (default: false)
 - `allow_item_drop` - Allow dropping items (default: false)
 - `allow_item_pickup` - Allow picking up items (default: false)
-- `allow_block_breaking` - Allow breaking blocks (default: false)
-- `allow_block_placing` - Allow placing blocks (default: false)
+- `allow_inventory_crafting` - Allow inventory crafting (2x2 grid) (default: false)
 - `interactable_blocks` - List of block IDs players can interact with (default: all doors, trapdoors, gates)
+
+**Note**: Mob attacks are always disabled because mobs don't target players with `mayfly=true` ability (Minecraft core behavior).
 
 #### 🔐 Command Permissions
 - `spectator_command_permission_level` - Permission level for `/spectator` (0-4, default: 0)
 - `survival_command_permission_level` - Permission level for `/survival` (0-4, default: 0)
 - `require_op_for_spectator` - Require OP status for spectator commands (default: false)
 
-#### 🖥️ Client & HUD Settings
-- `auto_hide_hud` - Automatically hide HUD in spectator mode (default: true)
-- `allow_f1_hud_toggle` - Allow F1 key to temporarily show HUD (default: true)
+#### 🖥️ Client & HUD Behavior
+- HUD automatically hides when entering spectator mode (hard-coded)
+- F1 key toggles HUD visibility temporarily
 
 #### 💬 Message Settings
 - `use_action_bar_messages` - Show messages in action bar instead of chat (default: true)
@@ -156,15 +155,19 @@ All configuration changes can be applied without restarting the server using `/r
 🔐 Default Restrictions in Spectator Mode
 ===========================================
 
-**Note**: All restrictions below are configurable via `config/limitedspectator-common.toml`
+**Note**: Most restrictions below are configurable via `config/limitedspectator-common.toml`
 
-• ❌ No block breaking or placing (configurable)
+• ❌ No block breaking or placing (enforced by ADVENTURE mode - cannot be changed)
 
 • ❌ No chest, bed, crafting table, or item interactions (configurable via block whitelist)
 
+• ❌ No inventory crafting (2x2 grid) - ingredients restored automatically (configurable)
+
 • ❌ No dimension travel (configurable)
 
-• ❌ No PvP or mob attacks (individually configurable)
+• ❌ No mob attacks (mobs don't target players with mayfly ability)
+
+• ❌ No PvP (configurable)
 
 • ❌ No item dropping or pickup (individually configurable)
 
@@ -230,20 +233,33 @@ These logs appear in the console with prefix:
 Multi-language support will be added in future versions.
 
 
-⚠️ Known Issues (Beta Release)
-================================
+⚠️ Minecraft ADVENTURE Mode Limitations
+=========================================
 
-This beta release has some known limitations with advanced features:
+Limited Spectator uses Minecraft's ADVENTURE mode (instead of SPECTATOR mode) to prevent noclip while allowing flight. This design choice introduces some inherent limitations:
 
-### High Priority
-1. **Fall Damage**: `enable_invulnerability=false` doesn't apply fall damage due to Minecraft's core behavior with `mayfly=true` in ADVENTURE mode
-2. **Auto-Flying**: `auto_start_flying=true` doesn't immediately activate flying - players must double-tap spacebar
-3. **Block Interaction**: `allow_block_breaking=true` and `allow_block_placing=true` don't work in ADVENTURE mode due to vanilla restrictions
+### Core Limitations (By Design)
 
-### Medium Priority
-4. **HUD Edge Cases**: Minor visual glitches with certain config combinations of `auto_hide_hud` and `allow_f1_hud_toggle`
+**These are NOT bugs** - they are fundamental restrictions of Minecraft's ADVENTURE mode that cannot be overridden:
 
-These issues are documented in `CONTRIBUTING.md`. Contributions welcome! See the [Contributing Guide](CONTRIBUTING.md) for details.
+1. **Manual Flight Activation**: Players must double-press spacebar to start flying. Auto-start flying requires vanilla SPECTATOR mode (which enables noclip).
+
+2. **Fall Damage Only**: When `mayfly=true`, Minecraft's engine prevents fall damage calculation entirely. However, `enable_invulnerability=true` **DOES protect** against mobs, lava, fire, cacti, and other environmental damage.
+
+3. **Block Breaking/Placing Disabled**: ADVENTURE mode blocks all building actions at the GameMode level. This cannot be changed without deep Mixins into Minecraft's core engine.
+
+### Why These Limitations Exist
+
+Limited Spectator prioritizes **observation without noclip** over feature completeness. Enabling vanilla SPECTATOR mode would allow players to:
+- Phase through walls and blocks (noclip)
+- Access areas they shouldn't see
+- Bypass server protections
+
+These limitations preserve the mod's core purpose: **balanced spectating for servers**.
+
+### Alternative: Use SPECTATOR Mode
+
+If you need full vanilla spectator features (invulnerability, noclip, etc.), set `spectator_gamemode = "SPECTATOR"` in the config. Note that this enables noclip and reduces security for multiplayer servers.
 
 
 🧾 License

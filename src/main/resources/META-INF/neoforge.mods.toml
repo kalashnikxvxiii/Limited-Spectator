@@ -4,9 +4,9 @@ license="MIT"
 
 [[mods]]
 modId="limitedspectator"
-version="1.21.1-1.1.0-beta"
+version="1.21.1-1.1.1"
 displayName="Limited Spectator"
-description="Fully configurable spectator mode with flight, distance limits, and customizable restrictions (BETA)"
+description="Fully configurable spectator mode with flight, distance limits, and customizable restrictions"
 authors="Karashi"
 side="BOTH"
 

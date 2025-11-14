@@ -136,13 +136,13 @@
         "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
         "-XX:HeapDumpPath\u003dMojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
         "-Dneoforge.enableGameTest\u003dtrue",
-        "-DlegacyClassPath.file\u003dC:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathClient\\classpath.txt",
+        "-DlegacyClassPath.file\u003dC:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathClient\\classpath.txt",
         "-DignoreList\u003dmixinextras-neoforge-0.5.0.jar,client-extra,neoforge-",
         "-Djava.net.preferIPv6Addresses\u003dsystem"
       ],
       "cwd": "${workspaceFolder}\\run",
       "env": {
-        "MOD_CLASSES": "LimitedSpectator%%C:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\bin\\main"
+        "MOD_CLASSES": "LimitedSpectator%%C:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
@@ -187,13 +187,13 @@
         "java.base/sun.security.util\u003dcpw.mods.securejarhandler",
         "--add-exports",
         "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
-        "-DlegacyClassPath.file\u003dC:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathData\\classpath.txt",
+        "-DlegacyClassPath.file\u003dC:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathData\\classpath.txt",
         "-DignoreList\u003dmixinextras-neoforge-0.5.0.jar,client-extra,neoforge-",
         "-Djava.net.preferIPv6Addresses\u003dsystem"
       ],
       "cwd": "${workspaceFolder}\\runs\\data",
       "env": {
-        "MOD_CLASSES": "LimitedSpectator%%C:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\bin\\main"
+        "MOD_CLASSES": "LimitedSpectator%%C:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
@@ -236,13 +236,13 @@
         "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
         "-Dneoforge.enableGameTest\u003dtrue",
         "-Dneoforge.gameTestServer\u003dtrue",
-        "-DlegacyClassPath.file\u003dC:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathGameTestServer\\classpath.txt",
+        "-DlegacyClassPath.file\u003dC:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathGameTestServer\\classpath.txt",
         "-DignoreList\u003dmixinextras-neoforge-0.5.0.jar,client-extra,neoforge-",
         "-Djava.net.preferIPv6Addresses\u003dsystem"
       ],
       "cwd": "${workspaceFolder}\\runs\\gameTestServer",
       "env": {
-        "MOD_CLASSES": "LimitedSpectator%%C:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\bin\\main"
+        "MOD_CLASSES": "LimitedSpectator%%C:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
@@ -290,13 +290,13 @@
         "--add-exports",
         "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
         "-XX:HeapDumpPath\u003dMojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump",
-        "-DlegacyClassPath.file\u003dC:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathJunit\\classpath.txt",
+        "-DlegacyClassPath.file\u003dC:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathJunit\\classpath.txt",
         "-DignoreList\u003dmixinextras-neoforge-0.5.0.jar,client-extra,neoforge-",
         "-Djava.net.preferIPv6Addresses\u003dsystem"
       ],
       "cwd": "${workspaceFolder}\\runs\\junit",
       "env": {
-        "MOD_CLASSES": "LimitedSpectator%%C:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\bin\\main"
+        "MOD_CLASSES": "LimitedSpectator%%C:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     },
@@ -338,13 +338,13 @@
         "java.base/sun.security.util\u003dcpw.mods.securejarhandler",
         "--add-exports",
         "jdk.naming.dns/com.sun.jndi.dns\u003djava.naming",
-        "-DlegacyClassPath.file\u003dC:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathServer\\classpath.txt",
+        "-DlegacyClassPath.file\u003dC:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\.gradle\\configuration\\neoForm\\neoFormJoined1.21.1-20240808.144430\\steps\\writeMinecraftClasspathServer\\classpath.txt",
         "-DignoreList\u003dmixinextras-neoforge-0.5.0.jar,client-extra,neoforge-",
         "-Djava.net.preferIPv6Addresses\u003dsystem"
       ],
       "cwd": "${workspaceFolder}\\runServer",
       "env": {
-        "MOD_CLASSES": "LimitedSpectator%%C:\\My-mods\\LimitedSpectator\\MDK-1.21-ModDevGradle-main\\bin\\main"
+        "MOD_CLASSES": "LimitedSpectator%%C:\\Users\\Administrator\\Documents\\GitHub\\MDK-1.21-ModDevGradle-main\\bin\\main"
       },
       "shortenCommandLine": "argfile"
     }

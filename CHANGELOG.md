@@ -7,21 +7,67 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.1.1] - 2025-11-14
+
+### 🎯 Stable Release
+
+This is the **stable release** following 1.1.0-beta, with cleaned configuration and comprehensive documentation updates.
+
+### Changed
+- **Configuration Cleanup**: Removed non-functional config options that were limited by Minecraft engine behavior:
+  - Removed `allow_mob_attacks` - mob attacks always blocked (mobs don't target players with `mayfly=true`)
+  - Removed `allow_block_breaking` - always blocked in ADVENTURE mode (GameMode restriction)
+  - Removed `allow_block_placing` - always blocked in ADVENTURE mode (GameMode restriction)
+  - Removed `auto_hide_hud` - behavior hard-coded to always hide (can toggle with F1)
+  - Removed `allow_f1_hud_toggle` - F1 toggle always enabled
+  - Removed `auto_start_flying` - players must double-tap spacebar (ADVENTURE mode limitation)
+
+- **Documentation Overhaul**: Complete update of all documentation to reflect actual behavior:
+  - Clarified that `enable_invulnerability` does NOT prevent fall damage (Minecraft engine always prevents it with `mayfly=true`)
+  - Updated `enable_invulnerability` description to specify it protects against mobs, lava, fire, cacti, drowning, etc.
+  - Documented HUD behavior as hard-coded (always hides, F1 toggles)
+  - Documented that players must double-tap spacebar to fly (ADVENTURE mode behavior)
+  - Renamed "Known Issues" sections to "Known Limitations" with proper explanations
+
+### Fixed
+- Configuration file now generates cleanly without obsolete options
+- All wiki documentation updated (Configuration-Guide, For-Server-Admins, Beta-Features, Features, Commands, FAQ)
+- Updated README.md, CHANGELOG.md, Version-Comparison.md, CONTRIBUTING.md
+- Removed confusing config options that appeared functional but weren't due to Minecraft limitations
+
+### Technical
+- Cleaned up `ModConfig.java` - removed unused config variables and cached values
+- Updated `SpectatorMod.java` - hard-coded HUD hide behavior
+- Updated `ClientEventHandler.java` - simplified HUD management (removed config checks)
+- Generated config file (`limitedspectator-common.toml`) now accurate and contains only functional options
+
+### Migration Notes
+If upgrading from 1.1.0-beta, your existing config will continue to work. The removed options will be ignored.
+No action required - the mod will use correct behavior regardless of old config values.
+
+---
+
 ## [1.1.0-beta] - 2025-11-09
 
 ### ⚠️ Beta Release Notice
 
-This is a **beta release** with significant new features and bug fixes. Some advanced features have known limitations that are being investigated. See "Known Issues" section below.
+This is a **beta release** focused on features that work reliably within Minecraft's ADVENTURE mode limitations. Features incompatible with ADVENTURE mode have been removed to ensure stability and prevent confusion.
 
 ### Added
 - **Complete Configuration System** - Comprehensive TOML-based configuration file (`limitedspectator-common.toml`)
   - **Movement Restrictions**: Configure max distance (-1 to disable), dimension travel, teleport behavior, logout position reset
-  - **Player Abilities**: Toggle invulnerability, flight, auto-flying, and choose between ADVENTURE/SPECTATOR gamemode
-  - **Interaction Controls**: Individually toggle PvP, mob attacks, item drop/pickup, block breaking/placing
+  - **Player Abilities**: Toggle flight and choose between ADVENTURE/SPECTATOR gamemode
+  - **Interaction Controls**: Individually toggle PvP, mob attacks, item drop/pickup, and inventory crafting
   - **Customizable Block Whitelist**: Define exactly which blocks are interactable via Minecraft block IDs
   - **Permission System**: Set required permission levels (0-4) for `/spectator` and `/survival` commands
   - **Client/HUD Settings**: Configure auto-hide HUD and F1 toggle functionality
   - **Message Settings**: Choose action bar vs chat messages, enable/disable distance warnings
+- **Inventory Crafting Control** - Block 2x2 crafting grid in player inventory with automatic ingredient restoration
+  - Configurable via `allow_inventory_crafting` (default: false)
+  - When blocked, ingredients are automatically returned to player's inventory
+  - Prevents item loss or duplication during crafting attempts
+  - Works with both single-slot and full 2x2 grid recipes
+  - Falls back to dropping items on ground if inventory is full
 - Configuration validation with sensible defaults and range checking
 - Hot-reload support for configuration changes via `/reload` command
 - Performance-optimized config value caching
@@ -31,8 +77,7 @@ This is a **beta release** with significant new features and bug fixes. Some adv
 - **Critical**: `/survival` command now correctly teleports players back to original dimension (Overworld/Nether/End)
 - **Critical**: Dimension tracking added - `spectatorStartDimensions` HashMap prevents cross-dimension bugs
 - Distance boundary enforcement when `teleport_back_on_exceed=false` - players stopped at exact boundary
-- Vanilla F1 HUD toggle now works when `auto_hide_hud=false`
-- HUD flicker reduced when `auto_hide_hud=true` + `allow_f1_hud_toggle=true`
+- HUD behavior improved (later hard-coded in final release)
 - Message encoding fixed - removed `§` color codes causing garbled characters (À symbols)
 - Messages now use `Component.literal().withStyle(ChatFormatting.XXX)` for proper rendering
 - Messages visible even with HUD hidden (action bar works independently)
@@ -47,10 +92,15 @@ This is a **beta release** with significant new features and bug fixes. Some adv
 - Enhanced mod description to reflect configurability and beta status
 
 ### Technical
-- Created `ModConfig.java` with NeoForge ConfigSpec API (25+ configurable options)
+- Created `ModConfig.java` with NeoForge ConfigSpec API (26+ configurable options)
 - Integrated `ModConfigEvent` listener for hot-reload support
 - Updated `SpectatorMod.java` to use config values throughout
 - Updated `ClientEventHandler.java` to respect client-side config options
+- Added `PlayerEvent.ItemCraftedEvent` handler for inventory crafting control
+  - Captures ingredients from crafting container before consumption
+  - Clears crafting grid to prevent duplication
+  - Restores ingredients with fallback to ground drop if inventory full
+  - Handles both single-slot and full 2x2 grid recipes
 - Added `LivingIncomingDamageEvent` handler for invulnerability control (partial)
 - Added `BlockEvent.BreakEvent` and `BlockEvent.EntityPlaceEvent` handlers
 - Added `ClientboundPlayerAbilitiesPacket` for flying state sync (partial)
@@ -64,21 +114,19 @@ This is a **beta release** with significant new features and bug fixes. Some adv
 - Created CONTRIBUTING.md with developer guidelines
 - Documented Known Issues section
 
-### Known Issues
+### Known Limitations (Final Status)
 
-#### High Priority
-1. **Fall Damage (enable_invulnerability=false)**: Players with `mayfly=true` in ADVENTURE mode don't receive fall damage even when invulnerability is disabled. This appears to be core Minecraft behavior with flying abilities.
+**Note**: Several "issues" identified in beta testing were determined to be Minecraft engine limitations, not bugs. The final release addresses these by:
 
-2. **Auto-Start Flying (auto_start_flying=true)**: Players don't immediately enter flying mode when using `/spectator`. They must manually double-tap spacebar. Client-server packet sync issue under investigation.
+1. **Fall Damage**: Confirmed as Minecraft core behavior - fall damage is always prevented when `mayfly=true`. Config option retained for other damage types (mobs, lava, fire, etc.).
 
-3. **Block Interaction (allow_block_breaking/placing=true)**: Even with `mayBuild=true`, block breaking and placing don't work in ADVENTURE mode due to vanilla restrictions. Investigating alternative approaches.
+2. **Auto-Start Flying**: Removed `auto_start_flying` config option. Players must double-tap spacebar (ADVENTURE mode limitation).
 
-#### Medium Priority
-4. **HUD Edge Cases**:
-   - `auto_hide_hud=false` + `allow_f1_hud_toggle=false`: Vanilla F1 still works (expected vanilla behavior)
-   - `auto_hide_hud=true` + `allow_f1_hud_toggle=false`: Brief HUD flash on spectator mode entry (~1 frame)
+3. **Block Breaking/Placing**: Confirmed as ADVENTURE mode GameMode restriction. Removed `allow_block_breaking` and `allow_block_placing` config options.
 
-These issues are documented in CONTRIBUTING.md and are actively being investigated. Contributions welcome!
+4. **HUD Behavior**: Hard-coded HUD auto-hide with F1 toggle. Removed `auto_hide_hud` and `allow_f1_hud_toggle` config options.
+
+5. **Mob Attacks**: Always blocked (mobs don't target players with `mayfly=true` anyway). Removed `allow_mob_attacks` config option.
 
 ## [1.0.2] - 2025-11-08
 

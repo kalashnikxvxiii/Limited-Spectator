@@ -43,12 +43,8 @@ public class ClientEventHandler {
         prevHideGuiDown = false;
 
         if (MC != null && MC.options != null) {
-            // Only set hideGui if auto_hide_hud is enabled in config
-            if (com.karashi.limitedspectator.ModConfig.autoHideHud) {
-                // We set hideGui based on the actual state (default hidden when hidden=true)
-                MC.options.hideGui = hidden && !hudForceVisible;
-            }
-            // If auto_hide_hud is false, don't touch hideGui - let vanilla F1 control it
+            // Always hide HUD in spectator mode, F1 can toggle temporarily
+            MC.options.hideGui = hidden && !hudForceVisible;
         }
     }
 
@@ -142,52 +138,35 @@ public class ClientEventHandler {
                 !mc.player.isCreative();
 
         // --- HUD Management Logic ---
-        // Only manage HUD if auto_hide_hud is enabled
-        if (com.karashi.limitedspectator.ModConfig.autoHideHud) {
-            // --- F1 Toggle Management (Hide GUI) ---
-            if (com.karashi.limitedspectator.ModConfig.allowF1HudToggle && isFakeSpectator) {
-                boolean currentlyDown = InputConstants.isKeyDown(
-                        Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F1
-                );
+        // Always manage HUD in spectator mode
+        // --- F1 Toggle Management (Hide GUI) ---
+        if (isFakeSpectator) {
+            boolean currentlyDown = InputConstants.isKeyDown(
+                    Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F1
+            );
 
-                if (currentlyDown && !prevHideGuiDown) {
-                    hudForceVisible = !hudForceVisible;
-                }
-                prevHideGuiDown = currentlyDown;
-            } else {
-                // If F1 toggle is not allowed, reset the force visible flag
-                if (!com.karashi.limitedspectator.ModConfig.allowF1HudToggle) {
-                    hudForceVisible = false;
-                    prevHideGuiDown = false;
-                }
+            if (currentlyDown && !prevHideGuiDown) {
+                hudForceVisible = !hudForceVisible;
             }
-            // --- End F1 Toggle ---
+            prevHideGuiDown = currentlyDown;
+        }
+        // --- End F1 Toggle ---
 
-            // Local auto-sync (in case of packet loss or client reload)
-            if (isFakeSpectator && !hudHidden) {
-                hudHidden = true;
-            } else if (!isFakeSpectator && hudHidden) {
-                // when you exit fake spectator mode, reset everything
-                hudForceVisible = false;
-                mc.options.hideGui = false;
-                hudHidden = false;
-            }
+        // Local auto-sync (in case of packet loss or client reload)
+        if (isFakeSpectator && !hudHidden) {
+            hudHidden = true;
+        } else if (!isFakeSpectator && hudHidden) {
+            // when you exit fake spectator mode, reset everything
+            hudForceVisible = false;
+            mc.options.hideGui = false;
+            hudHidden = false;
+        }
 
-            // --- Apply Actual Status ---
-            // Only in limited spectator mode do we force HUD visibility
-            if (isFakeSpectator) {
-                boolean effectiveHidden = hudHidden && !hudForceVisible;
-                mc.options.hideGui = effectiveHidden;
-            }
-        } else {
-            // auto_hide_hud is FALSE - don't manage HUD at all, let vanilla F1 work
-            // Reset our tracking variables
-            if (hudHidden) {
-                hudHidden = false;
-                hudForceVisible = false;
-                prevHideGuiDown = false;
-            }
-            // Don't touch mc.options.hideGui - let vanilla behavior control it
+        // --- Apply Actual Status ---
+        // Only in limited spectator mode do we force HUD visibility
+        if (isFakeSpectator) {
+            boolean effectiveHidden = hudHidden && !hudForceVisible;
+            mc.options.hideGui = effectiveHidden;
         }
 
         // FOR DEBUGGING
