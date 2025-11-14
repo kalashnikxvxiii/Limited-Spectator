@@ -4,14 +4,11 @@ Limited Spectator provides a comprehensive set of features designed to allow saf
 
 ## 📌 Version Notice
 
-This page documents features available in both versions:
+**Current Stable Version: v1.1.1**
 
-- **Stable v1.0.2**: All core features work, but settings are **hardcoded** (not configurable)
-- **Beta v1.1.0**: All core features work, and settings are **fully configurable**
+This page documents features for Limited Spectator v1.1.1, which includes full configuration support. Configuration examples can be customized in `config/limitedspectator-common.toml`.
 
-When you see configuration examples like `max_distance = 75.0`, these apply **only to Beta v1.1.0**.
-
-**Stable v1.0.2 users**: You have all features below, but cannot change the default values.
+**Legacy versions** (v1.0.2, v1.1.0-beta) are superseded by v1.1.1.
 
 ---
 

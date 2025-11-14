@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "limited-spectator",
-  "version": "1.0.2",
+  "version": "1.1.1",
   "name": "Limited Spectator",
-  "description": "A mod that allows limited spectator mode, while retaining some features like the HUD and interaction with doors and gates. It blocks dimensions changes and PvP. It has a maximum allowed movement radius in spectator of 75 blocks.",
+  "description": "Fully configurable spectator mode with flight, distance limits, and customizable restrictions. Players can fly and observe the world with strict limitations to preserve game balance on servers.",
   "authors": [
     "Kala"
   ],

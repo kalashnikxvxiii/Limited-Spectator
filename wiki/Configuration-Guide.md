@@ -1,16 +1,12 @@
 # Configuration Guide
 
-## ⚠️ Beta Version Only
+## ⚠️ Configuration System
 
-**This configuration system is only available in v1.1.0-beta.**
+**Current Stable Version: v1.1.1**
 
-- **Stable v1.0.2**: No configuration file. All settings are hardcoded.
-- **Beta v1.1.0**: Complete TOML configuration system documented on this page.
+This configuration system is available in v1.1.1 and can be customized in `config/limitedspectator-common.toml`. All settings support hot-reload via `/reload` command.
 
-If you're using **stable v1.0.2**, this page does not apply. Settings are fixed at:
-- Distance: 75 blocks
-- Permissions: Level 0 (all players)
-- Interactions: Doors, trapdoors, gates only
+**Legacy v1.0.2**: No configuration file. Settings are hardcoded (75 blocks, level 0 permissions, doors/trapdoors/gates only).
 - All other settings: Default values
 
 See [Version Comparison](Version-Comparison) to understand the differences.

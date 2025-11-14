@@ -4,11 +4,11 @@ Common questions and solutions for Limited Spectator.
 
 ## 📌 Version Notice
 
-This FAQ covers both versions:
-- **Stable v1.0.2**: Production-ready, no config file
-- **Beta v1.1.0**: Configuration system available
+**Current Stable Version: v1.1.1**
 
-When config examples are mentioned, they apply to **Beta v1.1.0 only**.
+This FAQ covers Limited Spectator v1.1.1 with full configuration support. Configuration examples can be customized in `config/limitedspectator-common.toml`.
+
+Legacy versions (v1.0.2, v1.1.0-beta) are superseded by v1.1.1.
 
 ---
 

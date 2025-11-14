@@ -4,24 +4,11 @@ This guide is specifically for server administrators deploying Limited Spectator
 
 ## 📌 Version Notice for Admins
 
-**Important**: Configuration examples on this page are for **Beta v1.1.0 only**.
+**Current Stable Version: v1.1.1**
 
-### If Using Stable v1.0.2
+This guide covers Limited Spectator v1.1.1 with full configuration support. All configuration examples are available in `config/limitedspectator-common.toml` and can be hot-reloaded with `/reload`.
 
-You **cannot** customize settings via config file. All values are hardcoded:
-
-- **Distance**: 75 blocks (fixed)
-- **Permissions**: Level 0 - all players (fixed)
-- **Interactions**: Doors, trapdoors, gates only (fixed)
-- **All other settings**: Default values (fixed)
-
-To customize behavior, you must:
-1. Wait for stable v1.1.0 release, OR
-2. Use Beta v1.1.0 on a test server first
-
-### If Using Beta v1.1.0
-
-All configuration examples below are available. Test thoroughly before deploying to production.
+**Legacy versions** (v1.0.2, v1.1.0-beta): If using older versions, upgrade to v1.1.1 for configuration support.
 
 ---
 

@@ -1,8 +1,20 @@
 # Version Comparison: Stable vs Beta
 
-A comprehensive comparison between Limited Spectator's stable release (v1.0.2) and beta release (v1.1.0-beta).
+## ⚠️ Important Update
 
-## Quick Decision Guide
+**Limited Spectator v1.1.1 is now the current stable release** and supersedes both v1.0.2 and v1.1.0-beta.
+
+**For all users**: Download [v1.1.1](../../releases/tag/v1.1.1) - it combines the stability of v1.0.2 with the full configuration system from v1.1.0-beta, with all known issues resolved.
+
+The comparison below is kept for historical reference and for users on legacy versions considering an upgrade.
+
+---
+
+## Historical Comparison: v1.0.2 vs v1.1.0-beta
+
+This section compares the previous stable release (v1.0.2) with the beta release (v1.1.0-beta) that preceded v1.1.1.
+
+## Quick Decision Guide (Legacy)
 
 ### Choose Stable (v1.0.2) if:
 - ✅ Running a production/public server
@@ -452,20 +464,21 @@ v1.0.0 (2025-11-02)
 v1.0.1 (2025-11-0X)
   └─ Minor fixes
 
-v1.0.2 (2025-11-08) ← CURRENT STABLE
+v1.0.2 (2025-11-08) ← LEGACY STABLE
   └─ Item drop/pickup bug fixes
      ├─ Production-ready
      └─ No known bugs
 
-v1.1.0-beta (2025-11-09) ← CURRENT BETA
+v1.1.0-beta (2025-11-09) ← SUPERSEDED
   └─ Configuration system
-     ├─ 25+ config options
+     ├─ 20+ config options
      ├─ Dimension tracking fix
-     └─ Known issues (3 high-priority)
+     └─ Minecraft limitation docs
 
-v1.1.0 (TBD, ~2-4 weeks) ← FUTURE STABLE
+v1.1.1 (2025-11-14) ← CURRENT STABLE
   └─ Configuration system (stable)
-     ├─ Known issues resolved
+     ├─ Cleaned config (removed non-functional options)
+     ├─ All documentation updated
      └─ Production-ready
 ```
 

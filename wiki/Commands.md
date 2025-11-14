@@ -4,13 +4,15 @@ Limited Spectator provides two main commands for entering and exiting spectator 
 
 ## Version Compatibility
 
-| Feature | Stable v1.0.2 | Beta v1.1.0 |
-|---------|---------------|-------------|
-| **Commands** | ✅ `/spectator`, `/survival` | ✅ `/spectator`, `/survival` |
-| **Permission Levels** | 🔒 Fixed at 0 (all players) | ✅ Configurable (0-4) |
-| **OP Requirement** | ❌ Not available | ✅ Configurable |
+**Current Stable Version: v1.1.1**
 
-**Note**: Permission configuration is **only available in Beta v1.1.0**. Stable v1.0.2 always uses permission level 0.
+| Feature | v1.1.1 (Current) | Legacy v1.0.2 |
+|---------|------------------|---------------|
+| **Commands** | ✅ `/spectator`, `/survival` | ✅ `/spectator`, `/survival` |
+| **Permission Levels** | ✅ Configurable (0-4) | 🔒 Fixed at 0 (all players) |
+| **OP Requirement** | ✅ Configurable | ❌ Not available |
+
+**Note**: Permission configuration is available in v1.1.1. Legacy v1.0.2 always uses permission level 0.
 
 ---
 
@@ -57,11 +59,18 @@ Entered spectator mode. Use /survival to return.
 
 ### Permission Requirements
 
-#### Stable v1.0.2
+#### v1.1.1 (Current)
 
-**Fixed at permission level 0** - All players can use `/spectator`.
+**Configurable permission levels** - Set in `config/limitedspectator-common.toml`:
+```toml
+[commands]
+  spectator_command_permission_level = 0  # 0-4
+  require_op_for_spectator = false
+```
 
-No configuration available. To restrict access, you must use external permission plugins or manually control OP status.
+#### Legacy v1.0.2
+
+**Fixed at permission level 0** - All players can use `/spectator`. No configuration available.
 
 #### Beta v1.1.0
 

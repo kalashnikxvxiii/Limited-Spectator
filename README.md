@@ -193,13 +193,11 @@ All configuration changes can be applied without restarting the server using `/r
 🧰 Installation
 =================
 
-### ⚠️ Beta Release
-
-This is a **beta version** with extensive new features. Most functionality works well, but some advanced features have known limitations (see Known Issues below).
+### 📦 Installation Steps
 
 • Install NeoForge 21.1.0+
 
-• Place `limitedspectator-1.21.1-1.1.0-beta.jar` into your `mods/` folder
+• Place `limitedspectator-1.21.1-1.1.1.jar` into your `mods/` folder
 
 • Launch Minecraft - config file will be auto-generated at `config/limitedspectator-common.toml`
 

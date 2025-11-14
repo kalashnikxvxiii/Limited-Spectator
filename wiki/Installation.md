@@ -4,33 +4,25 @@ This guide will walk you through installing Limited Spectator on your Minecraft 
 
 ## Which Version Should I Download?
 
-Limited Spectator has two versions available:
+### 🟢 Stable v1.1.1 (Recommended)
 
-### 🟢 Stable v1.0.2 (Recommended)
+**Best for**: All servers and users
 
-**Best for**: Production servers, users wanting reliability
-
-**Download**: [LimitedSpectator-1.21.1-1.0.2.jar](../../releases/tag/v1.0.2)
+**Download**: [LimitedSpectator-1.21.1-1.1.1.jar](../../releases/tag/v1.1.1)
 
 **Features**:
 - ✅ Fully tested and stable
-- ✅ No known bugs
-- 🔒 Fixed settings (75 blocks, level 0 permissions)
-- ❌ No configuration file
-
-### 🟡 Beta v1.1.0
-
-**Best for**: Test servers, users needing customization
-
-**Download**: [LimitedSpectator-1.21.1-1.1.0-beta.jar](../../releases/tag/v1.1.0-beta)
-
-**Features**:
-- ✅ Full configuration system (25+ options)
+- ✅ Full configuration system (20+ options)
 - ✅ Configurable distance, permissions, interactions
-- ⚠️ Has known issues (see [Beta Features](Beta-Features))
 - ✅ Generates `config/limitedspectator-common.toml`
+- ✅ Hot-reload support via `/reload` command
+- ✅ No known bugs
 
-**Not sure?** Check the [Version Comparison](Version-Comparison) page.
+### 📦 Previous Versions
+
+For legacy servers, older versions remain available:
+- [v1.0.2 (Previous Stable)](../../releases/tag/v1.0.2) - Hardcoded settings, no config file
+- [v1.1.0-beta (Superseded)](../../releases/tag/v1.1.0-beta) - Beta version superseded by v1.1.1
 
 ---
 
@@ -50,8 +42,9 @@ Before installing, ensure your system meets these requirements:
 ### Official Releases
 
 - **[GitHub Releases](../../releases)** - All versions available
-  - [v1.0.2 (Stable)](../../releases/tag/v1.0.2)
-  - [v1.1.0-beta (Beta)](../../releases/tag/v1.1.0-beta)
+  - [v1.1.1 (Current Stable)](../../releases/tag/v1.1.1)
+  - [v1.0.2 (Previous Stable)](../../releases/tag/v1.0.2)
+  - [v1.1.0-beta (Superseded)](../../releases/tag/v1.1.0-beta)
 - **CurseForge** - *(coming soon)*
 - **Modrinth** - *(coming soon)*
 
@@ -71,7 +64,7 @@ Limited Spectator is primarily a **server-side mod**, which means it works best 
 
 1. Locate your server's `mods/` folder
    - If it doesn't exist, create it in the server root directory
-2. Copy `LimitedSpectator-1.21.1-1.1.0-beta.jar` into the `mods/` folder
+2. Copy `LimitedSpectator-1.21.1-1.1.1.jar` into the `mods/` folder
 3. Start the server using `./run.sh` (Linux/Mac) or `run.bat` (Windows)
 
 #### Step 3: First-Time Configuration
@@ -100,7 +93,7 @@ Client installation is **optional** but recommended for enhanced features like a
    - **Linux**: `~/.minecraft`
    - **macOS**: `~/Library/Application Support/minecraft`
 2. Navigate to the `mods/` folder (create it if it doesn't exist)
-3. Copy `LimitedSpectator-1.21.1-1.1.0-beta.jar` into the `mods/` folder
+3. Copy `LimitedSpectator-1.21.1-1.1.1.jar` into the `mods/` folder
 4. Launch Minecraft with the NeoForge profile
 
 ### 🔧 Single-Player Installation
@@ -127,7 +120,7 @@ You can also run `/spectator help` in-game to verify commands are available.
 1. Launch Minecraft
 2. Go to "Mods" menu from the main screen
 3. Look for "Limited Spectator" in the mod list
-4. Version should show: `1.21.1-1.1.0-beta`
+4. Version should show: `1.21.1-1.1.1`
 
 ## Post-Installation Setup
 
@@ -206,7 +199,7 @@ To update to a newer version:
 To remove Limited Spectator:
 
 1. Stop the server/client
-2. Delete `mods/LimitedSpectator-1.21.1-1.1.0-beta.jar`
+2. Delete `mods/LimitedSpectator-1.21.1-1.1.1.jar`
 3. Optionally delete `config/limitedspectator-common.toml`
 4. Restart the server/client
 
