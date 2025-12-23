@@ -200,7 +200,7 @@ All configuration changes can be applied without restarting the server using `/r
 
 • Install NeoForge 21.1.0+
 
-• Place `limitedspectator-1.21.x-1.1.2.jar` into your `mods/` folder
+• Place `limitedspectator-[version].jar` into your `mods/` folder
 
 • Launch Minecraft - config file will be auto-generated at `config/limitedspectator-common.toml`
 

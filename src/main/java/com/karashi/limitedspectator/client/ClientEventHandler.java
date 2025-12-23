@@ -97,12 +97,10 @@ public class ClientEventHandler {
     @SubscribeEvent
     public static void onMouseClick(InputEvent.InteractionKeyMappingTriggered event) {
         if (MC.player == null) return;
-        if (MC.player.isSpectator()) event.setCanceled(true);
-
-        if (MC.player != null && MC.player.isSpectator()) {
+        if (MC.player.isSpectator()) {
+            event.setCanceled(true);
             // FOR DEBUGGING
             // LOGGER.debug("Mouse input cancelled for spectator.");
-            event.setCanceled(true);
         }
     }
 
@@ -120,7 +118,8 @@ public class ClientEventHandler {
             }
         }
 
-        LOGGER.debug("Conditional HUD rendering. Status: {}", hudHidden ? "hidden" : "active");
+        // FOR DEBUGGING
+        // LOGGER.debug("Conditional HUD rendering. Status: {}", hudHidden ? "hidden" : "active");
     }
 
     // Automatically update HUD when entering/exiting the "fake spectator"

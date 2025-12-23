@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.2.1] - 2025-12-23
+
+### 🔧 Code Quality Hotfix
+
+Minor code quality improvements and performance optimizations in client-side event handling.
+
+### Fixed
+- **Removed duplicate condition check** in `ClientEventHandler.onMouseClick()`
+  - Merged redundant `isSpectator()` check that was executed twice
+  - Simplified logic flow for better readability
+- **Commented out production debug log** in `ClientEventHandler.onRenderHud()`
+  - Debug log was executing every frame, causing log spam
+  - Moved to commented debug section for development use only
+
+### Performance
+- Reduced redundant condition checks in mouse input handling
+- Eliminated per-frame debug logging in production builds
+
+### Technical
+- No functional changes or API modifications
+- Pure code cleanup and optimization
+- Build remains compatible with v1.2.0
+
+---
+
 ## [1.2.0] - 2025-12-23
 
 ### 🌍 Multilingual Release
@@ -247,7 +272,8 @@ This is a **beta release** focused on features that work reliably within Minecra
 - All restrictions enforced server-side for multiplayer security
 - Compatible with Minecraft 1.21.1 and NeoForge 21.1.0+
 
-[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.0-beta...v1.1.1
