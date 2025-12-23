@@ -56,6 +56,9 @@ All settings can be changed in `config/limitedspectator-common.toml` and reloade
 ✅ **Server-Friendly**
 All restrictions are handled server-side for secure multiplayer behavior.
 
+✅ **Multilingual Support**
+Full translation support for 5 European languages (English, Italian, German, French, Spanish).
+
 
 🧠 Technical Details
 =====================
@@ -78,7 +81,7 @@ All restrictions are handled server-side for secure multiplayer behavior.
 | `/spectator` | Switch to the limited spectator mode          | Level 0 (everyone) |
 | `/survival`  | Return to normal gameplay and restore the HUD | Level 0 (everyone) |
 
-🧩 Command feedback messages are in English (localization planned).
+🌍 Command feedback messages are fully localized in 5 languages: **English**, **Italian**, **German**, **French**, and **Spanish**.
 
 **Note**: Permission levels can be customized in the config file. See Configuration section below.
 
@@ -228,7 +231,22 @@ These logs appear in the console with prefix:
 🌍 Localization
 =================
 
-Multi-language support will be added in future versions.
+Limited Spectator includes full translation support for the most common European languages:
+
+**Supported Languages:**
+- 🇬🇧 **English** (en_us) - Base language
+- 🇮🇹 **Italian** (it_it) - Italiano
+- 🇩🇪 **German** (de_de) - Deutsch
+- 🇫🇷 **French** (fr_fr) - Français
+- 🇪🇸 **Spanish** (es_es) - Español
+
+**Translated Messages:**
+- Command feedback (`/spectator` and `/survival`)
+- Distance limit notifications
+- Error messages (dimension travel, crafting restrictions)
+- All user-facing text
+
+The mod automatically detects your Minecraft language setting and displays messages accordingly.
 
 
 ⚠️ Minecraft ADVENTURE Mode Limitations
@@ -295,8 +313,6 @@ You may use, modify, and distribute this mod freely, provided that attribution i
 
 🚀 Future Roadmap
 ===================
-
-• 🌐 Add multilingual translation files (en_us.json, it_it.json) for command messages and notifications
 
 • 🧱 Optional integration with third-party permission systems (LuckPerms, FTB Chunks)
 

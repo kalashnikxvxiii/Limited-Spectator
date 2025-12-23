@@ -7,6 +7,43 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.2.0] - 2025-12-23
+
+### 🌍 Multilingual Release
+
+This release introduces full translation support for European languages, making Limited Spectator accessible to a wider international audience.
+
+### Added
+- **Multilingual Translation System** - Complete i18n support for all user-facing messages
+  - **English** (en_us) - Base language
+  - **Italian** (it_it) - Full Italian translation
+  - **German** (de_de) - Full German translation
+  - **French** (fr_fr) - Full French translation
+  - **Spanish** (es_es) - Full Spanish translation
+- **Translated Messages**:
+  - Command feedback messages (`/spectator` and `/survival`)
+  - Distance limit notifications (exceeded/reached)
+  - Error messages (dimension travel blocked, crafting blocked)
+  - All user-facing text automatically displays in player's Minecraft language
+
+### Changed
+- Replaced all hardcoded `Component.literal()` messages with `Component.translatable()`
+- Added `MutableComponent` import for proper message building
+- Message system now respects player's language preference
+
+### Technical
+- Created `src/main/resources/assets/limitedspectator/lang/` directory structure
+- Translation files use standard Minecraft JSON format with key-value pairs
+- Translation keys follow naming convention: `limitedspectator.command.*`, `limitedspectator.error.*`
+- Messages automatically formatted with appropriate chat colors (AQUA, GREEN, RED, GRAY)
+
+### Documentation
+- Updated README.md with new Localization section
+- Removed multilingual translation from Future Roadmap (completed)
+- Added multilingual support to Features section
+
+---
+
 ## [1.1.2] - 2025-12-23
 
 ### 🔒 Security Release
@@ -210,7 +247,8 @@ This is a **beta release** focused on features that work reliably within Minecra
 - All restrictions enforced server-side for multiplayer security
 - Compatible with Minecraft 1.21.1 and NeoForge 21.1.0+
 
-[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.0-beta...v1.1.1
 [1.1.0-beta]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.2...v1.1.0-beta

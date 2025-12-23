@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.Commands;
 import net.minecraft.resources.ResourceKey;
@@ -124,13 +125,17 @@ public class SpectatorMod {
                     NetworkHandler.sendHudState(player, true);
 
                     // Build and send message
-                    String distanceInfo = com.karashi.limitedspectator.ModConfig.maxDistance > 0
-                        ? String.format("Maximum radius: %.0f blocks.", com.karashi.limitedspectator.ModConfig.maxDistance)
-                        : "No distance limit.";
-
-                    Component message = Component.literal("SPECTATOR ")
+                    MutableComponent message = Component.translatable("limitedspectator.command.spectator.activated")
                         .withStyle(ChatFormatting.AQUA)
-                        .append(Component.literal("mode activated. " + distanceInfo).withStyle(ChatFormatting.GRAY));
+                        .append(Component.literal(" ").withStyle(ChatFormatting.GRAY));
+
+                    if (com.karashi.limitedspectator.ModConfig.maxDistance > 0) {
+                        message = message.append(Component.translatable("limitedspectator.command.spectator.radius",
+                            com.karashi.limitedspectator.ModConfig.maxDistance).withStyle(ChatFormatting.GRAY));
+                    } else {
+                        message = message.append(Component.translatable("limitedspectator.command.spectator.no_limit")
+                            .withStyle(ChatFormatting.GRAY));
+                    }
 
                     player.displayClientMessage(message, com.karashi.limitedspectator.ModConfig.useActionBarMessages);
 
@@ -192,7 +197,7 @@ public class SpectatorMod {
                     // Show HUD again
                     NetworkHandler.sendHudState(player, false); // false = show HUD
 
-                    Component message = Component.literal("SURVIVAL mode activated.")
+                    MutableComponent message = Component.translatable("limitedspectator.command.survival.activated")
                         .withStyle(ChatFormatting.GREEN);
 
                     player.displayClientMessage(message, com.karashi.limitedspectator.ModConfig.useActionBarMessages);
@@ -224,7 +229,7 @@ public class SpectatorMod {
                                 // Teleport the player back to start position
                                 player.teleportTo(start.x, start.y, start.z);
                                 player.displayClientMessage(
-                                    Component.literal("You have exceeded the movement limit!").withStyle(ChatFormatting.RED),
+                                    Component.translatable("limitedspectator.error.distance_exceeded").withStyle(ChatFormatting.RED),
                                     com.karashi.limitedspectator.ModConfig.useActionBarMessages
                                 );
                             } else {
@@ -236,7 +241,7 @@ public class SpectatorMod {
 
                                 if (com.karashi.limitedspectator.ModConfig.showDistanceWarnings) {
                                     player.displayClientMessage(
-                                        Component.literal("You have reached the distance limit!").withStyle(ChatFormatting.RED),
+                                        Component.translatable("limitedspectator.error.distance_reached").withStyle(ChatFormatting.RED),
                                         com.karashi.limitedspectator.ModConfig.useActionBarMessages
                                     );
                                 }
@@ -336,7 +341,7 @@ public class SpectatorMod {
         if (inSpectatorMode.getOrDefault(player.getUUID(), false)) {
             event.setCanceled(true);
             player.displayClientMessage(
-                Component.literal("You can't change dimensions in spectator mode!").withStyle(ChatFormatting.RED),
+                Component.translatable("limitedspectator.error.dimension_blocked").withStyle(ChatFormatting.RED),
                 com.karashi.limitedspectator.ModConfig.useActionBarMessages
             );
         }
@@ -482,7 +487,7 @@ public class SpectatorMod {
 
             // Feedback message for the player
             player.displayClientMessage(
-                Component.literal("You cannot craft items in spectator mode!").withStyle(ChatFormatting.RED),
+                Component.translatable("limitedspectator.error.crafting_blocked").withStyle(ChatFormatting.RED),
                 com.karashi.limitedspectator.ModConfig.useActionBarMessages
             );
         }
