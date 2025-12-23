@@ -42,6 +42,11 @@ configurations.configureEach {
         // Note: lz4-java moved from org.lz4 to at.yawk.lz4 group ID
         force 'at.yawk.lz4:lz4-java:1.10.1'
 
+        // Substitute old lz4-java group ID with new one
+        dependencySubstitution {
+            substitute module('org.lz4:lz4-java') using module('at.yawk.lz4:lz4-java:1.10.1') because 'CVE-2025-66566 fix - migrated to new group ID'
+        }
+
         // Fix CVE-2025-48924 (Commons Lang3 uncontrolled recursion, Score 5.3)
         force 'org.apache.commons:commons-lang3:3.18.0'
     }
