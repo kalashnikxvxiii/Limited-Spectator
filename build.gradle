@@ -7,7 +7,7 @@ base {
 }
 
 group = 'com.karashi'
-version = '1.21.1-1.1.1'
+version = '1.21.x-1.1.2'
 
 java {
     toolchain {
@@ -27,12 +27,20 @@ dependencies {
 // Force dependency versions to fix security vulnerabilities
 configurations.configureEach {
     resolutionStrategy {
-        // Fix CVE-2025-24970 (Netty SSL handler vulnerability, Score 7.5)
-        force 'io.netty:netty-handler:4.1.118.Final'
-        force 'io.netty:netty-common:4.1.118.Final'
-        force 'io.netty:netty-buffer:4.1.118.Final'
-        force 'io.netty:netty-transport:4.1.118.Final'
-        force 'io.netty:netty-codec:4.1.118.Final'
+        // Fix CVE-2025-58057 (Netty BrotliDecoder DoS vulnerability, Score 7.5)
+        force 'io.netty:netty-handler:4.1.125.Final'
+        force 'io.netty:netty-common:4.1.125.Final'
+        force 'io.netty:netty-buffer:4.1.125.Final'
+        force 'io.netty:netty-transport:4.1.125.Final'
+        force 'io.netty:netty-codec:4.1.125.Final'
+
+        // Fix CVE-2025-68161 (Log4j Core TLS hostname verification, Score 5.4)
+        force 'org.apache.logging.log4j:log4j-core:2.25.3'
+        force 'org.apache.logging.log4j:log4j-api:2.25.3'
+
+        // Fix CVE-2025-66566 (LZ4 Java buffer disclosure vulnerability, Score 7.5)
+        // Note: lz4-java moved from org.lz4 to at.yawk.lz4 group ID
+        force 'at.yawk.lz4:lz4-java:1.10.1'
 
         // Fix CVE-2025-48924 (Commons Lang3 uncontrolled recursion, Score 5.3)
         force 'org.apache.commons:commons-lang3:3.18.0'

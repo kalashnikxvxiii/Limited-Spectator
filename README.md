@@ -62,7 +62,7 @@ All restrictions are handled server-side for secure multiplayer behavior.
 
 | Aspect                | Value              |
 | --------------------- | ------------------ |
-| **Minecraft version** | 1.21.1             |
+| **Minecraft version** | 1.21.1+            |
 | **Mod loader**        | NeoForge           |
 | **NeoForge version**  | 21.1.0+            |
 | **Java version**      | 21                 |
@@ -181,7 +181,7 @@ All configuration changes can be applied without restarting the server using `/r
 🧩 Compatibility
 ==================
 
-• ✅ Minecraft 1.21.1
+• ✅ Minecraft 1.21.1+
 
 • ✅ NeoForge 21.1.0+
 
@@ -197,7 +197,7 @@ All configuration changes can be applied without restarting the server using `/r
 
 • Install NeoForge 21.1.0+
 
-• Place `limitedspectator-1.21.1-1.1.1.jar` into your `mods/` folder
+• Place `limitedspectator-1.21.x-1.1.2.jar` into your `mods/` folder
 
 • Launch Minecraft - config file will be auto-generated at `config/limitedspectator-common.toml`
 

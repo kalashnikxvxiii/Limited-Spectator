@@ -7,6 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+## [1.1.2] - 2025-12-23
+
+### 🔒 Security Release
+
+This release addresses critical security vulnerabilities in transitive dependencies and expands version compatibility.
+
+### Security
+- **Updated Netty to 4.1.125.Final** - Fixes CVE-2025-58057 (BrotliDecoder DoS vulnerability, CVSS 7.5)
+  - Previous: 4.1.118.Final (CVE-2025-24970)
+  - Impact: Prevents denial of service attacks via crafted compressed input
+- **Updated Log4j Core to 2.25.3** - Fixes CVE-2025-68161 (TLS hostname verification, CVSS 5.4)
+  - New dependency forcing for both log4j-core and log4j-api
+  - Impact: Prevents man-in-the-middle attacks on log traffic
+- **Updated LZ4-Java to 1.10.1** - Fixes CVE-2025-66566 (buffer disclosure vulnerability, CVSS 7.5)
+  - Migrated from org.lz4:lz4-java to at.yawk.lz4:lz4-java (new official group ID)
+  - Previous: 1.8.0
+  - Impact: Prevents sensitive data disclosure via output buffer reuse
+- **Maintained Commons Lang3 3.18.0** - Continues protection against CVE-2025-48924 (CVSS 5.3)
+
+### Changed
+- **Version scheme updated from 1.21.1-1.1.1 to 1.21.x-1.1.2**
+  - Reflects compatibility with all Minecraft 1.21.x versions (1.21.1, 1.21.2, ... 1.21.11+)
+  - Dependency range already configured as [1.21.1,) in neoforge.mods.toml
+- **Documentation updates**:
+  - Updated README.md to clarify Minecraft 1.21.1+ compatibility
+  - Updated CLAUDE.md with new version and security information
+  - Updated build output JAR name to LimitedSpectator-1.21.x-1.1.2.jar
+
+### Technical
+- All dependency version forcing configured via build.gradle resolutionStrategy
+- Build tested successfully with clean build (no warnings or errors)
+- JAR output: `build/libs/LimitedSpectator-1.21.x-1.1.2.jar`
+- Gradle configuration remains at 8.10 with NeoGradle 7.0.167
+
+### Migration Notes
+Users on any 1.21.x Minecraft version can safely upgrade to this release. No configuration changes required.
+All existing configs from 1.1.1 remain fully compatible.
+
+---
+
 ## [1.1.1] - 2025-11-14
 
 ### 🎯 Stable Release
@@ -171,7 +211,8 @@ This is a **beta release** focused on features that work reliably within Minecra
 - All restrictions enforced server-side for multiplayer security
 - Compatible with Minecraft 1.21.1 and NeoForge 21.1.0+
 
-[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.0-beta...v1.1.1
 [1.1.0-beta]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.2...v1.1.0-beta
 [1.0.2]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.1...v1.0.2
