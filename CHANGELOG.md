@@ -32,7 +32,6 @@ This release addresses critical security vulnerabilities in transitive dependenc
   - Dependency range already configured as [1.21.1,) in neoforge.mods.toml
 - **Documentation updates**:
   - Updated README.md to clarify Minecraft 1.21.1+ compatibility
-  - Updated CLAUDE.md with new version and security information
   - Updated build output JAR name to LimitedSpectator-1.21.x-1.1.2.jar
 
 ### Technical
