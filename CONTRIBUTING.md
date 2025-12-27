@@ -66,7 +66,7 @@ Feature requests are welcome! Please provide:
 
 ```bash
 # Clone the repository
-git clone https://github.com/kalashnikxvxiii-collab/Limited-Spectator.git
+git clone https://github.com/kalashnikxvxiii/Limited-Spectator.git
 cd Limited-Spectator
 
 # Build the project
@@ -303,8 +303,8 @@ The following were initially considered "issues" but are now documented as **Min
 
 ## 📞 Contact
 
-- **Issues**: [GitHub Issues](https://github.com/kalashnikxvxiii-collab/Limited-Spectator/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/kalashnikxvxiii-collab/Limited-Spectator/discussions)
+- **Issues**: [GitHub Issues](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/kalashnikxvxiii/Limited-Spectator/discussions)
 
 ## 📜 License
 

@@ -272,12 +272,12 @@ This is a **beta release** focused on features that work reliably within Minecra
 - All restrictions enforced server-side for multiplayer security
 - Compatible with Minecraft 1.21.1 and NeoForge 21.1.0+
 
-[Unreleased]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.2.1...HEAD
-[1.2.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.2.0...v1.2.1
-[1.2.0]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.2...v1.2.0
-[1.1.2]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.1...v1.1.2
-[1.1.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.1.0-beta...v1.1.1
-[1.1.0-beta]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.2...v1.1.0-beta
-[1.0.2]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.1...v1.0.2
-[1.0.1]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/kalashnikxvxiii-collab/Limited-Spectator/releases/tag/v1.0.0
+[Unreleased]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.1.2...v1.2.0
+[1.1.2]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.1.1...v1.1.2
+[1.1.1]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.1.0-beta...v1.1.1
+[1.1.0-beta]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.0.2...v1.1.0-beta
+[1.0.2]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/kalashnikxvxiii/Limited-Spectator/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/kalashnikxvxiii/Limited-Spectator/releases/tag/v1.0.0

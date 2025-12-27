@@ -9,8 +9,8 @@
   ],
   "contact": {
     "homepage": "https://modrinth.com/mod/limited-spectator",
-    "issues": "https://github.com/kalashnikxvxiii-collab/Limited-Spectator/issues",
-    "sources": "https://github.com/kalashnikxvxiii-collab/Limited-Spectator"
+    "issues": "https://github.com/kalashnikxvxiii/Limited-Spectator/issues",
+    "sources": "https://github.com/kalashnikxvxiii/Limited-Spectator"
   },
   "license": "MIT",
   "environment": "both",
