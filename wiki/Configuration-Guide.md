@@ -2,9 +2,9 @@
 
 ## ⚠️ Configuration System
 
-**Current Stable Version: v1.1.1**
+**Current Stable Version: v1.2.1**
 
-This configuration system is available in v1.1.1 and can be customized in `config/limitedspectator-common.toml`. All settings support hot-reload via `/reload` command.
+This configuration system is available in v1.2.1 and can be customized in `config/limitedspectator-common.toml`. All settings support hot-reload via `/reload` command.
 
 **Legacy v1.0.2**: No configuration file. Settings are hardcoded (75 blocks, level 0 permissions, doors/trapdoors/gates only).
 - All other settings: Default values

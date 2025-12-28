@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:21.1.213"
+    implementation "net.neoforged:neoforge:21.1.217"
 }
 
 // Force dependency versions to fix security vulnerabilities

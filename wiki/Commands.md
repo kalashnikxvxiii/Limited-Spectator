@@ -4,15 +4,15 @@ Limited Spectator provides two main commands for entering and exiting spectator 
 
 ## Version Compatibility
 
-**Current Stable Version: v1.1.1**
+**Current Stable Version: v1.2.1**
 
-| Feature | v1.1.1 (Current) | Legacy v1.0.2 |
+| Feature | v1.2.1 (Current) | Legacy v1.0.2 |
 |---------|------------------|---------------|
 | **Commands** | ✅ `/spectator`, `/survival` | ✅ `/spectator`, `/survival` |
 | **Permission Levels** | ✅ Configurable (0-4) | 🔒 Fixed at 0 (all players) |
 | **OP Requirement** | ✅ Configurable | ❌ Not available |
 
-**Note**: Permission configuration is available in v1.1.1. Legacy v1.0.2 always uses permission level 0.
+**Note**: Permission configuration is available in v1.2.1. Legacy v1.0.2 always uses permission level 0.
 
 ---
 
@@ -59,7 +59,7 @@ Entered spectator mode. Use /survival to return.
 
 ### Permission Requirements
 
-#### v1.1.1 (Current)
+#### v1.2.1 (Current)
 
 **Configurable permission levels** - Set in `config/limitedspectator-common.toml`:
 ```toml
@@ -436,7 +436,7 @@ There's no built-in command to check who is in spectator mode. Admins should:
 
 **Solutions**:
 1. Check server logs for mod loading
-2. Verify `LimitedSpectator-1.21.1-1.1.0-beta.jar` is in `mods/` folder
+2. Verify `LimitedSpectator-1.21.x-1.2.1.jar` is in `mods/` folder
 3. Restart the server
 
 ### Command Does Nothing

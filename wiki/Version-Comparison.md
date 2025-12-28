@@ -2,9 +2,9 @@
 
 ## ⚠️ Important Update
 
-**Limited Spectator v1.1.1 is now the current stable release** and supersedes both v1.0.2 and v1.1.0-beta.
+**Limited Spectator v1.2.1 is now the current stable release** and supersedes v1.1.1, v1.0.2 and v1.1.0-beta.
 
-**For all users**: Download [v1.1.1](../../releases/tag/v1.1.1) - it combines the stability of v1.0.2 with the full configuration system from v1.1.0-beta, with all known issues resolved.
+**For all users**: Download [v1.2.1](../../releases/tag/v1.2.1) - it includes all features from v1.1.1 plus the latest security updates and improvements.
 
 The comparison below is kept for historical reference and for users on legacy versions considering an upgrade.
 
@@ -475,10 +475,16 @@ v1.1.0-beta (2025-11-09) ← SUPERSEDED
      ├─ Dimension tracking fix
      └─ Minecraft limitation docs
 
-v1.1.1 (2025-11-14) ← CURRENT STABLE
+v1.1.1 (2025-11-14) ← LEGACY STABLE
   └─ Configuration system (stable)
      ├─ Cleaned config (removed non-functional options)
      ├─ All documentation updated
+     └─ Production-ready
+
+v1.2.1 (2025-12-18) ← CURRENT STABLE
+  └─ Security updates and multilingual support
+     ├─ Updated dependencies (Netty 4.1.125, Log4j 2.25.3, LZ4-Java 1.10.1)
+     ├─ Full translation support (5 languages)
      └─ Production-ready
 ```
 

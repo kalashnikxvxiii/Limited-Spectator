@@ -4,11 +4,11 @@ This guide will walk you through installing Limited Spectator on your Minecraft 
 
 ## Which Version Should I Download?
 
-### 🟢 Stable v1.1.1 (Recommended)
+### 🟢 Stable v1.2.1 (Recommended)
 
 **Best for**: All servers and users
 
-**Download**: [LimitedSpectator-1.21.1-1.1.1.jar](../../releases/tag/v1.1.1)
+**Download**: [LimitedSpectator-1.21.x-1.2.1.jar](../../releases/tag/v1.2.1)
 
 **Features**:
 - ✅ Fully tested and stable
@@ -21,7 +21,8 @@ This guide will walk you through installing Limited Spectator on your Minecraft 
 ### 📦 Previous Versions
 
 For legacy servers, older versions remain available:
-- [v1.0.2 (Previous Stable)](../../releases/tag/v1.0.2) - Hardcoded settings, no config file
+- [v1.1.1 (Previous Stable)](../../releases/tag/v1.1.1) - Previous stable release
+- [v1.0.2 (Legacy Stable)](../../releases/tag/v1.0.2) - Hardcoded settings, no config file
 - [v1.1.0-beta (Superseded)](../../releases/tag/v1.1.0-beta) - Beta version superseded by v1.1.1
 
 ---
@@ -32,8 +33,8 @@ Before installing, ensure your system meets these requirements:
 
 | Component | Requirement |
 |-----------|-------------|
-| **Minecraft** | 1.21.1 |
-| **Mod Loader** | NeoForge 21.1.213+ |
+| **Minecraft** | 1.21.1+ |
+| **Mod Loader** | NeoForge 21.1.217+ |
 | **Java** | Java 21 or higher |
 | **Operating System** | Windows, Linux, macOS |
 
@@ -42,8 +43,9 @@ Before installing, ensure your system meets these requirements:
 ### Official Releases
 
 - **[GitHub Releases](../../releases)** - All versions available
-  - [v1.1.1 (Current Stable)](../../releases/tag/v1.1.1)
-  - [v1.0.2 (Previous Stable)](../../releases/tag/v1.0.2)
+  - [v1.2.1 (Current Stable)](../../releases/tag/v1.2.1)
+  - [v1.1.1 (Previous Stable)](../../releases/tag/v1.1.1)
+  - [v1.0.2 (Legacy Stable)](../../releases/tag/v1.0.2)
   - [v1.1.0-beta (Superseded)](../../releases/tag/v1.1.0-beta)
 - **CurseForge** - *(coming soon)*
 - **Modrinth** - *(coming soon)*
@@ -56,7 +58,7 @@ Limited Spectator is primarily a **server-side mod**, which means it works best 
 
 #### Step 1: Install NeoForge on Server
 
-1. Download **NeoForge 21.1.213** or higher from [NeoForge Downloads](https://neoforged.net/)
+1. Download **NeoForge 21.1.217** or higher from [NeoForge Downloads](https://neoforged.net/)
 2. Run the installer: `java -jar neoforge-installer.jar --installServer`
 3. This creates a `run.sh` (Linux/Mac) or `run.bat` (Windows) file
 
@@ -64,7 +66,7 @@ Limited Spectator is primarily a **server-side mod**, which means it works best 
 
 1. Locate your server's `mods/` folder
    - If it doesn't exist, create it in the server root directory
-2. Copy `LimitedSpectator-1.21.1-1.1.1.jar` into the `mods/` folder
+2. Copy `LimitedSpectator-1.21.x-1.2.1.jar` into the `mods/` folder
 3. Start the server using `./run.sh` (Linux/Mac) or `run.bat` (Windows)
 
 #### Step 3: First-Time Configuration
@@ -82,7 +84,7 @@ Client installation is **optional** but recommended for enhanced features like a
 
 #### Step 1: Install NeoForge on Client
 
-1. Download **NeoForge 21.1.213** or higher from [NeoForge Downloads](https://neoforged.net/)
+1. Download **NeoForge 21.1.217** or higher from [NeoForge Downloads](https://neoforged.net/)
 2. Run the installer and select "Install Client"
 3. Open the Minecraft Launcher and select the NeoForge profile
 
@@ -93,7 +95,7 @@ Client installation is **optional** but recommended for enhanced features like a
    - **Linux**: `~/.minecraft`
    - **macOS**: `~/Library/Application Support/minecraft`
 2. Navigate to the `mods/` folder (create it if it doesn't exist)
-3. Copy `LimitedSpectator-1.21.1-1.1.1.jar` into the `mods/` folder
+3. Copy `LimitedSpectator-1.21.x-1.2.1.jar` into the `mods/` folder
 4. Launch Minecraft with the NeoForge profile
 
 ### 🔧 Single-Player Installation
@@ -120,7 +122,7 @@ You can also run `/spectator help` in-game to verify commands are available.
 1. Launch Minecraft
 2. Go to "Mods" menu from the main screen
 3. Look for "Limited Spectator" in the mod list
-4. Version should show: `1.21.1-1.1.1`
+4. Version should show: `1.21.x-1.2.1`
 
 ## Post-Installation Setup
 
@@ -160,7 +162,7 @@ Edit `config/limitedspectator-common.toml`:
 
 ### "Mod not loading" or "Missing dependencies"
 
-**Solution**: Ensure you're using NeoForge 21.1.213 or higher, not Forge. Limited Spectator is **NeoForge-only**.
+**Solution**: Ensure you're using NeoForge 21.1.217 or higher, not Forge. Limited Spectator is **NeoForge-only**.
 
 ### "Config file not generating"
 
@@ -199,7 +201,7 @@ To update to a newer version:
 To remove Limited Spectator:
 
 1. Stop the server/client
-2. Delete `mods/LimitedSpectator-1.21.1-1.1.1.jar`
+2. Delete `mods/LimitedSpectator-1.21.x-1.2.1.jar`
 3. Optionally delete `config/limitedspectator-common.toml`
 4. Restart the server/client
 

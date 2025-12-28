@@ -4,11 +4,11 @@ Common questions and solutions for Limited Spectator.
 
 ## 📌 Version Notice
 
-**Current Stable Version: v1.1.1**
+**Current Stable Version: v1.2.1**
 
-This FAQ covers Limited Spectator v1.1.1 with full configuration support. Configuration examples can be customized in `config/limitedspectator-common.toml`.
+This FAQ covers Limited Spectator v1.2.1 with full configuration support. Configuration examples can be customized in `config/limitedspectator-common.toml`.
 
-Legacy versions (v1.0.2, v1.1.0-beta) are superseded by v1.1.1.
+Legacy versions (v1.0.2, v1.1.0-beta, v1.1.1) are superseded by v1.2.1.
 
 ---
 
@@ -30,7 +30,7 @@ Legacy versions (v1.0.2, v1.1.0-beta) are superseded by v1.1.1.
 
 #### Q: Does this work with Forge or only NeoForge?
 
-**A**: **NeoForge only**. This mod is built for NeoForge 21.1.213+ and will not work with Forge.
+**A**: **NeoForge only**. This mod is built for NeoForge 21.1.217+ and will not work with Forge.
 
 - **NeoForge 1.21.1**: ✅ Supported
 - **Forge 1.21.1**: ❌ Not supported
@@ -193,11 +193,11 @@ Or restart the server.
    ```
    /version
    ```
-   Must show NeoForge 21.1.213 or higher, **not Forge**.
+   Must show NeoForge 21.1.217 or higher, **not Forge**.
 
 2. **Verify JAR Location**
    - File must be in `mods/` folder
-   - File name: `LimitedSpectator-1.21.1-1.1.0-beta.jar`
+   - File name: `LimitedSpectator-1.21.x-1.2.1.jar`
    - No extra folders (not `mods/LimitedSpectator/...`)
 
 3. **Check Server Logs**
@@ -227,7 +227,7 @@ Or restart the server.
    java -version
    ```
 
-2. Update NeoForge to 21.1.213+
+2. Update NeoForge to 21.1.217+
 
 3. Check for mod conflicts in error log
 
@@ -641,7 +641,7 @@ To test a mod for compatibility:
 
 If you find a bug, please report it on [GitHub Issues](../../issues/new) with:
 
-1. **Mod version**: `1.21.1-1.1.0-beta`
+1. **Mod version**: `1.21.x-1.2.1`
 2. **NeoForge version**: From `/version` command
 3. **Minecraft version**: 1.21.1
 4. **Steps to reproduce**: Detailed steps to recreate the bug

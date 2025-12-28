@@ -4,11 +4,11 @@ This guide is specifically for server administrators deploying Limited Spectator
 
 ## 📌 Version Notice for Admins
 
-**Current Stable Version: v1.1.1**
+**Current Stable Version: v1.2.1**
 
-This guide covers Limited Spectator v1.1.1 with full configuration support. All configuration examples are available in `config/limitedspectator-common.toml` and can be hot-reloaded with `/reload`.
+This guide covers Limited Spectator v1.2.1 with full configuration support. All configuration examples are available in `config/limitedspectator-common.toml` and can be hot-reloaded with `/reload`.
 
-**Legacy versions** (v1.0.2, v1.1.0-beta): If using older versions, upgrade to v1.1.1 for configuration support.
+**Legacy versions** (v1.0.2, v1.1.0-beta, v1.1.1): If using older versions, upgrade to v1.2.1 for the latest features and security updates.
 
 ---
 

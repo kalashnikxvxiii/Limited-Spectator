@@ -4,11 +4,11 @@ Limited Spectator provides a comprehensive set of features designed to allow saf
 
 ## 📌 Version Notice
 
-**Current Stable Version: v1.1.1**
+**Current Stable Version: v1.2.1**
 
-This page documents features for Limited Spectator v1.1.1, which includes full configuration support. Configuration examples can be customized in `config/limitedspectator-common.toml`.
+This page documents features for Limited Spectator v1.2.1, which includes full configuration support. Configuration examples can be customized in `config/limitedspectator-common.toml`.
 
-**Legacy versions** (v1.0.2, v1.1.0-beta) are superseded by v1.1.1.
+**Legacy versions** (v1.0.2, v1.1.0-beta, v1.1.1) are superseded by v1.2.1.
 
 ---
 

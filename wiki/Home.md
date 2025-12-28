@@ -4,9 +4,9 @@ Welcome to the **Limited Spectator** wiki! This mod provides a restricted specta
 
 ## ⚠️ Version Notice
 
-**Current Stable Version: 1.1.1**
+**Current Stable Version: 1.2.1**
 
-Limited Spectator v1.1.1 is the latest stable release with full configuration support. Previous versions (1.0.2, 1.1.0-beta) are available for legacy servers but are superseded by this release.
+Limited Spectator v1.2.1 is the latest stable release with full configuration support. Previous versions (1.0.2, 1.1.0-beta, 1.1.1) are available for legacy servers but are superseded by this release.
 
 ---
 
@@ -31,7 +31,7 @@ Perfect for server admins who want to allow temporary observation without compro
 - **Item Protection**: Configurable item drop/pickup restrictions
 - **PvP Prevention**: Optional PvP blocking
 - **Hot-Reload**: Configuration changes apply via `/reload` command
-- **Security Hardened**: Built with updated dependencies (Netty 4.1.118, Commons Lang3 3.18.0)
+- **Security Hardened**: Built with updated dependencies (Netty 4.1.125, Log4j 2.25.3, LZ4-Java 1.10.1, Commons Lang3 3.18.0)
 
 ## 📚 Documentation
 
@@ -43,12 +43,12 @@ Perfect for server admins who want to allow temporary observation without compro
 | **[Configuration Guide](Configuration-Guide)** | Complete configuration system reference |
 | **[FAQ & Troubleshooting](FAQ-and-Troubleshooting)** | Common issues and solutions |
 | **[For Server Admins](For-Server-Admins)** | Best practices for server deployment |
-| **[Version Comparison](Version-Comparison)** | Comparison between v1.1.1, v1.0.2, and v1.1.0-beta |
+| **[Version Comparison](Version-Comparison)** | Comparison between v1.2.1, v1.1.1, v1.0.2, and v1.1.0-beta |
 
 ## 🚀 Quick Start
 
-1. Download **v1.1.1** from [GitHub Releases](../../releases/tag/v1.1.1)
-2. Place `LimitedSpectator-1.21.1-1.1.1.jar` in your `mods/` folder
+1. Download **v1.2.1** from [GitHub Releases](../../releases/tag/v1.2.1)
+2. Place `LimitedSpectator-1.21.x-1.2.1.jar` in your `mods/` folder
 3. Start the server to generate `config/limitedspectator-common.toml`
 4. Customize the config as needed (see [Configuration Guide](Configuration-Guide))
 5. Use `/spectator` to enter spectator mode, `/survival` to exit
@@ -56,8 +56,8 @@ Perfect for server admins who want to allow temporary observation without compro
 
 ## 🔧 Requirements
 
-- **Minecraft**: 1.21.1
-- **NeoForge**: 21.1.213 or higher
+- **Minecraft**: 1.21.1+
+- **NeoForge**: 21.1.217 or higher
 - **Java**: 21 or higher
 - **Side**: Server-required, client-optional (for HUD features)
 
@@ -65,7 +65,8 @@ Perfect for server admins who want to allow temporary observation without compro
 
 | Version | Release Date | Status | Download |
 |---------|--------------|--------|----------|
-| **1.1.1** | 2025-11-14 | ✅ Stable (Current) | [Download](../../releases/tag/v1.1.1) |
+| **1.2.1** | 2025-12-18 | ✅ Stable (Current) | [Download](../../releases/tag/v1.2.1) |
+| **1.1.1** | 2025-11-14 | 📦 Legacy | [Download](../../releases/tag/v1.1.1) |
 | **1.1.0-beta** | 2025-11-09 | ⚠️ Superseded | [Download](../../releases/tag/v1.1.0-beta) |
 | **1.0.2** | 2025-11-08 | 📦 Legacy | [Download](../../releases/tag/v1.0.2) |
 

@@ -186,7 +186,7 @@ Test with various config combinations:
 ```markdown
 **Test Environment:**
 - Minecraft: 1.21.1
-- NeoForge: 21.1.213
+- NeoForge: 21.1.217
 - Mod Version: [your version]
 
 **Tests Performed:**
