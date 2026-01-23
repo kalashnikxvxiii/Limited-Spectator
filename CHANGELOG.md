@@ -67,7 +67,6 @@ Major architectural overhaul introducing support for NeoForge, Fabric, and Quilt
 
 ### Documentation
 - Updated README.md with multi-loader installation instructions
-- Updated CLAUDE.md with complete architecture documentation
 - Added loader comparison table
 - Documented build commands for each loader
 
