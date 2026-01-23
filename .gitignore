@@ -34,3 +34,8 @@ repo/
 nul
 *.log
 .DS_Store
+
+# Tests
+test-final.txt
+test-results.txt
+test-output.txt
