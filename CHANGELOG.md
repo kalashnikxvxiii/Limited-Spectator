@@ -76,8 +76,6 @@ Major architectural overhaul introducing support for NeoForge, Fabric, and Quilt
 - **Configuration**: Only NeoForge version supports TOML config (Fabric/Quilt use hardcoded defaults)
 
 ### Known Limitations
-- Fabric and Quilt versions use hardcoded configuration (config system planned for future release)
-- Network packet synchronization not yet implemented for Fabric/Quilt (HUD behavior may differ)
 - Quilt version requires Fabric API (QSL support planned)
 
 ---
