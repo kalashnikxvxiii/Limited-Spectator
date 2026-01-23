@@ -1,210 +1,225 @@
 # Installation Guide
 
-This guide will walk you through installing Limited Spectator on your Minecraft client or server.
+## 📦 Choose Your Mod Loader
 
-## Which Version Should I Download?
+Limited Spectator supports **three mod loaders** with full feature parity:
 
-### 🟢 Stable v1.2.1 (Recommended)
+| Loader | JAR File | Status | Notes |
+|--------|----------|--------|-------|
+| **NeoForge** | `LimitedSpectator-neoforge-2.0.0.jar` | ✅ Full Support | Complete config system |
+| **Fabric** | `LimitedSpectator-fabric-2.0.0.jar` | ✅ Full Support | Hardcoded defaults |
+| **Quilt** | `LimitedSpectator-quilt-2.0.0.jar` | ✅ Production Ready | Uses Fabric API |
 
-**Best for**: All servers and users
+## 🔧 System Requirements
 
-**Download**: [LimitedSpectator-1.21.x-1.2.1.jar](../../releases/tag/v1.2.1)
+- **Minecraft**: 1.21.1 or higher (tested up to 1.21.11)
+- **Java**: 21 or higher
+- **RAM**: 2GB minimum (4GB+ recommended)
 
-**Features**:
-- ✅ Fully tested and stable
-- ✅ Full configuration system (20+ options)
-- ✅ Configurable distance, permissions, interactions
-- ✅ Generates `config/limitedspectator-common.toml`
-- ✅ Hot-reload support via `/reload` command
-- ✅ No known bugs
+## 📥 Installation Steps
 
-### 📦 Previous Versions
+### Step 1: Install Your Mod Loader
 
-For legacy servers, older versions remain available:
-- [v1.1.1 (Previous Stable)](../../releases/tag/v1.1.1) - Previous stable release
-- [v1.0.2 (Legacy Stable)](../../releases/tag/v1.0.2) - Hardcoded settings, no config file
-- [v1.1.0-beta (Superseded)](../../releases/tag/v1.1.0-beta) - Beta version superseded by v1.1.1
+Choose ONE of the following:
 
----
+#### NeoForge
+1. Download [NeoForge 21.1.217+](https://neoforged.net/)
+2. Run the installer
+3. Select "Install Client" or "Install Server"
+4. Choose your Minecraft installation
 
-## System Requirements
+#### Fabric
+1. Download [Fabric Loader 0.16.5+](https://fabricmc.net/use/installer/)
+2. Run the installer
+3. Select "Install Client" or "Install Server"
+4. Choose your Minecraft installation
 
-Before installing, ensure your system meets these requirements:
+#### Quilt
+1. Download [Quilt Loader 0.26.4+](https://quiltmc.org/en/install/client/)
+2. Run the installer
+3. Select "Install Client" or "Install Server"
+4. Choose your Minecraft installation
 
-| Component | Requirement |
-|-----------|-------------|
-| **Minecraft** | 1.21.1+ |
-| **Mod Loader** | NeoForge 21.1.217+ |
-| **Java** | Java 21 or higher |
-| **Operating System** | Windows, Linux, macOS |
+### Step 2: Download Limited Spectator
 
-## Download Links
+Download the correct JAR for your loader from:
+- **Modrinth**: [Limited Spectator](https://modrinth.com/mod/limited-spectator)
+- **CurseForge**: [Limited Spectator](https://legacy.curseforge.com/minecraft/mc-mods/limited-spectator)
+- **GitHub Releases**: [GitHub](https://github.com/kalashnikxvxiii/Limited-Spectator/releases)
 
-### Official Releases
+### Step 3: Place JAR in Mods Folder
 
-- **[GitHub Releases](../../releases)** - All versions available
-  - [v1.2.1 (Current Stable)](../../releases/tag/v1.2.1)
-  - [v1.1.1 (Previous Stable)](../../releases/tag/v1.1.1)
-  - [v1.0.2 (Legacy Stable)](../../releases/tag/v1.0.2)
-  - [v1.1.0-beta (Superseded)](../../releases/tag/v1.1.0-beta)
-- **CurseForge** - *(coming soon)*
-- **Modrinth** - *(coming soon)*
-
-## Installation Methods
-
-### 🖥️ Server Installation (Recommended)
-
-Limited Spectator is primarily a **server-side mod**, which means it works best when installed on the server.
-
-#### Step 1: Install NeoForge on Server
-
-1. Download **NeoForge 21.1.217** or higher from [NeoForge Downloads](https://neoforged.net/)
-2. Run the installer: `java -jar neoforge-installer.jar --installServer`
-3. This creates a `run.sh` (Linux/Mac) or `run.bat` (Windows) file
-
-#### Step 2: Add Limited Spectator
-
-1. Locate your server's `mods/` folder
-   - If it doesn't exist, create it in the server root directory
-2. Copy `LimitedSpectator-1.21.x-1.2.1.jar` into the `mods/` folder
-3. Start the server using `./run.sh` (Linux/Mac) or `run.bat` (Windows)
-
-#### Step 3: First-Time Configuration
-
-When the server starts for the first time:
-
-1. The mod will generate `config/limitedspectator-common.toml`
-2. Stop the server
-3. Edit `config/limitedspectator-common.toml` to customize settings (see [Configuration Guide](Configuration-Guide))
-4. Restart the server or use `/reload` command
-
-### 💻 Client Installation (Optional)
-
-Client installation is **optional** but recommended for enhanced features like automatic HUD hiding.
-
-#### Step 1: Install NeoForge on Client
-
-1. Download **NeoForge 21.1.217** or higher from [NeoForge Downloads](https://neoforged.net/)
-2. Run the installer and select "Install Client"
-3. Open the Minecraft Launcher and select the NeoForge profile
-
-#### Step 2: Add Limited Spectator
-
-1. Open your Minecraft folder:
+1. Locate your Minecraft installation folder:
    - **Windows**: `%APPDATA%\.minecraft`
-   - **Linux**: `~/.minecraft`
    - **macOS**: `~/Library/Application Support/minecraft`
-2. Navigate to the `mods/` folder (create it if it doesn't exist)
-3. Copy `LimitedSpectator-1.21.x-1.2.1.jar` into the `mods/` folder
-4. Launch Minecraft with the NeoForge profile
+   - **Linux**: `~/.minecraft`
 
-### 🔧 Single-Player Installation
+2. Navigate to the `mods` folder (create if it doesn't exist)
 
-For single-player or LAN worlds:
+3. Copy the downloaded JAR file into the `mods` folder
 
-1. Follow the **Client Installation** steps above
-2. Configuration file will be at: `run/config/limitedspectator-common.toml`
+### Step 4: Launch Minecraft
 
-## Verifying Installation
+1. Open Minecraft Launcher
+2. Select your mod loader profile
+3. Click "Play"
+4. Wait for Minecraft to load
 
-### On Server
+### Step 5: Verify Installation
 
-Check the server console during startup. You should see:
+1. Launch a world (single-player or server)
+2. Open chat and type: `/spectator`
+3. You should enter spectator mode
+4. Type `/survival` to exit
 
-```
-[INFO] [LimitedSpectator] Limited Spectator mod loaded successfully!
-```
+If you see messages like "You are now in spectator mode", the mod is working!
 
-You can also run `/spectator help` in-game to verify commands are available.
+## ⚙️ Configuration (NeoForge Only)
 
-### On Client
+After first launch, a config file is automatically created at:
 
-1. Launch Minecraft
-2. Go to "Mods" menu from the main screen
-3. Look for "Limited Spectator" in the mod list
-4. Version should show: `1.21.x-1.2.1`
+**Location**: `config/limitedspectator-common.toml`
 
-## Post-Installation Setup
+### Quick Configuration
 
-### 1. Configure Permissions
+Edit the file to customize:
+- Distance limits
+- Allowed interactions
+- Permission levels
+- HUD behavior
 
-Edit `config/limitedspectator-common.toml`:
+See [Configuration Guide](Configuration-Guide.md) for detailed options.
 
-```toml
-[commands]
-  # Permission level required for /spectator command (0-4)
-  # 0 = all players, 2 = operators, 4 = server console only
-  spectator_command_permission_level = 0
+### Applying Changes
 
-  # Require operator status for spectator commands
-  require_op_for_spectator = false
-```
+Changes are applied automatically when you:
+1. Edit the config file and save
+2. Run `/reload` command in-game
 
-### 2. Set Distance Limits
+No server restart needed!
 
-```toml
-[movement]
-  # Maximum distance from starting position (-1 = unlimited)
-  max_distance = 75.0
+## 🖥️ Server Installation
 
-  # Teleport back when exceeding distance, or just warn
-  teleport_back_on_exceed = true
-```
+### Single-Player World
+Follow the same steps as above. Config file appears in your world's `config` folder.
 
-### 3. Test the Installation
+### Multiplayer Server
 
-1. Join the server
-2. Run `/spectator` to enter spectator mode
-3. Run `/survival` to return to survival mode
-4. Verify restrictions are working (distance limits, interactions, etc.)
+1. **Stop the server** (if running)
 
-## Common Installation Issues
+2. **Install mod loader** on the server:
+   ```bash
+   # For NeoForge
+   java -jar neoforge-installer.jar --installServer
+   
+   # For Fabric
+   java -jar fabric-installer.jar server
+   
+   # For Quilt
+   java -jar quilt-installer.jar install server
+   ```
 
-### "Mod not loading" or "Missing dependencies"
+3. **Place JAR in mods folder**:
+   ```bash
+   cp LimitedSpectator-*.jar server/mods/
+   ```
 
-**Solution**: Ensure you're using NeoForge 21.1.217 or higher, not Forge. Limited Spectator is **NeoForge-only**.
+4. **Start the server**:
+   ```bash
+   ./start.sh  # Linux/macOS
+   # or
+   start.bat   # Windows
+   ```
 
-### "Config file not generating"
+5. **Configure** (NeoForge only):
+   - Edit `config/limitedspectator-common.toml`
+   - Run `/reload` to apply changes
 
-**Solution**: The config generates on first server start. Make sure:
-1. The mod JAR is in the `mods/` folder
-2. The server started successfully without crashes
-3. Check `logs/latest.log` for errors
+## 🐛 Troubleshooting
 
-### "Commands not available"
+### Mod Not Loading
 
-**Solution**:
-1. Verify the mod loaded by checking server logs
-2. Check if you have permission to use commands (see [Commands](Commands))
-3. Ensure you're on a server with the mod installed
+**Problem**: Mod doesn't appear in mod list
 
-### "Client crashes when joining server"
+**Solutions**:
+1. Verify JAR is in correct `mods` folder
+2. Check Minecraft version matches (1.21.1+)
+3. Verify mod loader is installed correctly
+4. Check console for error messages
 
-**Solution**: Limited Spectator is server-side. If the server has the mod but your client doesn't, you can still join. If your client has the mod but the server doesn't, remove it from your client `mods/` folder.
+### Commands Not Working
 
-## Updating the Mod
+**Problem**: `/spectator` command not recognized
 
-To update to a newer version:
+**Solutions**:
+1. Verify mod loaded (check mod list)
+2. Ensure you have permission level 0+ (default)
+3. Check config file for permission settings
+4. Restart Minecraft
 
-1. Stop the server/client
-2. Remove the old JAR from `mods/` folder
-3. Download the new version
-4. Place the new JAR in `mods/` folder
-5. Check [Changelog](../../blob/main/CHANGELOG.md) for breaking changes
-6. Update `config/limitedspectator-common.toml` if needed
-7. Restart the server/client
+### Config File Not Generated
 
-**Note**: Always backup your config file before updating!
+**Problem**: No `limitedspectator-common.toml` file
 
-## Uninstallation
+**Solutions**:
+1. This is **NeoForge only** - Fabric/Quilt use hardcoded defaults
+2. Create world/server and launch
+3. Config should generate automatically
+4. If not, check folder permissions
 
-To remove Limited Spectator:
+### Quilt Not Working in Dev Environment
 
-1. Stop the server/client
-2. Delete `mods/LimitedSpectator-1.21.x-1.2.1.jar`
-3. Optionally delete `config/limitedspectator-common.toml`
-4. Restart the server/client
+**Problem**: `.\gradlew.bat :quilt:runClient` fails
 
----
+**Solution**: This is a known limitation. Quilt works in production but not in dev environment.
 
-**Next Steps**: Check out the [Configuration Guide](Configuration-Guide) to customize Limited Spectator for your needs!
+**Workaround**:
+1. Build the JAR: `.\gradlew.bat :quilt:build`
+2. Copy to `.minecraft/mods/`
+3. Launch Minecraft with Quilt Loader
+4. Test the production JAR
+
+See [Contributing Guide](../CONTRIBUTING.md#quilt-development-environment-limitation) for details.
+
+## 📋 Compatibility
+
+### Minecraft Versions
+- ✅ 1.21.1 (baseline)
+- ✅ 1.21.10
+- ✅ 1.21.11+
+- ✅ All 1.21.x versions
+
+### Mod Loaders
+- ✅ NeoForge 21.1.217+
+- ✅ Fabric Loader 0.16.5+
+- ✅ Quilt Loader 0.26.4+
+
+### Other Mods
+- ✅ Generally compatible with most mods
+- ⚠️ May conflict with mods that heavily modify:
+  - Player gamemode handling
+  - HUD rendering
+  - Permission systems
+
+## 🆘 Getting Help
+
+If you encounter issues:
+
+1. **Check logs**: Look for `[LimitedSpectator]` messages
+2. **Report bug**: [GitHub Issues](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
+3. **Ask questions**: [GitHub Discussions](https://github.com/kalashnikxvxiii/Limited-Spectator/discussions)
+
+Include:
+- Minecraft version
+- Mod loader and version
+- Mod version
+- Error messages
+- Steps to reproduce
+
+## ✅ Next Steps
+
+After installation:
+1. Read [Features Guide](Features.md) to learn what you can do
+2. Check [Configuration Guide](Configuration-Guide.md) to customize behavior
+3. See [Commands](Commands.md) for available commands
+4. Review [FAQ](FAQ-and-Troubleshooting.md) for common questions

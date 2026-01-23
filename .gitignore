@@ -1,28 +1,36 @@
-# eclipse
-bin
+# Eclipse
+bin/
 *.launch
-.settings
-.metadata
+.settings/
+.metadata/
 .classpath
 .project
+.eclipse/
 
-# idea
-out
+# IntelliJ IDEA
+out/
 *.ipr
 *.iws
 *.iml
-.idea
+.idea/
 
-# gradle
-build
-.gradle
+# VS Code
+.vscode/
 
-# other
-eclipse
-run
-runs
-run-data
+# Gradle
+build/
+.gradle/
+gradle-app.setting
 
-repo
-.vscode/launch.json
+# Minecraft
+run/
+runs/
+runServer/
+run-data/
+logs/
+
+# Other
+repo/
 nul
+*.log
+.DS_Store

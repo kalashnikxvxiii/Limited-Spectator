@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "limitedspectator",
+  "version": "${version}",
+  "name": "Limited Spectator",
+  "description": "A restricted spectator mode for Minecraft servers",
+  "authors": [
+    "Karashi"
+  ],
+  "contact": {
+    "homepage": "https://github.com/karashi/limitedspectator",
+    "sources": "https://github.com/karashi/limitedspectator"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.karashi.limitedspectator.LimitedSpectatorFabric"
+    ]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.16.5",
+    "fabric-api": "*",
+    "minecraft": ">=1.21 <1.22",
+    "java": ">=21"
+  },
+  "suggests": {}
+}

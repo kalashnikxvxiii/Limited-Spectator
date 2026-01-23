@@ -1,657 +1,338 @@
-# For Server Admins
+# Server Admin Guide
 
-This guide is specifically for server administrators deploying Limited Spectator in production environments. It covers best practices, security considerations, and deployment strategies.
+This guide covers everything server administrators need to know about Limited Spectator.
 
-## 📌 Version Notice for Admins
+## 🖥️ Server Installation
 
-**Current Stable Version: v1.2.1**
+### Prerequisites
 
-This guide covers Limited Spectator v1.2.1 with full configuration support. All configuration examples are available in `config/limitedspectator-common.toml` and can be hot-reloaded with `/reload`.
+- Minecraft Server 1.21.1+
+- Mod Loader (NeoForge 21.1.217+ / Fabric 0.16.5+ / Quilt 0.26.4+)
+- Java 21+
 
-**Legacy versions** (v1.0.2, v1.1.0-beta, v1.1.1): If using older versions, upgrade to v1.2.1 for the latest features and security updates.
+### Installation Steps
 
----
+1. **Install Mod Loader**
 
-## Deployment Strategies
+   ```bash
+   # NeoForge
+   java -jar neoforge-installer.jar --installServer
+   
+   # Fabric
+   java -jar fabric-installer.jar server
+   
+   # Quilt
+   java -jar quilt-installer.jar install server
+   ```
 
-### Server Types and Recommended Configurations
+2. **Download Limited Spectator JAR**
 
-**Note**: These configurations require **Beta v1.1.0**. Stable v1.0.2 uses fixed defaults.
+   Choose the correct version for your loader:
+   - NeoForge: `LimitedSpectator-neoforge-2.0.0.jar`
+   - Fabric: `LimitedSpectator-fabric-2.0.0.jar`
+   - Quilt: `LimitedSpectator-quilt-2.0.0.jar`
 
-#### Competitive PvP Servers
+3. **Place JAR in Mods Folder**
 
-**Goal**: Minimize spectator advantages, prevent scouting
+   ```bash
+   cp LimitedSpectator-*.jar server/mods/
+   ```
 
-**Recommended Config**:
+4. **Start Server**
+
+   ```bash
+   ./start.sh  # Linux/macOS
+   # or
+   start.bat   # Windows
+   ```
+
+5. **Verify Installation**
+
+   Check server logs for:
+   ```
+   [LimitedSpectator] Mod loaded successfully
+   ```
+
+## ⚙️ Configuration (NeoForge Only)
+
+After first server start, a config file is created:
+
+**Location**: `config/limitedspectator-common.toml`
+
+### Quick Setup
+
+Edit the config file to customize:
+
 ```toml
-[movement]
-  max_distance = 50.0
-  allow_dimension_travel = false
-  teleport_back_on_exceed = true
-  reset_position_on_logout = true
+[movement_restrictions]
+  max_distance = 75.0              # Distance limit in blocks
+  allow_dimension_travel = false   # Can players go to Nether/End?
+  teleport_back_on_exceed = true   # Teleport back or just warn?
 
 [interactions]
-  allow_pvp = false
-  allow_item_drop = false
-  allow_item_pickup = false
-  allow_inventory_crafting = false
-  interactable_blocks = []
+  allow_pvp = false                # Can players attack each other?
+  allow_item_drop = false          # Can players drop items?
+  allow_item_pickup = false        # Can players pick up items?
 
-[commands]
+[permissions]
+  spectator_command_permission_level = 0  # Who can use /spectator?
+  require_op_for_spectator = false        # Require OP status?
+```
+
+### Applying Changes
+
+After editing the config:
+
+1. **Save the file**
+2. **In-game**: Run `/reload` command
+3. Changes apply immediately (no restart needed)
+
+See [Configuration Guide](Configuration-Guide.md) for all options.
+
+## 👥 Permission Management
+
+### Permission Levels
+
+Limited Spectator uses Minecraft's standard permission levels:
+
+| Level | Role | Can Use `/spectator` |
+|-------|------|----------------------|
+| 0 | Everyone | ✅ Yes (default) |
+| 1 | Moderator | ✅ Yes |
+| 2 | Admin | ✅ Yes |
+| 3 | Operator | ✅ Yes |
+| 4 | Owner | ✅ Yes |
+
+### Setting Permission Levels
+
+Edit `config/limitedspectator-common.toml`:
+
+```toml
+[permissions]
+  # Only admins (level 2+) can use /spectator
   spectator_command_permission_level = 2
+  
+  # Require OP status
   require_op_for_spectator = true
-
-[messages]
-  use_action_bar_messages = true
-  show_distance_warnings = true
 ```
 
-**Rationale**:
-- Tight 50-block radius prevents long-range scouting
-- No interactions prevent cheating assistance
-- OP-only access ensures only trusted staff can spectate
-- Position reset prevents teleport exploits
-
----
-
-#### Cooperative PvE Servers
-
-**Goal**: Allow helpful spectating without breaking gameplay
-
-**Recommended Config**:
-```toml
-[movement]
-  max_distance = 150.0
-  allow_dimension_travel = false
-  teleport_back_on_exceed = true
-  reset_position_on_logout = true
-
-[interactions]
-  allow_pvp = false
-  allow_item_drop = false
-  allow_item_pickup = true
-  allow_inventory_crafting = false
-  interactable_blocks = [
-    "minecraft:oak_door",
-    "minecraft:stone_button",
-    "minecraft:lever"
-  ]
-
-[commands]
-  spectator_command_permission_level = 0
-  require_op_for_spectator = false
-
-[messages]
-  use_action_bar_messages = true
-  show_distance_warnings = true
-```
-
-**Rationale**:
-- 150-block radius allows base exploration
-- Mob attacks enabled so spectators can help with defense
-- Item pickup allowed for loot collection
-- Open access for all players
-- Still prevents griefing (no block breaking/placing)
-
----
-
-#### Creative/Building Servers
-
-**Goal**: Allow flexible spectating for design review
-
-**Recommended Config**:
-```toml
-[movement]
-  max_distance = 500.0
-  allow_dimension_travel = true
-  teleport_back_on_exceed = false
-  reset_position_on_logout = false
-
-[interactions]
-  allow_pvp = false
-  allow_item_drop = true
-  allow_item_pickup = true
-  allow_inventory_crafting = true
-  interactable_blocks = [
-    "minecraft:oak_door",
-    "minecraft:chest",
-    "minecraft:lever",
-    "minecraft:oak_button"
-  ]
-
-[commands]
-  spectator_command_permission_level = 0
-  require_op_for_spectator = false
-
-[messages]
-  show_distance_warnings = false
-```
-
-**Rationale**:
-- Large 500-block radius for big builds
-- Dimension travel for Nether/End builds
-- Warnings only (no forced teleport)
-- Item interactions for inventory management
-- Block breaking still disabled to prevent griefing
-
----
-
-#### Roleplay/Survival Servers
-
-**Goal**: Allow spectating for AFK/idle players
-
-**Recommended Config**:
-```toml
-[movement]
-  max_distance = 100.0
-  allow_dimension_travel = false
-  teleport_back_on_exceed = true
-  reset_position_on_logout = true
-
-[player_abilities]
-  enable_invulnerability = true
-  enable_flight = true
-
-[interactions]
-  allow_pvp = false
-  allow_item_drop = false
-  allow_item_pickup = false
-  allow_inventory_crafting = false
-  interactable_blocks = ["minecraft:oak_door"]
-
-[commands]
-  spectator_command_permission_level = 0
-  require_op_for_spectator = false
-```
-
-**Rationale**:
-- Moderate distance for temporary observation
-- Full invulnerability for AFK safety
-- Minimal interactions (doors only)
-- Public access for all players
-- HUD automatically hidden (F1 to toggle)
-
----
-
-## Security Best Practices
-
-### Permission Management
-
-#### Using Permission Levels
-
-Set appropriate permission levels based on server trust:
-
-```toml
-# Public servers (untrusted players)
-spectator_command_permission_level = 2
-require_op_for_spectator = true
-
-# Semi-private servers (trusted community)
-spectator_command_permission_level = 1
-require_op_for_spectator = false
-
-# Private servers (friends/family)
-spectator_command_permission_level = 0
-require_op_for_spectator = false
-```
-
-#### Granting Temporary Spectator Access
-
-For temporary access without full OP:
-
-1. Give OP temporarily:
-   ```
-   /op <player>
-   [Player uses /spectator]
-   /deop <player>
-   ```
-
-2. Or reduce permission requirement:
-   ```toml
-   spectator_command_permission_level = 0
-   ```
-   Then change it back after.
-
-3. Or use permission mods (future feature).
-
----
-
-### Preventing Exploits
-
-#### Distance Limit Bypass Prevention
-
-**Exploit**: Player uses `/spectator`, flies near limit, logs out, logs back in at edge, uses `/survival` to "teleport"
-
-**Prevention**:
-```toml
-[movement]
-  reset_position_on_logout = true
-```
-
-This forces players back to starting position on logout.
-
----
-
-#### Dimension Travel Exploits
-
-**Exploit**: Player uses Nether to travel 8x distance (coordinate scaling)
-
-**Prevention**:
-```toml
-[movement]
-  allow_dimension_travel = false
-```
-
----
-
-#### Item Transfer Exploits
-
-**Exploit**: Spectator drops items to help other players
-
-**Prevention**:
-```toml
-[interactions]
-  allow_item_drop = false
-  allow_item_pickup = false
-```
-
-The mod properly handles item drops by cancelling the event and restoring the item to inventory.
-
----
-
-#### Noclip Exploits
-
-**Risk**: Using vanilla `SPECTATOR` gamemode allows phasing through walls
-
-**Prevention**:
-```toml
-[abilities]
-  spectator_gamemode = "ADVENTURE"
-```
-
-Default `ADVENTURE` mode prevents noclip while allowing flight.
-
----
-
-### Monitoring and Logging
-
-#### Server Console Logs
-
-Limited Spectator logs all spectator mode changes:
-
-```
-[LimitedSpectator] Player entered spectator mode at (123.45, 64.0, -678.90)
-[LimitedSpectator] Player exited spectator mode
-[LimitedSpectator] Player exceeded distance limit (current: 85.3, max: 75.0)
-```
-
-**Monitoring Tips**:
-- Watch for frequent spectator mode switches (potential exploit attempts)
-- Track distance violations (may indicate bypass attempts)
-- Log spectator entries during PvP events (potential unfair advantage)
-
-#### Custom Logging Script
-
-Create a log parser to track spectator usage:
+### Granting OP Status
 
 ```bash
-#!/bin/bash
-# spectator-monitor.sh
-grep "LimitedSpectator" logs/latest.log | grep "entered spectator" | awk '{print $4, $5, $6}'
+# In-game
+/op <player_name>
+
+# Or in ops.json file
+# Add player UUID with permission level 4
 ```
 
-This extracts all spectator entries with timestamps.
+## 🔧 Common Configurations
 
----
+### Configuration 1: Open Spectator Mode
 
-## Integration with Other Plugins/Mods
+For creative servers where everyone can spectate:
 
-### Anti-Cheat Compatibility
+```toml
+[movement_restrictions]
+  max_distance = -1                # No distance limit
+  allow_dimension_travel = true    # Can go anywhere
 
-Limited Spectator may trigger anti-cheat plugins due to flight. Configure your anti-cheat:
+[interactions]
+  allow_item_pickup = true         # Can pick up items
+  allow_item_drop = true           # Can drop items
 
-#### NoCheatPlus
-
-Add to `config.yml`:
-```yaml
-checks:
-  moving:
-    survivalfly:
-      active: false
+[permissions]
+  spectator_command_permission_level = 0  # Everyone can use
+  require_op_for_spectator = false
 ```
 
-Or exempt spectators:
-```yaml
-permissions:
-  - 'nocheatplus.checks.moving.survivalfly'
+### Configuration 2: Restricted Spectator Mode
+
+For survival servers with tight restrictions:
+
+```toml
+[movement_restrictions]
+  max_distance = 50.0              # 50 block radius
+  allow_dimension_travel = false   # No Nether/End
+  teleport_back_on_exceed = true   # Teleport back
+
+[interactions]
+  allow_pvp = false
+  allow_item_drop = false
+  allow_item_pickup = false
+  allow_inventory_crafting = false
+
+[permissions]
+  spectator_command_permission_level = 2  # Admin only
+  require_op_for_spectator = true
 ```
 
-#### Spartan Anti-Cheat
+### Configuration 3: Builder Mode
 
-Whitelist Limited Spectator:
-```yaml
-Checks:
-  Flight:
-    enabled: false
+For creative servers with observation:
+
+```toml
+[movement_restrictions]
+  max_distance = -1                # Unlimited
+  allow_dimension_travel = true    # Can go anywhere
+
+[interactions]
+  allow_item_pickup = true
+  allow_item_drop = true
+  allow_inventory_crafting = true
+
+[permissions]
+  spectator_command_permission_level = 1  # Moderator+
 ```
 
----
+## 📊 Monitoring & Logging
 
-### Permission Plugins (Future)
+### Console Logs
 
-Limited Spectator does not yet integrate with permission plugins, but you can work around this:
+Limited Spectator logs important events with `[LimitedSpectator]` prefix:
 
-#### LuckPerms Workaround
+```
+[LimitedSpectator] Player <name> entered spectator mode
+[LimitedSpectator] Player <name> exceeded distance limit
+[LimitedSpectator] Player <name> exited spectator mode
+```
 
-Use command aliases to require permissions:
+### Checking Active Spectators
 
-1. Install a command alias plugin
-2. Create alias that checks permission, then runs `/spectator`
+Currently, there's no built-in command to list active spectators. You can:
 
-**Future versions** will have native LuckPerms support.
+1. **Check logs** for entry/exit messages
+2. **Use commands** like `/list` to see players
+3. **Monitor distance** violations in logs
 
----
+## 🚨 Troubleshooting
 
-### Claiming/Protection Plugins
+### Mod Not Loading
 
-Limited Spectator respects server-side block interaction events, so plugins like:
+**Problem**: Mod doesn't appear in mod list
 
-- **FTB Chunks**: Claimed areas block spectator interactions
-- **GriefPrevention**: Protected areas remain protected
-- **WorldGuard**: Region flags apply to spectators
+**Solutions**:
+1. Verify JAR is in `server/mods/` folder
+2. Check server log for errors
+3. Verify mod loader is installed correctly
+4. Ensure Minecraft version is 1.21.1+
 
-**Testing**: Ensure spectators cannot interact with protected blocks.
+### Commands Not Working
 
----
+**Problem**: `/spectator` command not recognized
 
-### Economy Plugins
+**Solutions**:
+1. Verify mod loaded (check logs)
+2. Check player permission level
+3. Verify config permissions (if NeoForge)
+4. Restart server
 
-No direct integration needed, but consider:
+### Config Not Applying
 
-- Charging for spectator access via economy plugins
-- Restricting spectator mode to premium members
+**Problem**: Changes to config don't take effect
 
-**Implementation**: Use permission levels + economy plugin rewards.
+**Solutions**:
+1. Verify file is saved
+2. Run `/reload` command
+3. Check for syntax errors in TOML file
+4. Restart server if `/reload` doesn't work
 
----
+### Fabric/Quilt Config Not Working
 
-## Performance Optimization
+**Problem**: Config file not generated or ignored
 
-### Measuring Performance Impact
+**Solution**: This is expected. Fabric and Quilt use hardcoded defaults.
+
+**Workaround**: Use NeoForge for full config support, or request feature on GitHub.
+
+## 🔐 Security Considerations
+
+### Server-Side Enforcement
+
+All restrictions are enforced **server-side**, making the mod secure for multiplayer:
+
+- ✅ Players cannot bypass restrictions with client mods
+- ✅ Distance limits enforced by server
+- ✅ Interactions validated server-side
+- ✅ Permissions checked server-side
+
+### Recommended Settings
+
+For maximum security:
+
+```toml
+[permissions]
+  spectator_command_permission_level = 2  # Admin only
+  require_op_for_spectator = true         # Require OP
+
+[movement_restrictions]
+  max_distance = 50.0              # Limited distance
+  allow_dimension_travel = false   # No Nether/End
+  reset_position_on_logout = true  # Prevent abuse
+
+[interactions]
+  allow_pvp = false
+  allow_item_drop = false
+  allow_item_pickup = false
+  allow_inventory_crafting = false
+```
+
+## 📈 Performance
 
 Limited Spectator has minimal performance impact:
 
-- **Per-tick overhead**: ~0.01ms per spectator (distance check)
-- **Memory usage**: ~200 bytes per spectator (position storage)
-- **Network usage**: ~10 bytes per HUD packet
+- **CPU**: Negligible (only checks distance on tick)
+- **Memory**: ~2-5 MB per server
+- **Network**: Minimal (only HUD state packets)
 
-#### Benchmarking
+No performance issues expected even on large servers.
 
-Test with Spark profiler:
+## 🔄 Updates & Compatibility
 
-```
-/spark profiler start
-[Players use spectator mode]
-/spark profiler stop
-```
+### Version Compatibility
 
-Look for `SpectatorMod.onPlayerTick` in results.
+| Minecraft | NeoForge | Fabric | Quilt | Status |
+|-----------|----------|--------|-------|--------|
+| 1.21.1 | 21.1.217+ | 0.16.5+ | 0.26.4+ | ✅ Tested |
+| 1.21.10 | 21.1.217+ | 0.16.5+ | 0.26.4+ | ✅ Compatible |
+| 1.21.11+ | 21.1.217+ | 0.16.5+ | 0.26.4+ | ✅ Compatible |
 
----
+### Updating the Mod
 
-### Optimization Tips
+1. **Stop server**
+2. **Backup** `config/limitedspectator-common.toml`
+3. **Replace** JAR in `mods/` folder
+4. **Start server**
+5. **Verify** mod loaded correctly
 
-#### Reduce Distance Check Frequency (Advanced)
+Config files are compatible across versions.
 
-For servers with 100+ simultaneous spectators, consider modifying the code to check distance every 5 ticks instead of every tick:
+## 📞 Support
 
-```java
-// In SpectatorMod.java
-if (serverPlayer.tickCount % 5 == 0) {
-    // Distance check logic
-}
-```
+### Getting Help
 
-This reduces overhead by 80% with minimal impact on enforcement.
+- **Issues**: [GitHub Issues](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
+- **Questions**: [GitHub Discussions](https://github.com/kalashnikxvxiii/Limited-Spectator/discussions)
+- **Suggestions**: [GitHub Issues](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
 
----
+### Reporting Issues
 
-#### Increase Distance Limit Instead of Unlimited
+Include:
+- Minecraft version
+- Mod loader and version
+- Mod version
+- Server log (with `[LimitedSpectator]` messages)
+- Config file (if applicable)
+- Steps to reproduce
 
-Instead of `max_distance = -1.0` (unlimited), use a very large value:
+## 📚 Related Guides
 
-```toml
-max_distance = 10000.0
-```
-
-This provides soft limits without disabling the feature, allowing future enforcement if needed.
-
----
-
-## Backup and Maintenance
-
-### Configuration Backups
-
-Always backup config before updates:
-
-```bash
-cp config/limitedspectator-common.toml config/limitedspectator-common.toml.backup
-```
-
-Restore if update breaks config:
-
-```bash
-cp config/limitedspectator-common.toml.backup config/limitedspectator-common.toml
-```
+- [Installation Guide](Installation.md) - How to install
+- [Configuration Guide](Configuration-Guide.md) - Detailed config options
+- [Commands Reference](Commands.md) - Available commands
+- [FAQ](FAQ-and-Troubleshooting.md) - Common questions
 
 ---
 
-### Version Updates
-
-When updating Limited Spectator:
-
-1. **Read Changelog**: Check for breaking changes
-2. **Backup Config**: Save current config
-3. **Test on Development Server**: Never update directly on production
-4. **Compare Configs**: Check for new config options
-5. **Update Production**: Once tested, deploy to production
-
----
-
-### Rollback Plan
-
-If an update causes issues:
-
-1. Stop the server
-2. Replace JAR with previous version
-3. Restore config backup
-4. Restart server
-5. Report bug on GitHub
-
----
-
-## Advanced Configuration Scenarios
-
-### Scenario 1: Time-Limited Spectator Access
-
-**Goal**: Allow spectators for 5 minutes, then auto-kick
-
-**Implementation**: Use a scheduled task plugin
-
-```yaml
-# With CommandTimer or similar
-tasks:
-  - command: "/execute as @a[gamemode=adventure] run survival"
-    interval: 300 # 5 minutes
-```
-
-**Future**: Native time limits planned.
-
----
-
-### Scenario 2: Spectator-Only Areas
-
-**Goal**: Restrict spectator mode to specific regions
-
-**Implementation**: Use WorldGuard + command restrictions
-
-1. Create region: `/region define spectator-zone`
-2. Allow `/spectator` only in region using command filtering
-
-**Workaround**: Not natively supported yet.
-
----
-
-### Scenario 3: Spectator Queue System
-
-**Goal**: Limit spectators to 5 at a time
-
-**Implementation**: External queue system
-
-1. Track spectator count with a plugin
-2. Only allow `/spectator` if count < 5
-3. Auto-kick oldest spectator when limit reached
-
-**Future**: Native spectator limits planned.
-
----
-
-### Scenario 4: Per-Rank Distance Limits
-
-**Goal**: VIP members get 200-block radius, regular members get 75
-
-**Implementation**: Not supported in current version
-
-**Workaround**:
-1. Create two separate servers with different configs
-2. Use permission plugin + command override
-3. Wait for future update with per-player limits
-
----
-
-## Troubleshooting for Admins
-
-### Players Report Being "Stuck" in Spectator Mode
-
-**Diagnosis**:
-1. Check player's game mode: `/data get entity <player> playerGameType`
-2. Check abilities: `/data get entity <player> abilities`
-3. Check server logs for errors during spectator entry
-
-**Solutions**:
-1. Force game mode change: `/gamemode survival <player>`
-2. Teleport to spawn: `/tp <player> <spawn coordinates>`
-3. Kick and rejoin: `/kick <player> Spectator mode reset`
-
----
-
-### Distance Limits Not Enforced
-
-**Diagnosis**:
-1. Check config: `max_distance` value
-2. Check if `/reload` was run after config change
-3. Verify mod is loaded: grep logs for "LimitedSpectator"
-
-**Solutions**:
-1. Reload config: `/reload`
-2. Restart server
-3. Verify TOML syntax (use online validator)
-
----
-
-### Spectators Can Break/Place Blocks
-
-**Note**: Block breaking and placing are **always disabled** in ADVENTURE mode at the GameMode level. This cannot be changed or configured.
-
-If spectators can break blocks, they are likely not in Limited Spectator mode. Verify with:
-1. Check if player is in spectator mode (`/spectator` was used)
-2. Verify `spectator_gamemode = "ADVENTURE"` in config
-3. Check for mod conflicts overriding game modes
-3. Check logs for event cancellation messages
-
----
-
-## Server Rules and Player Guidelines
-
-### Recommended Server Rules for Spectator Mode
-
-Post these rules in your server documentation:
-
-1. **No Scouting**: Don't use spectator mode to scout enemy bases in PvP
-2. **No Ghosting**: Don't share info from spectator mode in voice chat
-3. **No Exploit Attempts**: Don't try to bypass distance limits or restrictions
-4. **Respectful Spectating**: Don't harass players while spectating
-5. **Time Limits**: Spectator mode is for temporary observation only (if applicable)
-
-### Enforcing Rules
-
-- **Warnings**: Use `/warn <player>` (if using moderation plugin)
-- **Temp Ban**: `/ban <player> 1d Spectator mode abuse`
-- **Remove Access**: Change config to `require_op_for_spectator = true`
-
----
-
-## Multi-Server Setups
-
-### Using Limited Spectator Across Multiple Servers
-
-For networks with multiple servers (BungeeCord, Velocity):
-
-**Considerations**:
-- Each server has independent config
-- Spectator state does NOT transfer between servers
-- Player switching servers exits spectator mode
-
-**Recommended Setup**:
-1. Use identical configs across all servers
-2. Document that spectator mode is per-server
-3. Consider adding `/spectator` to each server's help text
-
----
-
-## Support and Community
-
-### Getting Admin Support
-
-For admin-specific questions:
-
-1. Check this guide first
-2. Review [Configuration Guide](Configuration-Guide)
-3. Search [GitHub Issues](../../issues)
-4. Open new issue with "Server Admin" tag
-
-### Reporting Security Issues
-
-**DO NOT** report security vulnerabilities publicly. Email: `[your email]` or open a private security advisory on GitHub.
-
-### Contributing to Development
-
-Admins can contribute by:
-
-- Testing beta releases on test servers
-- Suggesting features based on real-world usage
-- Reporting compatibility issues with other mods
-- Documenting advanced configurations
-
-See [CLAUDE.md](../../blob/main/CLAUDE.md) for roadmap and contribution guidelines.
-
----
-
-## Checklist for Production Deployment
-
-Before deploying Limited Spectator to production:
-
-- [ ] Tested on development server
-- [ ] Config customized for server type
-- [ ] Permission levels set appropriately
-- [ ] Anti-cheat configured to allow spectator flight
-- [ ] Server rules updated with spectator guidelines
-- [ ] Backup of config created
-- [ ] Staff trained on `/spectator` and `/survival` commands
-- [ ] Players notified of new feature
-- [ ] Monitoring set up for spectator logs
-- [ ] Rollback plan documented
-
----
-
-**Need more help?** [Open an issue](../../issues/new) or check the [FAQ](FAQ-and-Troubleshooting).
+**Last Updated**: 2026-01-23  
+**Version**: 2.0.0

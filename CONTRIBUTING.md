@@ -69,33 +69,73 @@ Feature requests are welcome! Please provide:
 git clone https://github.com/kalashnikxvxiii/Limited-Spectator.git
 cd Limited-Spectator
 
-# Build the project
-./gradlew build
+# Build all loaders
+.\gradlew.bat build
 
-# Run development client
-./gradlew runClient
+# Run NeoForge development client
+.\gradlew.bat :neoforge:runClient
 
-# Run development server
-./gradlew runServer
+# Run Fabric development client
+.\gradlew.bat :fabric:runClient
+
+# Run Quilt development client (NOT SUPPORTED - see limitations below)
+# Use production JAR instead
 ```
 
-### Project Structure
+### Project Structure (Multi-Project)
 
 ```
 Limited-Spectator/
-├── src/main/java/com/karashi/limitedspectator/
-│   ├── SpectatorMod.java          # Main mod class, server-side logic
-│   ├── ModConfig.java              # Configuration system
-│   ├── client/
-│   │   └── ClientEventHandler.java # Client-side events, HUD management
-│   └── network/
-│       ├── NetworkHandler.java     # Packet registration
-│       └── SpectatorHudPacket.java # HUD state packet
-├── src/main/resources/
-│   ├── META-INF/neoforge.mods.toml # Mod metadata
-│   ├── assets/limitedspectator/    # Mod assets
-│   └── lang/                       # (Future) Translation files
-└── build.gradle                    # Build configuration
+├── common/
+│   └── src/main/java/com/karashi/limitedspectator/
+│       ├── SpectatorConfig.java    # Configuration interface
+│       ├── CommonConfig.java        # TOML parser (loader-agnostic)
+│       └── ConfigReloadWatcher.java # File watcher (loader-agnostic)
+├── neoforge/
+│   └── src/main/java/com/karashi/limitedspectator/
+│       ├── SpectatorMod.java        # Main mod class, server-side logic
+│       ├── ModConfig.java           # NeoForge configuration system
+│       ├── NeoForgeSpectatorConfig.java # NeoForge adapter
+│       ├── SpectatorManager.java    # Core business logic
+│       ├── client/
+│       │   └── ClientEventHandler.java # Client-side events, HUD management
+│       └── network/
+│           ├── NetworkHandler.java  # Packet registration
+│           └── SpectatorHudPacket.java # HUD state packet
+├��─ fabric/
+│   └── src/main/java/com/karashi/limitedspectator/
+│       ├── LimitedSpectatorFabric.java # Fabric entry point
+│       ├── FabricSpectatorConfig.java  # Fabric adapter
+│       ├── PermissionHelper.java       # Cross-version permission checking
+│       └── [shared logic with NeoForge]
+├── quilt/
+│   └── src/main/java/com/karashi/limitedspectator/
+│       ├── LimitedSpectatorQuilt.java  # Quilt entry point
+│       ├── QuiltSpectatorConfig.java   # Quilt adapter
+│       ├── PermissionHelper.java       # Cross-version permission checking
+│       └── [shared logic with Fabric]
+└── build.gradle, gradle.properties, settings.gradle
+```
+
+### Build Commands
+
+```bash
+# Build all modules
+.\gradlew.bat build
+
+# Build specific loader
+.\gradlew.bat :neoforge:build
+.\gradlew.bat :fabric:build
+.\gradlew.bat :quilt:build
+
+# Run development environments
+.\gradlew.bat :neoforge:runClient
+.\gradlew.bat :fabric:runClient
+.\runFabricClient.bat              # Convenience script
+
+# Quilt: Production only (see limitations)
+.\gradlew.bat :quilt:build         # Compiles JAR
+# Then test with production Minecraft + Quilt Loader
 ```
 
 ## 📝 Coding Standards
@@ -274,7 +314,45 @@ fix(teleport): Correctly restore dimension on /survival
 docs(readme): Update installation instructions
 ```
 
-## 🐛 Known Limitations (Resolved)
+## ⚠️ Quilt Development Environment Limitation
+
+**Status**: Documented limitation, not a bug
+
+### Issue
+Quilt Loader 0.26.4 has dependency resolution issues in the development environment:
+- Quilt Loom 1.7.3+ requires `syncTask` property that cannot be configured
+- Missing ASM and Mixin dependencies in dev classpath
+- Quilt Loader doesn't declare dependencies properly for dev environment
+
+### Solution
+**Quilt works in PRODUCTION, not in DEV**
+
+| Scenario | Status | Notes |
+|----------|--------|-------|
+| **Build JAR** | ✅ Works | `.\gradlew.bat :quilt:build` compiles successfully |
+| **Production** | ✅ Works | `LimitedSpectator-quilt-2.0.0.jar` works perfectly in Minecraft |
+| **Dev Client** | ❌ Not Supported | Use Fabric for development instead |
+| **Dev Server** | ❌ Not Supported | Use Fabric for development instead |
+
+### Workaround for Testing Quilt
+```bash
+# 1. Build the JAR
+.\gradlew.bat :quilt:build
+
+# 2. Copy to .minecraft/mods/
+copy quilt\build\libs\LimitedSpectator-quilt-2.0.0.jar %APPDATA%\.minecraft\mods\
+
+# 3. Launch Minecraft with Quilt Loader
+# (Use official launcher with Quilt profile)
+```
+
+### Why This Is Acceptable
+- Quilt is 100% compatible with Fabric API
+- The compiled JAR works perfectly in production
+- Development can be done with Fabric (identical code)
+- All three loaders produce working production JARs
+
+## 🐛 Known Limitations (Minecraft Engine)
 
 The following were initially considered "issues" but are now documented as **Minecraft engine limitations** (not bugs):
 

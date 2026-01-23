@@ -1,7 +1,9 @@
 🧭 Limited Spectator
 ======================
 
-A lightweight NeoForge mod that introduces a restricted spectator mode for Minecraft players.
+A multi-loader Minecraft mod that introduces a restricted spectator mode with configurable limitations.
+
+**Supported Loaders**: NeoForge ✅ • Fabric ✅ • Quilt ✅ (Production Only)
 
 
 📖 Overview
@@ -63,14 +65,18 @@ Full translation support for 5 European languages (English, Italian, German, Fre
 🧠 Technical Details
 =====================
 
-| Aspect                | Value              |
-| --------------------- | ------------------ |
-| **Minecraft version** | 1.21.1+            |
-| **Mod loader**        | NeoForge           |
-| **NeoForge version**  | 21.1.0+            |
-| **Java version**      | 21                 |
-| **Gradle wrapper**    | 8.10.2             |
-| **Mod ID**            | `limitedspectator` |
+| Aspect                | Value                          |
+| --------------------- | ------------------------------ |
+| **Version**           | 2.0.0                          |
+| **Minecraft**         | 1.21.1 → 1.21.11+ (cross-version compatible) |
+| **Mod Loaders**       | NeoForge ✅ • Fabric ✅ • Quilt ✅ |
+| **NeoForge**          | 21.1.217+                      |
+| **Fabric Loader**     | 0.16.5+                        |
+| **Fabric Loom**       | 1.7.3+                         |
+| **Quilt Loader**      | 0.26.4+                        |
+| **Quilt Loom**        | 1.7.3+ (Production only)       |
+| **Java**              | 21                             |
+| **Mod ID**            | `limitedspectator`             |
 
 
 ⚙️ Commands
@@ -196,17 +202,60 @@ All configuration changes can be applied without restarting the server using `/r
 🧰 Installation
 =================
 
-### 📦 Installation Steps
+### 📦 Choose Your Loader
 
-• Install NeoForge 21.1.0+
+Download the correct version for your mod loader:
 
-• Place `limitedspectator-[version].jar` into your `mods/` folder
+| Loader | File | Notes |
+|--------|------|-------|
+| **NeoForge** | `LimitedSpectator-neoforge-2.0.0.jar` | Full config support |
+| **Fabric** | `LimitedSpectator-fabric-2.0.0.jar` | Hardcoded defaults |
+| **Quilt** | `LimitedSpectator-quilt-2.0.0.jar` | Uses Fabric API |
 
-• Launch Minecraft - config file will be auto-generated at `config/limitedspectator-common.toml`
+### Installation Steps
 
-• (Optional) Customize the configuration to suit your server's needs
+1. Install your mod loader (NeoForge 21.1.217+ / Fabric 0.16.5+ / Quilt 0.26.4+)
+2. Place the correct JAR into your `mods/` folder
+3. Launch Minecraft
+4. **(NeoForge only)** Config file auto-generates at `config/limitedspectator-common.toml`
+5. **(NeoForge only)** Reload changes with `/reload` command
 
-• Reload changes with `/reload` command without restarting
+**Note**: Fabric and Quilt versions use hardcoded defaults. Configuration system planned for future release.
+
+
+👨‍💻 Developer Guide
+====================
+
+For developers interested in contributing or extending Limited Spectator:
+
+**See [DEVELOPER.md](DEVELOPER.md) for:**
+- Multi-project Gradle structure
+- Build commands for all loaders
+- Development workflow
+- Code organization & patterns
+- Testing procedures
+- Contributing guidelines
+
+**Quick Start:**
+```bash
+# Clone repository
+git clone https://github.com/karashi/limitedspectator.git
+cd limitedspectator
+
+# Build all loaders
+.\gradlew.bat build
+
+# Run NeoForge dev client
+.\gradlew.bat :neoforge:runClient
+```
+
+**Project Structure:**
+- `common/` - Loader-agnostic code (SpectatorConfig, CommonConfig, ConfigReloadWatcher)
+- `neoforge/` - NeoForge-specific implementation
+- `fabric/` - Fabric-specific implementation
+- `quilt/` - Quilt-specific implementation
+
+All three loaders share ~95% of core business logic through `SpectatorManager`.
 
 
 🧪 Developer / Debug Info

@@ -1,88 +1,147 @@
 # Limited Spectator Wiki
 
-Welcome to the **Limited Spectator** wiki! This mod provides a restricted spectator mode for Minecraft 1.21.1 servers running NeoForge, allowing players to fly and observe the world while maintaining strict gameplay balance.
-
-## ⚠️ Version Notice
-
-**Current Stable Version: 1.2.1**
-
-Limited Spectator v1.2.1 is the latest stable release with full configuration support. Previous versions (1.0.2, 1.1.0-beta, 1.1.1) are available for legacy servers but are superseded by this release.
-
----
-
-## 🎯 What is Limited Spectator?
-
-Limited Spectator is a server-side mod that implements a controlled spectator mode. Unlike vanilla spectator mode, it prevents players from:
-- Traveling unlimited distances
-- Changing dimensions
-- Interacting with most blocks and entities
-- Dropping or picking up items
-- Bypassing server rules
-
-Perfect for server admins who want to allow temporary observation without compromising gameplay integrity.
-
-## ✨ Key Features
-
-- **Fully Configurable**: 20+ configuration options for distance limits, permissions, and interactions
-- **Distance Limits**: Configurable maximum travel distance (default: 75 blocks, can be disabled)
-- **Dimension Locking**: Optional dimension travel restrictions
-- **Interaction Control**: Customizable block whitelist system
-- **Auto HUD Hiding**: Cleaner spectator experience with F1 toggle support
-- **Item Protection**: Configurable item drop/pickup restrictions
-- **PvP Prevention**: Optional PvP blocking
-- **Hot-Reload**: Configuration changes apply via `/reload` command
-- **Security Hardened**: Built with updated dependencies (Netty 4.1.125, Log4j 2.25.3, LZ4-Java 1.10.1, Commons Lang3 3.18.0)
-
-## 📚 Documentation
-
-| Page | Description |
-|------|-------------|
-| **[Installation](Installation)** | How to install the mod on client and server |
-| **[Commands](Commands)** | Command reference for `/spectator` and `/survival` |
-| **[Features](Features)** | In-depth feature documentation |
-| **[Configuration Guide](Configuration-Guide)** | Complete configuration system reference |
-| **[FAQ & Troubleshooting](FAQ-and-Troubleshooting)** | Common issues and solutions |
-| **[For Server Admins](For-Server-Admins)** | Best practices for server deployment |
-| **[Version Comparison](Version-Comparison)** | Comparison between v1.2.1, v1.1.1, v1.0.2, and v1.1.0-beta |
+Welcome to the Limited Spectator documentation! This wiki contains comprehensive guides for users and developers.
 
 ## 🚀 Quick Start
 
-1. Download **v1.2.1** from [GitHub Releases](../../releases/tag/v1.2.1)
-2. Place `LimitedSpectator-1.21.x-1.2.1.jar` in your `mods/` folder
-3. Start the server to generate `config/limitedspectator-common.toml`
-4. Customize the config as needed (see [Configuration Guide](Configuration-Guide))
-5. Use `/spectator` to enter spectator mode, `/survival` to exit
-6. Changes can be applied with `/reload` command
+### For Players
 
-## 🔧 Requirements
+1. **Install**: Download from [Modrinth](https://modrinth.com/mod/limited-spectator) or [CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/limited-spectator)
+2. **Place**: Copy JAR to `mods/` folder
+3. **Launch**: Start Minecraft
+4. **Use**: Type `/spectator` to enter spectator mode
 
-- **Minecraft**: 1.21.1+
-- **NeoForge**: 21.1.217 or higher
-- **Java**: 21 or higher
-- **Side**: Server-required, client-optional (for HUD features)
+See [Installation Guide](Installation.md) for detailed steps.
 
-## 📖 Version Information
+### For Server Admins
 
-| Version | Release Date | Status | Download |
-|---------|--------------|--------|----------|
-| **1.2.1** | 2025-12-18 | ✅ Stable (Current) | [Download](../../releases/tag/v1.2.1) |
-| **1.1.1** | 2025-11-14 | 📦 Legacy | [Download](../../releases/tag/v1.1.1) |
-| **1.1.0-beta** | 2025-11-09 | ⚠️ Superseded | [Download](../../releases/tag/v1.1.0-beta) |
-| **1.0.2** | 2025-11-08 | 📦 Legacy | [Download](../../releases/tag/v1.0.2) |
+1. **Install**: Place JAR in server `mods/` folder
+2. **Configure**: Edit `config/limitedspectator-common.toml` (NeoForge only)
+3. **Reload**: Use `/reload` command to apply changes
+4. **Manage**: Use permission levels to control access
 
-**Mod ID**: `limitedspectator`
-**Package**: `com.karashi.limitedspectator`
+See [Server Admin Guide](For-Server-Admins.md) for details.
+
+### For Developers
+
+1. **Clone**: `git clone https://github.com/kalashnikxvxiii/Limited-Spectator.git`
+2. **Build**: `.\gradlew.bat build`
+3. **Develop**: `.\gradlew.bat :neoforge:runClient`
+
+See [Contributing Guide](../CONTRIBUTING.md) for details.
+
+## 📚 Documentation Index
+
+### User Guides
+- **[Installation Guide](Installation.md)** - How to install for all loaders
+- **[Features Guide](Features.md)** - What Limited Spectator can do
+- **[Commands Reference](Commands.md)** - Available commands
+- **[Configuration Guide](Configuration-Guide.md)** - How to customize behavior
+- **[FAQ & Troubleshooting](FAQ-and-Troubleshooting.md)** - Common questions and solutions
+
+### Admin Guides
+- **[Server Admin Guide](For-Server-Admins.md)** - Server setup and management
+- **[Beta Features](Beta-Features.md)** - Experimental features
+
+### Developer Guides
+- **[Contributing Guide](../CONTRIBUTING.md)** - How to contribute code
+- **[Developer Guide](../DEVELOPER.md)** - Development setup and architecture
+
+## 🎯 Key Features
+
+✅ **Multi-Loader Support**
+- NeoForge (full support)
+- Fabric (full support)
+- Quilt (production ready)
+
+✅ **Fully Configurable**
+- Distance limits
+- Block interactions
+- Permission levels
+- HUD behavior
+
+✅ **Server-Friendly**
+- All restrictions server-side
+- Hot-reloadable config
+- Permission system
+
+✅ **Cross-Version Compatible**
+- Minecraft 1.21.1 → 1.21.11+
+- Works on all 1.21.x versions
+
+## 📋 Mod Information
+
+| Property | Value |
+|----------|-------|
+| **Version** | 2.0.0 |
+| **Minecraft** | 1.21.1+ |
+| **Loaders** | NeoForge • Fabric • Quilt |
+| **License** | MIT |
+| **Author** | Karashi |
 
 ## 🔗 Links
 
-- [GitHub Repository](../../)
-- [Issue Tracker](../../issues)
-- [Changelog](../../blob/main/CHANGELOG.md)
+- **GitHub**: [Limited Spectator Repository](https://github.com/kalashnikxvxiii/Limited-Spectator)
+- **Modrinth**: [Limited Spectator on Modrinth](https://modrinth.com/mod/limited-spectator)
+- **CurseForge**: [Limited Spectator on CurseForge](https://legacy.curseforge.com/minecraft/mc-mods/limited-spectator)
+- **Issues**: [Report Bugs](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
+- **Discussions**: [Ask Questions](https://github.com/kalashnikxvxiii/Limited-Spectator/discussions)
 
-## 📝 License
+## ⚠️ Important Notes
 
-This mod is distributed under the terms specified in the [LICENSE](../../blob/main/LICENSE) file.
+### Quilt Development Limitation
+
+Quilt works perfectly in **production** but has issues in the **development environment**:
+
+- ✅ Build: `.\gradlew.bat :quilt:build` works
+- ✅ Production: JAR works perfectly in Minecraft
+- ❌ Dev: `.\gradlew.bat :quilt:runClient` not supported
+
+**Workaround**: Use Fabric for development (identical code), or test Quilt JAR in production Minecraft.
+
+See [Contributing Guide](../CONTRIBUTING.md#quilt-development-environment-limitation) for details.
+
+### Minecraft Engine Limitations
+
+These features are **not possible** due to Minecraft's core behavior:
+
+- **Fall Damage**: Always prevented when flying
+- **Block Breaking/Placing**: Always blocked in ADVENTURE mode
+- **Auto-Start Flying**: Players must double-press spacebar
+- **Mob Attacks**: Always blocked (mobs don't target flying players)
+
+These are **not bugs** - they are fundamental Minecraft limitations.
+
+## 🆘 Getting Help
+
+### Common Issues
+
+- **Mod not loading?** → See [Installation Guide](Installation.md#troubleshooting)
+- **Commands not working?** → See [FAQ](FAQ-and-Troubleshooting.md)
+- **Config not applying?** → See [Configuration Guide](Configuration-Guide.md)
+- **Quilt dev environment failing?** → See [Contributing Guide](../CONTRIBUTING.md#quilt-development-environment-limitation)
+
+### Contact
+
+- **Report Bugs**: [GitHub Issues](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
+- **Ask Questions**: [GitHub Discussions](https://github.com/kalashnikxvxiii/Limited-Spectator/discussions)
+- **Suggest Features**: [GitHub Issues](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
+
+## 📖 Navigation
+
+**Start Here:**
+- New to Limited Spectator? → [Installation Guide](Installation.md)
+- Want to know what it does? → [Features Guide](Features.md)
+- Running a server? → [Server Admin Guide](For-Server-Admins.md)
+- Want to contribute? → [Contributing Guide](../CONTRIBUTING.md)
+
+**Specific Topics:**
+- How do I use commands? → [Commands Reference](Commands.md)
+- How do I configure it? → [Configuration Guide](Configuration-Guide.md)
+- I have a question → [FAQ](FAQ-and-Troubleshooting.md)
+- I found a bug → [Report Issue](https://github.com/kalashnikxvxiii/Limited-Spectator/issues)
 
 ---
 
-**Need help?** Check the [FAQ & Troubleshooting](FAQ-and-Troubleshooting) page or [open an issue](../../issues/new)!
+**Last Updated**: 2026-01-23  
+**Version**: 2.0.0
