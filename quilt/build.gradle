@@ -41,6 +41,26 @@ dependencies {
     implementation 'org.spongepowered:mixin:0.8.5'
 }
 
+// Force dependency versions to fix security vulnerabilities
+configurations.configureEach {
+    resolutionStrategy {
+        force 'io.netty:netty-handler:4.1.125.Final'
+        force 'io.netty:netty-common:4.1.125.Final'
+        force 'io.netty:netty-buffer:4.1.125.Final'
+        force 'io.netty:netty-transport:4.1.125.Final'
+        force 'io.netty:netty-codec:4.1.125.Final'
+        force 'io.netty:netty-codec-compression:4.1.125.Final'
+        force 'org.apache.logging.log4j:log4j-core:2.25.3'
+        force 'org.apache.logging.log4j:log4j-api:2.25.3'
+        force 'at.yawk.lz4:lz4-java:1.10.1'
+        force 'org.apache.commons:commons-lang3:3.18.0'
+        
+        dependencySubstitution {
+            substitute module('org.lz4:lz4-java') using module('at.yawk.lz4:lz4-java:1.10.1')
+        }
+    }
+}
+
 loom {
     runs {
         client {

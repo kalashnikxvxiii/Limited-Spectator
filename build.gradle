@@ -34,6 +34,12 @@ dependencies {
 }
 
 // Force dependency versions to fix security vulnerabilities
+// CVE-2025-58057: Netty BrotliDecoder DoS (CVSS 7.5)
+// CVE-2024-47535, CVE-2025-25193: Netty environment file DoS (CVSS 5.5)
+// CVE-2025-24970: Netty SslHandler native crash (CVSS 7.5)
+// CVE-2025-68161: Log4j TLS hostname verification (CVSS 5.4)
+// CVE-2025-48924: Commons Lang uncontrolled recursion (CVSS 5.3)
+// CVE-2025-66566: LZ4 buffer disclosure (CVSS 7.5)
 configurations.configureEach {
     resolutionStrategy {
         force 'io.netty:netty-handler:4.1.125.Final'
@@ -41,6 +47,7 @@ configurations.configureEach {
         force 'io.netty:netty-buffer:4.1.125.Final'
         force 'io.netty:netty-transport:4.1.125.Final'
         force 'io.netty:netty-codec:4.1.125.Final'
+        force 'io.netty:netty-codec-compression:4.1.125.Final'
         force 'org.apache.logging.log4j:log4j-core:2.25.3'
         force 'org.apache.logging.log4j:log4j-api:2.25.3'
         force 'at.yawk.lz4:lz4-java:1.10.1'
