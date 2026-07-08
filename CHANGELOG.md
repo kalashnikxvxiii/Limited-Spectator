@@ -13,6 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Pre-release for testing.** Fabric and NeoForge now track independent Minecraft versions instead of a single shared baseline, since NeoForge has not yet published a stable build against Minecraft 26.2.
 
+### Added
+- **Fabric restriction parity with NeoForge.** The Fabric loader now enforces the full server-authoritative limited-spectator restriction set (previously implemented on NeoForge only — the Fabric module had shipped with just the distance limit):
+  - Mob attacks always blocked; PvP blocked unless `allow_pvp` (`AttackEntityCallback`).
+  - Block interactions restricted to the `interactable_blocks` whitelist (`UseBlockCallback`).
+  - Item drop (drop key **and** inventory drag-out), item pickup, inventory crafting, and cross-dimension travel blocked via Mixins — targeting `ServerPlayer.drop(ItemStack, boolean, boolean)`, `ItemEntity.playerTouch`, `Slot#mayPickup` (result slots), and `ServerPlayer.teleport(TeleportTransition)` (only on an actual dimension change, so same-dimension teleports like the distance-limit snap-back and `/survival` are unaffected) — honouring `allow_item_drop` / `allow_item_pickup` / `allow_inventory_crafting` / `allow_dimension_travel`.
+  - Introduces the first Mixin configuration in the Fabric module (`limitedspectator.mixins.json`). Blocked item drops are restored to the inventory and resynced (mirroring NeoForge's cancel-and-restore), so no item is lost.
+
 ### Changed
 - **Fabric** ported to **Minecraft 26.2**: Loom bumped 1.16-SNAPSHOT → 1.17.13, Fabric Loader 0.19.2 → 0.19.3, Fabric API 0.150.0+26.1.2 → 0.154.2+26.2.
 - **NeoForge** stays on **Minecraft 26.1.2**, bumped to build **26.1.2.78**; Minecraft 26.2 is beta-only on the NeoForge side and will be picked up once a stable NeoForge release targets it.
