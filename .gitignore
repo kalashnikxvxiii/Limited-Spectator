@@ -39,3 +39,6 @@ nul
 test-final.txt
 test-results.txt
 test-output.txt
+
+# Internal process docs (superpowers specs/plans) — never committed
+docs/superpowers/
