@@ -179,7 +179,7 @@ Follow the same steps as above. Config file appears in your world's `config` fol
 3. Launch Minecraft with Quilt Loader
 4. Test the production JAR
 
-See [Contributing Guide](../CONTRIBUTING.md#quilt-development-environment-limitation) for details.
+See [Contributing Guide](../CONTRIBUTING.md#quilt-is-legacy) for details.
 
 ## 📋 Compatibility
 

@@ -119,7 +119,7 @@
 **A**: They're different mod loaders with different APIs. Limited Spectator supports all three with identical features.
 
 #### Q: Why does Quilt say "Production Only"?
-**A**: Quilt Loader has dependency issues in the development environment. The compiled JAR works perfectly in production Minecraft, but `.\gradlew.bat :quilt:runClient` doesn't work. See [Quilt Limitation](../CONTRIBUTING.md#quilt-development-environment-limitation) for details.
+**A**: Quilt Loader has dependency issues in the development environment. The compiled JAR works perfectly in production Minecraft, but `.\gradlew.bat :quilt:runClient` doesn't work. See [Quilt Limitation](../CONTRIBUTING.md#quilt-is-legacy) for details.
 
 #### Q: Can I use Fabric and NeoForge together?
 **A**: No. You must choose one mod loader per Minecraft installation.
@@ -263,7 +263,7 @@ copy quilt\build\libs\LimitedSpectator-quilt-2.0.0.jar %APPDATA%\.minecraft\mods
 # (Use official launcher with Quilt profile)
 ```
 
-See [Contributing Guide](../CONTRIBUTING.md#quilt-development-environment-limitation) for details.
+See [Contributing Guide](../CONTRIBUTING.md#quilt-is-legacy) for details.
 
 ### Performance Issues
 

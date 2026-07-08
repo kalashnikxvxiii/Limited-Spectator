@@ -99,7 +99,7 @@ Quilt works perfectly in **production** but has issues in the **development envi
 
 **Workaround**: Use Fabric for development (identical code), or test Quilt JAR in production Minecraft.
 
-See [Contributing Guide](../CONTRIBUTING.md#quilt-development-environment-limitation) for details.
+See [Contributing Guide](../CONTRIBUTING.md#quilt-is-legacy) for details.
 
 ### Minecraft Engine Limitations
 
@@ -119,7 +119,7 @@ These are **not bugs** - they are fundamental Minecraft limitations.
 - **Mod not loading?** → See [Installation Guide](Installation.md#troubleshooting)
 - **Commands not working?** → See [FAQ](FAQ-and-Troubleshooting.md)
 - **Config not applying?** → See [Configuration Guide](Configuration-Guide.md)
-- **Quilt dev environment failing?** → See [Contributing Guide](../CONTRIBUTING.md#quilt-development-environment-limitation)
+- **Quilt dev environment failing?** → See [Contributing Guide](../CONTRIBUTING.md#quilt-is-legacy)
 
 ### Contact
 
