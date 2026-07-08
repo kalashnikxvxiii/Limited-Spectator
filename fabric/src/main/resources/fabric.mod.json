@@ -19,7 +19,9 @@
       "com.karashi.limitedspectator.LimitedSpectatorFabric"
     ]
   },
-  "mixins": [],
+  "mixins": [
+    "limitedspectator.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.19.3",
     "fabric-api": "*",
