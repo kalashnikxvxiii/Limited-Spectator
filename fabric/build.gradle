@@ -19,7 +19,7 @@ dependencies {
     implementation project(':common')
 
     // Minecraft is no longer remapped. No 'mappings' line: 26.1 is unobfuscated.
-    minecraft "com.mojang:minecraft:${minecraft_version}"
+    minecraft "com.mojang:minecraft:${fabric_minecraft_version}"
 
     // Plain 'implementation' (not 'modImplementation') since Loom 1.16 stopped
     // performing the remap dance for 26.1+.
