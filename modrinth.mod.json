@@ -26,6 +26,7 @@
     "minecraft": ">=26.1.2",
     "neoforge": ">=26.1.0"
   },
+  "_gameVersionsNote": "No single artifact supports both 26.1.2 and 26.2 — Fabric targets 26.2 and NeoForge targets 26.1.2. depends.minecraft is only a floor; the per-file game-version tags set at Modrinth upload time are authoritative for which JAR applies to which Minecraft version.",
   "optionalDependencies": {},
   "icon": "icon.png"
 }

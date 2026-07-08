@@ -12,7 +12,7 @@ plugins {
 
 rootProject.name = 'limited-spectator'
 
-// Multi-project structure (Quilt dropped on mc-26.1 — loader does not support MC 26.1.x yet)
+// Multi-project structure (Quilt dropped on mc-26.1 — Quilted Fabric API is unmaintained past 1.20.5)
 include 'common'
 include 'neoforge'
 include 'fabric'

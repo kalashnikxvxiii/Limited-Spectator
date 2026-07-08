@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 **Pre-release for testing.** Fabric and NeoForge now track independent Minecraft versions instead of a single shared baseline, since NeoForge has not yet published a stable build against Minecraft 26.2.
 
 ### Changed
-- **Fabric** ported to **Minecraft 26.2**: Loom bumped 1.16.3 → 1.17.13, Fabric Loader 0.19.2 → 0.19.3, Fabric API 0.150.0+26.1.2 → 0.154.2+26.2.
+- **Fabric** ported to **Minecraft 26.2**: Loom bumped 1.16-SNAPSHOT → 1.17.13, Fabric Loader 0.19.2 → 0.19.3, Fabric API 0.150.0+26.1.2 → 0.154.2+26.2.
 - **NeoForge** stays on **Minecraft 26.1.2**, bumped to build **26.1.2.78**; Minecraft 26.2 is beta-only on the NeoForge side and will be picked up once a stable NeoForge release targets it.
 - **Gradle wrapper** bumped 9.4.0 → 9.5.1.
 - `gradle.properties` now splits the Minecraft version per loader (`fabric_minecraft_version` / `neoforge_minecraft_version`) instead of a single shared property.

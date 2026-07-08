@@ -5,13 +5,15 @@ A multi-loader Minecraft mod that introduces a restricted spectator mode with co
 
 **Supported Loaders**: NeoForge ✅ • Fabric ✅
 
-> **Heads-up (June 2026):** the `main` branch now tracks **Minecraft 26.1.2**.
-> The 1.21.x line is preserved on the [`legacy-1.21`](https://github.com/kalashnikxvxiii/Limited-Spectator/tree/legacy-1.21)
+> **Heads-up (July 2026):** the `main` branch now tracks **split Minecraft versions per loader**:
+> **Fabric** targets **Minecraft 26.2** and **NeoForge** targets **Minecraft 26.1.2**
+> (NeoForge has not yet published a stable build against 26.2). The 1.21.x line is preserved
+> on the [`legacy-1.21`](https://github.com/kalashnikxvxiii/Limited-Spectator/tree/legacy-1.21)
 > branch (latest stable: `v2.0.1`, with NeoForge / Fabric / Quilt all
 > three loader builds). **Quilt is legacy** — frozen at Minecraft 1.21.1 on
 > the `legacy-1.21` branch and not supported on 26.x, because Quilted
-> Fabric API is unmaintained past 1.20.5. The current 26.1 build is
-> `v3.0.0-alpha.1` (pre-release).
+> Fabric API is unmaintained past 1.20.5. The current build is
+> `v3.0.0-alpha.2` (pre-release).
 
 
 📖 Overview
@@ -75,16 +77,16 @@ Full translation support for 5 European languages (English, Italian, German, Fre
 
 | Aspect                | Value                          |
 | --------------------- | ------------------------------ |
-| **Version**           | 3.0.0-alpha.1 (pre-release)    |
-| **Minecraft**         | 26.1.2 (Mojang's new YY.release.patch versioning) |
+| **Version**           | 3.0.0-alpha.2 (pre-release)    |
+| **Minecraft**         | Fabric: 26.2 • NeoForge: 26.1.2 (Mojang's new YY.release.patch versioning; loaders track different MC versions — see heads-up above) |
 | **Mod Loaders**       | NeoForge ✅ • Fabric ✅ (Quilt is legacy — see heads-up above) |
-| **NeoForge**          | 26.1.2.71+                     |
+| **NeoForge**          | 26.1.2.78+                     |
 | **NeoGradle plugin**  | ModDevGradle 2.0.141+ (replaces NeoGradle 7.x on 26.1) |
-| **Fabric Loader**     | 0.19.2+                        |
-| **Fabric Loom**       | 1.16.3+                        |
-| **Fabric API**        | 0.150.0+26.1.2                 |
-| **Java**              | 25 (mandated by Mojang for 26.1) |
-| **Gradle**            | 9.4.0+                         |
+| **Fabric Loader**     | 0.19.3+                        |
+| **Fabric Loom**       | 1.17.13+                       |
+| **Fabric API**        | 0.154.2+26.2                   |
+| **Java**              | 25 (mandated by Mojang for 26.1/26.2) |
+| **Gradle**            | 9.5.1+                         |
 | **Mod ID**            | `limitedspectator`             |
 
 For the previous Minecraft 1.21.x line, see the [`legacy-1.21`](https://github.com/kalashnikxvxiii/Limited-Spectator/tree/legacy-1.21) branch — last stable `v2.0.1` (Java 21, NeoForge 21.1.217, Fabric 0.16.5, Quilt 0.26.4).
@@ -201,9 +203,9 @@ All configuration changes can be applied without restarting the server using `/r
 🧩 Compatibility
 ==================
 
-• ✅ Minecraft 1.21.1+
+• ✅ Minecraft 26.2 (Fabric) / 26.1.2 (NeoForge)
 
-• ✅ NeoForge 21.1.0+
+• ✅ NeoForge 26.1.2.78+
 
 • ✅ Multiplayer-safe
 
@@ -248,16 +250,16 @@ Download the correct version for your mod loader:
 
 | Loader | File | Notes |
 |--------|------|-------|
-| **NeoForge** | `LimitedSpectator-neoforge-3.0.0-alpha.1.jar` | Full config support |
-| **Fabric** | `LimitedSpectator-fabric-3.0.0-alpha.1.jar` | Hardcoded defaults |
+| **NeoForge** | `LimitedSpectator-neoforge-3.0.0-alpha.2.jar` | Full config support |
+| **Fabric** | `LimitedSpectator-fabric-3.0.0-alpha.2.jar` | Hardcoded defaults |
 
 Quilt is legacy — not available on 26.x. Use the [`legacy-1.21` v2.0.1 JAR](https://github.com/kalashnikxvxiii/Limited-Spectator/releases/tag/v2.0.1) on MC 1.21.1 instead.
 
 ### Installation Steps
 
-1. Install your mod loader (NeoForge 26.1.2.71+ / Fabric Loader 0.19.2+ with Fabric API 0.150.0+26.1.2+)
+1. Install your mod loader (NeoForge 26.1.2.78+ / Fabric Loader 0.19.3+ with Fabric API 0.154.2+26.2)
 2. Place the correct JAR into your `mods/` folder
-3. Launch Minecraft 26.1.2 (Java 25 runtime)
+3. Launch the matching Minecraft version for your loader (Java 25 runtime): **Fabric users launch Minecraft 26.2**, **NeoForge users launch Minecraft 26.1.2**
 4. **(NeoForge only)** Config file auto-generates at `config/limitedspectator-common.toml`
 5. **(NeoForge only)** Reload changes with `/reload` command
 
