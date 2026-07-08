@@ -7,10 +7,11 @@ A multi-loader Minecraft mod that introduces a restricted spectator mode with co
 
 > **Heads-up (June 2026):** the `main` branch now tracks **Minecraft 26.1.2**.
 > The 1.21.x line is preserved on the [`legacy-1.21`](https://github.com/kalashnikxvxiii/Limited-Spectator/tree/legacy-1.21)
-> branch (latest stable: `v2.0.1`, with NeoForge / Fabric / **Quilt** all
-> three loader builds). Quilt support is paused on 26.1+ because Quilt
-> Loader hasn't shipped MC 26.1 yet — it'll return once the loader catches
-> up. The current 26.1 build is `v3.0.0-alpha.1` (pre-release).
+> branch (latest stable: `v2.0.1`, with NeoForge / Fabric / Quilt all
+> three loader builds). **Quilt is legacy** — frozen at Minecraft 1.21.1 on
+> the `legacy-1.21` branch and not supported on 26.x, because Quilted
+> Fabric API is unmaintained past 1.20.5. The current 26.1 build is
+> `v3.0.0-alpha.1` (pre-release).
 
 
 📖 Overview
@@ -76,7 +77,7 @@ Full translation support for 5 European languages (English, Italian, German, Fre
 | --------------------- | ------------------------------ |
 | **Version**           | 3.0.0-alpha.1 (pre-release)    |
 | **Minecraft**         | 26.1.2 (Mojang's new YY.release.patch versioning) |
-| **Mod Loaders**       | NeoForge ✅ • Fabric ✅ • Quilt ❌ (loader not yet on 26.1) |
+| **Mod Loaders**       | NeoForge ✅ • Fabric ✅ (Quilt is legacy — see heads-up above) |
 | **NeoForge**          | 26.1.2.71+                     |
 | **NeoGradle plugin**  | ModDevGradle 2.0.141+ (replaces NeoGradle 7.x on 26.1) |
 | **Fabric Loader**     | 0.19.2+                        |
@@ -226,7 +227,7 @@ Limited Spectator is a **server-authoritative** mod. The Modrinth "Client and se
 
 ### Per-loader detail
 
-- **Fabric & Quilt** builds: no client-side code currently exists, so the JAR is effectively server-only. Installing it on the client is harmless but adds no extra features today.
+- **Fabric** build: no client-side code currently exists, so the JAR is effectively server-only. Installing it on the client is harmless but adds no extra features today.
 - **NeoForge** build: the only client-side piece is a small optional packet handler for HUD sync. The network channel is registered as **optional**, so connection handshake works against both modded and vanilla clients.
 
 ### Recommended setup
@@ -249,7 +250,8 @@ Download the correct version for your mod loader:
 |--------|------|-------|
 | **NeoForge** | `LimitedSpectator-neoforge-3.0.0-alpha.1.jar` | Full config support |
 | **Fabric** | `LimitedSpectator-fabric-3.0.0-alpha.1.jar` | Hardcoded defaults |
-| **Quilt** | _not available on 26.1+_ — use the [`legacy-1.21` v2.0.1 JAR](https://github.com/kalashnikxvxiii/Limited-Spectator/releases/tag/v2.0.1) on MC 1.21.1 until Quilt Loader catches up |
+
+Quilt is legacy — not available on 26.x. Use the [`legacy-1.21` v2.0.1 JAR](https://github.com/kalashnikxvxiii/Limited-Spectator/releases/tag/v2.0.1) on MC 1.21.1 instead.
 
 ### Installation Steps
 

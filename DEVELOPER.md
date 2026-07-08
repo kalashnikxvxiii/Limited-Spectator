@@ -26,7 +26,8 @@ cd limitedspectator
 - `common/build/libs/common-2.0.1.jar` (147 KB)
 - `neoforge/build/libs/LimitedSpectator-neoforge-2.0.1.jar` (174 KB)
 - `fabric/build/libs/fabric-2.0.1.jar` (159 KB)
-- `quilt/build/libs/quilt-2.0.1.jar` (159 KB)
+
+Quilt is legacy — frozen at Minecraft 1.21.1 on the `legacy-1.21` branch; not supported on 26.x (Quilted Fabric API is unmaintained past 1.20.5).
 
 ---
 
@@ -55,23 +56,17 @@ MDK-1.21-ModDevGradle-main/
 │       │   └── ClientEventHandler.java
 │       └── network/
 │           └── NetworkHandler.java
-├── fabric/                         # Fabric-specific
-│   ├── build.gradle
-│   └── src/main/java/com/karashi/limitedspectator/
-│       ├── LimitedSpectatorFabric.java
-│       ├── FabricSpectatorConfig.java
-│       ├── SpectatorManager.java   # (duplicated from common)
-│       ├── SpectatorState.java     # (duplicated from common)
-│       └── DistanceValidationResult.java # (duplicated from common)
-└── quilt/                          # Quilt-specific
+└── fabric/                         # Fabric-specific
     ├── build.gradle
     └── src/main/java/com/karashi/limitedspectator/
-        ├── LimitedSpectatorQuilt.java
-        ├── QuiltSpectatorConfig.java
+        ├── LimitedSpectatorFabric.java
+        ├── FabricSpectatorConfig.java
         ├── SpectatorManager.java   # (duplicated from common)
         ├── SpectatorState.java     # (duplicated from common)
         └── DistanceValidationResult.java # (duplicated from common)
 ```
+
+Quilt is legacy — the `quilt/` module only exists on the `legacy-1.21` branch (frozen at Minecraft 1.21.1).
 
 ### Key Design Decisions
 
@@ -101,9 +96,6 @@ MDK-1.21-ModDevGradle-main/
 
 # Fabric
 .\gradlew.bat :fabric:build
-
-# Quilt
-.\gradlew.bat :quilt:build
 ```
 
 ### Clean Build
@@ -142,7 +134,6 @@ If the feature doesn't depend on Minecraft classes:
 If the feature requires Minecraft classes:
 - Add to `neoforge/src/main/java/com/karashi/limitedspectator/`
 - Add to `fabric/src/main/java/com/karashi/limitedspectator/`
-- Add to `quilt/src/main/java/com/karashi/limitedspectator/`
 - Use same class names for consistency
 
 #### 3. Configuration
@@ -183,12 +174,6 @@ public boolean isMyNewFeatureEnabled() {
 public boolean isMyNewFeatureEnabled() {
     return config.myNewFeature;
 }
-
-// QuiltSpectatorConfig.java
-@Override
-public boolean isMyNewFeatureEnabled() {
-    return config.myNewFeature;
-}
 ```
 
 **Step 4**: Use in SpectatorManager
@@ -214,7 +199,7 @@ if (config.isMyNewFeatureEnabled()) {
 - File watching (hot-reload)
 - Configuration interface definition
 
-### Loader Modules (NeoForge/Fabric/Quilt)
+### Loader Modules (NeoForge/Fabric)
 **Allowed Dependencies**:
 - ✅ Common module
 - ✅ Minecraft classes
@@ -243,10 +228,10 @@ if (config.isMyNewFeatureEnabled()) {
 # 4. /reload - Verify hot-reload works
 ```
 
-#### Fabric/Quilt
+#### Fabric
 1. Build JAR: `.\gradlew.bat :fabric:build`
 2. Copy JAR to Minecraft mods folder
-3. Launch Minecraft with Fabric/Quilt loader
+3. Launch Minecraft with Fabric loader
 4. Test commands and configuration
 
 ### Automated Testing
@@ -267,8 +252,8 @@ Uncomment debug logs in:
 **Issue**: Build fails with "duplicate entry icon.png"
 - **Solution**: Already fixed in build.gradle with `duplicatesStrategy = DuplicatesStrategy.EXCLUDE`
 
-**Issue**: Fabric/Quilt JAR doesn't load
-- **Solution**: Verify `fabric.mod.json` or `quilt.mod.json` has correct entrypoint
+**Issue**: Fabric JAR doesn't load
+- **Solution**: Verify `fabric.mod.json` has correct entrypoint
 
 **Issue**: Config file not loading
 - **Solution**: Check `config/limitedspectator-common.toml` exists and is readable
@@ -283,7 +268,6 @@ SpectatorConfig (interface)
     ↓
 NeoForgeSpectatorConfig (adapts ModConfig)
 FabricSpectatorConfig (adapts CommonConfig)
-QuiltSpectatorConfig (adapts CommonConfig)
 ```
 
 ### Singleton Pattern (Configuration)
@@ -308,7 +292,7 @@ DistanceValidationResult result = manager.validateDistance(uuid, position);
 
 ## Performance Considerations
 
-### Hot-Reload (Fabric/Quilt)
+### Hot-Reload (Fabric)
 - File polling every 5 seconds
 - CPU impact: <0.1%
 - Memory: ~1 KB per watcher thread
@@ -387,7 +371,6 @@ Fixes #45
 
 - **Minecraft Modding**: https://docs.neoforged.net/
 - **Fabric Wiki**: https://fabricmc.net/wiki/
-- **Quilt Wiki**: https://quiltmc.org/wiki/
 - **Gradle**: https://gradle.org/
 
 ---

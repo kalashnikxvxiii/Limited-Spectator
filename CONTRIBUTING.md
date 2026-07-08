@@ -77,10 +77,9 @@ cd Limited-Spectator
 
 # Run Fabric development client
 .\gradlew.bat :fabric:runClient
-
-# Run Quilt development client (NOT SUPPORTED - see limitations below)
-# Use production JAR instead
 ```
+
+Quilt is legacy — frozen at Minecraft 1.21.1 on the `legacy-1.21` branch; not supported on 26.x (Quilted Fabric API is unmaintained past 1.20.5).
 
 ### Project Structure (Multi-Project)
 
@@ -108,12 +107,6 @@ Limited-Spectator/
 │       ├── FabricSpectatorConfig.java  # Fabric adapter
 │       ├── PermissionHelper.java       # Cross-version permission checking
 │       └── [shared logic with NeoForge]
-├── quilt/
-│   └── src/main/java/com/karashi/limitedspectator/
-│       ├── LimitedSpectatorQuilt.java  # Quilt entry point
-│       ├── QuiltSpectatorConfig.java   # Quilt adapter
-│       ├── PermissionHelper.java       # Cross-version permission checking
-│       └── [shared logic with Fabric]
 └── build.gradle, gradle.properties, settings.gradle
 ```
 
@@ -126,16 +119,11 @@ Limited-Spectator/
 # Build specific loader
 .\gradlew.bat :neoforge:build
 .\gradlew.bat :fabric:build
-.\gradlew.bat :quilt:build
 
 # Run development environments
 .\gradlew.bat :neoforge:runClient
 .\gradlew.bat :fabric:runClient
 .\runFabricClient.bat              # Convenience script
-
-# Quilt: Production only (see limitations)
-.\gradlew.bat :quilt:build         # Compiles JAR
-# Then test with production Minecraft + Quilt Loader
 ```
 
 ## 📝 Coding Standards
@@ -314,43 +302,9 @@ fix(teleport): Correctly restore dimension on /survival
 docs(readme): Update installation instructions
 ```
 
-## ⚠️ Quilt Development Environment Limitation
+## ⚠️ Quilt Is Legacy
 
-**Status**: Documented limitation, not a bug
-
-### Issue
-Quilt Loader 0.26.4 has dependency resolution issues in the development environment:
-- Quilt Loom 1.7.3+ requires `syncTask` property that cannot be configured
-- Missing ASM and Mixin dependencies in dev classpath
-- Quilt Loader doesn't declare dependencies properly for dev environment
-
-### Solution
-**Quilt works in PRODUCTION, not in DEV**
-
-| Scenario | Status | Notes |
-|----------|--------|-------|
-| **Build JAR** | ✅ Works | `.\gradlew.bat :quilt:build` compiles successfully |
-| **Production** | ✅ Works | `LimitedSpectator-quilt-2.0.0.jar` works perfectly in Minecraft |
-| **Dev Client** | ❌ Not Supported | Use Fabric for development instead |
-| **Dev Server** | ❌ Not Supported | Use Fabric for development instead |
-
-### Workaround for Testing Quilt
-```bash
-# 1. Build the JAR
-.\gradlew.bat :quilt:build
-
-# 2. Copy to .minecraft/mods/
-copy quilt\build\libs\LimitedSpectator-quilt-2.0.0.jar %APPDATA%\.minecraft\mods\
-
-# 3. Launch Minecraft with Quilt Loader
-# (Use official launcher with Quilt profile)
-```
-
-### Why This Is Acceptable
-- Quilt is 100% compatible with Fabric API
-- The compiled JAR works perfectly in production
-- Development can be done with Fabric (identical code)
-- All three loaders produce working production JARs
+Quilt is legacy — frozen at Minecraft 1.21.1 on the `legacy-1.21` branch. It is not supported on 26.x because Quilted Fabric API is unmaintained past 1.20.5. The `quilt/` module and its dev-environment limitations no longer apply to `main`; see the `legacy-1.21` branch's `CONTRIBUTING.md` for the historical Quilt notes.
 
 ## 🐛 Known Limitations (Minecraft Engine)
 
