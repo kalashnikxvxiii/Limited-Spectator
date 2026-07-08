@@ -4,10 +4,16 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.commands.Commands;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.GameType;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.ChatFormatting;
@@ -219,6 +225,43 @@ public class LimitedSpectatorFabric implements ModInitializer {
             }
         });
         
+        // Disable attacks in limited spectator mode (mobs always blocked, PvP gated by config)
+        AttackEntityCallback.EVENT.register((player, level, hand, entity, hitResult) -> {
+            if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.PASS;
+            if (!spectatorManager.isInSpectatorMode(serverPlayer.getUUID())) return InteractionResult.PASS;
+
+            boolean isTargetPlayer = entity instanceof net.minecraft.world.entity.player.Player;
+            if (isTargetPlayer) {
+                // PvP attack - check config
+                if (!config.allowPvp) {
+                    return InteractionResult.FAIL;
+                }
+            } else {
+                // Mob/entity attack - always blocked (mobs don't counterattack due to mayfly=true)
+                return InteractionResult.FAIL;
+            }
+
+            return InteractionResult.PASS;
+        });
+
+        // Block interactions in limited spectator mode except with whitelisted blocks
+        UseBlockCallback.EVENT.register((player, level, hand, hitResult) -> {
+            if (!(player instanceof ServerPlayer serverPlayer)) return InteractionResult.PASS;
+            if (!spectatorManager.isInSpectatorMode(serverPlayer.getUUID())) return InteractionResult.PASS;
+
+            BlockState state = level.getBlockState(hitResult.getBlockPos());
+            Block block = state.getBlock();
+            String blockId = BuiltInRegistries.BLOCK.getKey(block).toString();
+
+            // Check if block is in the interactable whitelist
+            if (config.interactableBlocks.contains(blockId)) {
+                return InteractionResult.PASS; // Allow interaction with whitelisted blocks
+            }
+
+            // Block all other interactions
+            return InteractionResult.FAIL;
+        });
+
         // Player disconnect - cleanup
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) -> {
             ServerPlayer player = handler.getPlayer();
