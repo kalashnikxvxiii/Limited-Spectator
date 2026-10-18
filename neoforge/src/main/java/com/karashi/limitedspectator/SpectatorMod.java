@@ -568,9 +568,15 @@ public class SpectatorMod {
                     // addItem returns true if the item was fully added, false otherwise
                     boolean added = player.addItem(ingredient);
                     if (!added) {
-                        // If inventory is full, drop the item on the ground.
-                        // Containers.dropItemStack, not Player.drop: the latter changed signature in 26.3.
-                        net.minecraft.world.Containers.dropItemStack(player.level(), player.getX(), player.getY(), player.getZ(), ingredient);
+                        // Inventory full. Containers.dropItemStack (Player.drop changed signature in 26.3)
+                        // skips ItemTossEvent, so apply the drop policy here; with drops disabled the
+                        // leftover is discarded, same net result as the old cancelled-toss path.
+                        if (com.karashi.limitedspectator.ModConfig.allowItemDrop) {
+                            net.minecraft.world.Containers.dropItemStack(player.level(), player.getX(), player.getY(), player.getZ(), ingredient);
+                        } else {
+                            LOGGER.warn("[LimitedSpectator] Discarded {} (inventory full, item drop disabled) for {}",
+                                    ingredient, player.getName().getString());
+                        }
                     }
                 }
             }
