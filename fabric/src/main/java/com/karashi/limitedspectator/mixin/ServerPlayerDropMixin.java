@@ -2,6 +2,7 @@ package com.karashi.limitedspectator.mixin;
 
 import com.karashi.limitedspectator.CommonConfig;
 import com.karashi.limitedspectator.LimitedSpectatorFabric;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -31,17 +32,25 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * item appear to vanish. By this low-level point the stack has already been removed
  * from the inventory/cursor, so we add it back and resync the open container before
  * cancelling the world-drop — no item loss, no desync.
+ *
+ * <p>MC 26.3 replaced the trailing {@code boolean retainOwnership} with a
+ * {@code Prediction} enum, so both descriptors are listed and the stack is taken
+ * via {@code @Local(argsOnly)}: one JAR covers 26.1.2–26.3 and whichever
+ * descriptor exists in the running version satisfies {@code require = 1}.
  */
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerDropMixin {
 
     @Inject(
-        method = "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
+        method = {
+            "drop(Lnet/minecraft/world/item/ItemStack;ZZ)Lnet/minecraft/world/entity/item/ItemEntity;",
+            "drop(Lnet/minecraft/world/item/ItemStack;ZLnet/minecraft/util/Prediction;)Lnet/minecraft/world/entity/item/ItemEntity;"
+        },
         at = @At("HEAD"),
         cancellable = true
     )
-    private void limitedspectator$blockDrop(ItemStack itemStack, boolean throwRandomly, boolean retainOwnership,
-                                            CallbackInfoReturnable<ItemEntity> cir) {
+    private void limitedspectator$blockDrop(CallbackInfoReturnable<ItemEntity> cir,
+                                            @Local(argsOnly = true) ItemStack itemStack) {
         ServerPlayer self = (ServerPlayer) (Object) this;
 
         if (itemStack == null || itemStack.isEmpty()) {

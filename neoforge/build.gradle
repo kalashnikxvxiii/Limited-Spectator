@@ -1,13 +1,23 @@
 plugins {
-    // ModDevGradle 2.0.141 replaces NeoGradle 7.x for MC 26.1+.
+    // ModDevGradle 2.0.148 replaces NeoGradle 7.x for MC 26.1+.
     // See https://docs.neoforged.net/toolchain/docs/plugins/mdg/
     id 'java-library'
-    id 'net.neoforged.moddev' version '2.0.141'
+    id 'net.neoforged.moddev' version '2.0.148'
 }
 
 base {
-    archivesName = 'LimitedSpectator-neoforge'
+    // MC version in the name: NeoForge ships one JAR per Minecraft version.
+    archivesName = "LimitedSpectator-neoforge-${neoforge_minecraft_version}"
 }
+
+// The client HUD API differs on every 26.x release (26.2: Options.hideGui -> Gui.hud,
+// 26.3: GLFW -> SDL), so each MC version gets its own HudCompat under src/compat/.
+// 26.1.2 -> src/compat/mc26_1, 26.3 -> src/compat/mc26_3, ...
+def compatDir = file("src/compat/mc${neoforge_minecraft_version.tokenize('.').take(2).join('_')}/java")
+if (!compatDir.isDirectory()) {
+    throw new GradleException("No NeoForge client compat sources for Minecraft ${neoforge_minecraft_version}: expected ${compatDir}")
+}
+sourceSets.main.java.srcDir compatDir
 
 repositories {
     mavenCentral()

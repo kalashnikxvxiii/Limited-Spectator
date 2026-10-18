@@ -55,9 +55,10 @@ loom {
 
 processResources {
     inputs.property 'version', project.version
+    inputs.property 'minecraft_version_range', fabric_minecraft_version_range
 
     filesMatching('fabric.mod.json') {
-        expand 'version': project.version
+        expand 'version': project.version, 'minecraft_version_range': fabric_minecraft_version_range
     }
 }
 

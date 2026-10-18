@@ -114,7 +114,8 @@ public class SpectatorMod {
         NeoForge.EVENT_BUS.register(this);
 
         // Register configuration
-        modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.COMMON, com.karashi.limitedspectator.ModConfig.SPEC);
+        // Explicit file name: NeoForge 26.3 would otherwise derive "limitedspectator-local.toml".
+        modContainer.registerConfig(ConfigCompat.TYPE, com.karashi.limitedspectator.ModConfig.SPEC, "limitedspectator-common.toml");
         LOGGER.info("Configuration registered: limitedspectator-common.toml");
 
         // Register config event listener
@@ -567,8 +568,9 @@ public class SpectatorMod {
                     // addItem returns true if the item was fully added, false otherwise
                     boolean added = player.addItem(ingredient);
                     if (!added) {
-                        // If inventory is full, drop the item on the ground
-                        player.drop(ingredient, false);
+                        // If inventory is full, drop the item on the ground.
+                        // Containers.dropItemStack, not Player.drop: the latter changed signature in 26.3.
+                        net.minecraft.world.Containers.dropItemStack(player.level(), player.getX(), player.getY(), player.getZ(), ingredient);
                     }
                 }
             }

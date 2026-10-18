@@ -1,10 +1,7 @@
 package com.karashi.limitedspectator.client;
 
-import org.lwjgl.glfw.GLFW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mojang.blaze3d.platform.InputConstants;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
@@ -44,7 +41,7 @@ public class ClientEventHandler {
 
         if (MC != null && MC.options != null) {
             // Always hide HUD in spectator mode, F1 can toggle temporarily
-            MC.options.hideGui = hidden && !hudForceVisible;
+            HudCompat.setGuiHidden(MC, hidden && !hudForceVisible);
         }
     }
 
@@ -107,9 +104,9 @@ public class ClientEventHandler {
         Minecraft mc = Minecraft.getInstance();
 
         // If the client is set to hide the HUD (calculated in onClientTick), cancel vanilla rendering
-        if (mc.options != null && mc.options.hideGui) {
+        if (mc.options != null && HudCompat.isGuiHidden(mc)) {
             // We do not delete active GUIs (screen != null) to avoid interfering with inventory/menus
-            if (mc.screen == null) {
+            if (!HudCompat.hasScreen(mc)) {
                 event.setCanceled(true);
             }
         }
@@ -136,11 +133,7 @@ public class ClientEventHandler {
         // Always manage HUD in spectator mode
         // --- F1 Toggle Management (Hide GUI) ---
         if (isFakeSpectator) {
-            boolean currentlyDown = InputConstants.isKeyDown(
-                    // MC 26.1: InputConstants.isKeyDown now takes the Window object
-                    // directly (no longer the raw GLFW handle).
-                    Minecraft.getInstance().getWindow(), GLFW.GLFW_KEY_F1
-            );
+            boolean currentlyDown = HudCompat.isHideGuiKeyDown(mc);
 
             if (currentlyDown && !prevHideGuiDown) {
                 hudForceVisible = !hudForceVisible;
@@ -155,7 +148,7 @@ public class ClientEventHandler {
         } else if (!isFakeSpectator && hudHidden) {
             // when you exit fake spectator mode, reset everything
             hudForceVisible = false;
-            mc.options.hideGui = false;
+            HudCompat.setGuiHidden(mc, false);
             hudHidden = false;
         }
 
@@ -163,7 +156,7 @@ public class ClientEventHandler {
         // Only in limited spectator mode do we force HUD visibility
         if (isFakeSpectator) {
             boolean effectiveHidden = hudHidden && !hudForceVisible;
-            mc.options.hideGui = effectiveHidden;
+            HudCompat.setGuiHidden(mc, effectiveHidden);
         }
 
         // FOR DEBUGGING
