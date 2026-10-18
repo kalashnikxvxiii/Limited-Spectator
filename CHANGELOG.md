@@ -7,11 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [3.0.0-alpha.2] - 2026-07-08
+## [3.0.0-alpha.2] - 2026-10-18
 
-### 🔀 Per-Loader Version Split — Alpha 2
+### 🧭 Minecraft 26.1.2 / 26.2 / 26.3 — Alpha 2
 
-**Pre-release for testing.** Fabric and NeoForge now track independent Minecraft versions instead of a single shared baseline, since NeoForge has not yet published a stable build against Minecraft 26.2.
+**Pre-release for testing.** Both loaders now support **Minecraft 26.1.2, 26.2 and 26.3**. Fabric ships one JAR for all three versions; NeoForge ships one JAR per Minecraft version (`LimitedSpectator-neoforge-<mc>-3.0.0-alpha.2.jar`), because the client HUD API changes on every release.
 
 ### Added
 - **Fabric restriction parity with NeoForge.** The Fabric loader now enforces the full server-authoritative limited-spectator restriction set (previously implemented on NeoForge only — the Fabric module had shipped with just the distance limit):
@@ -21,8 +21,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Introduces the first Mixin configuration in the Fabric module (`limitedspectator.mixins.json`). Blocked item drops are restored to the inventory and resynced (mirroring NeoForge's cancel-and-restore), so no item is lost.
 
 ### Changed
-- **Fabric** ported to **Minecraft 26.2**: Loom bumped 1.16-SNAPSHOT → 1.17.13, Fabric Loader 0.19.2 → 0.19.3, Fabric API 0.150.0+26.1.2 → 0.154.2+26.2.
-- **NeoForge** stays on **Minecraft 26.1.2**, bumped to build **26.1.2.78**; Minecraft 26.2 is beta-only on the NeoForge side and will be picked up once a stable NeoForge release targets it.
+- **Fabric**: a single JAR now supports **Minecraft 26.1.2, 26.2 and 26.3** (compiled against 26.1.2; verified by starting a server on each version). Loom bumped 1.16-SNAPSHOT → 1.17.13, Fabric Loader 0.19.2 → 0.19.3, Fabric API 0.150.0+26.1.2 → 0.155.3+26.1.2. The item-drop Mixin targets both the 26.1/26.2 `drop(ItemStack, boolean, boolean)` and the 26.3 `drop(ItemStack, boolean, Prediction)` signatures.
+- **NeoForge**: separate JARs for **26.1.2** (NeoForge 26.1.2.122+), **26.2** (26.2.0.93+) and **26.3** (26.3.0.90+); ModDevGradle 2.0.141 → 2.0.148. The parts that differ per version live in small per-version classes (`neoforge/src/compat/`): the HUD toggle (`Options.hideGui` → `Gui.hud` in 26.2, GLFW → SDL input in 26.3) and the config type (NeoForge 26.3 renamed `COMMON` to `LOCAL`; the file is still `config/limitedspectator-common.toml`, so existing configs carry over).
+- Crafting-block ingredient refund now drops overflow with `Containers.dropItemStack` (same behaviour; `Player.drop(ItemStack, boolean)` no longer exists in 26.3).
+- New `scripts/build-release.sh` builds every release JAR into `build/release/`; Gradle now picks a Java 25 daemon on its own (`gradle/gradle-daemon-jvm.properties`), and CI builds with JDK 25.
 - **Gradle wrapper** bumped 9.4.0 → 9.5.1.
 - `gradle.properties` now splits the Minecraft version per loader (`fabric_minecraft_version` / `neoforge_minecraft_version`) instead of a single shared property.
 

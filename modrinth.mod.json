@@ -20,13 +20,14 @@
   ],
   "game_versions": [
     "26.1.2",
-    "26.2"
+    "26.2",
+    "26.3"
   ],
   "depends": {
     "minecraft": ">=26.1.2",
     "neoforge": ">=26.1.0"
   },
-  "_gameVersionsNote": "No single artifact supports both 26.1.2 and 26.2 — Fabric targets 26.2 and NeoForge targets 26.1.2. depends.minecraft is only a floor; the per-file game-version tags set at Modrinth upload time are authoritative for which JAR applies to which Minecraft version.",
+  "_gameVersionsNote": "The Fabric JAR covers 26.1.2, 26.2 and 26.3; NeoForge has one JAR per Minecraft version (file name carries it). depends.minecraft is only a floor; the per-file game-version tags set at Modrinth upload time are authoritative for which JAR applies to which Minecraft version.",
   "optionalDependencies": {},
   "icon": "icon.png"
 }
